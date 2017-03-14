@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  qvabu.api:
+    image: qvabu.api
+    build:
+      context: ./QvAbu.Api
+      dockerfile: Dockerfile
