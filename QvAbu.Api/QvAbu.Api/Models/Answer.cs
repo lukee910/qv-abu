@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Models
 {
-    public class AnswerBase : Entity
+    public class Answer : Entity
     {
         public string Text { get; set; }
     }

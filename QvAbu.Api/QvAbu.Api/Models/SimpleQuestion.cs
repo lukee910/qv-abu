@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Models
 {
-    public class SimpleChoiceQuestion : QuestionBase
+    public class SimpleQuestion : Question
     {
         #region Properties
 
-        public List<SimpleChoiceAnswer> Answers { get; set; }
+        public ICollection<SimpleAnswer> Answers { get; set; }
         public bool IsMultipleChoice { get; set; }
         public bool IsNumberOfAnswersGiven { get; set; }
 

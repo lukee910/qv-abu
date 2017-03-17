@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Models
 {
-    public class AssignmentAnswer : AnswerBase
+    public class AssignmentAnswer : Answer
     {
         #region Properties
 

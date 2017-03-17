@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using QvAbu.Api.Data;
 using QvAbu.Api.Models;
-using QvAbu.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +11,29 @@ namespace QvAbu.Api.Controllers
     [Route("api/[controller]")]
     public class QuestionsController : Controller
     {
-        private IQuestionsService QuestionsService { get; set; }
+        #region Members
 
-        public QuestionsController()
+        private QuestionsContext temp;
+
+        #endregion
+
+        #region Ctor
+
+        public QuestionsController(QuestionsContext context)
         {
-            this.QuestionsService = new QuestionsService();
+            this.temp = context;
         }
 
-        // GET api/questions/SimpleQuestions
-        [HttpGet("SimpleQuestions")]
-        public IEnumerable<QuestionBase> GetSimpleChoiceQuestion()
+        #endregion
+
+        #region Methods
+
+        [HttpGet]
+        public ICollection<Question> GetQuestions()
         {
-            return this.QuestionsService.GetSimpleQuestions();
+            return this.temp.SimpleQuestions.ToArray();
         }
+
+        #endregion
     }
 }

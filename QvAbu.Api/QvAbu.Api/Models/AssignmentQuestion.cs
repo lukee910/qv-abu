@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Models
 {
-    public class AssignmentQuestion : QuestionBase
+    public class AssignmentQuestion : Question
     {
         #region Properties
 
-        public List<AssignmentOption> Options { get; set; }
-        public List<AssignmentAnswer> Answers { get; set; }
+        public ICollection<AssignmentOption> Options { get; set; }
+        public ICollection<AssignmentAnswer> Answers { get; set; }
 
         #endregion
     }

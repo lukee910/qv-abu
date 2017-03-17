@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QvAbu.Api", "QvAbu.Api\QvAb
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FF7F77DB-52AF-43AD-B256-868D102E4605}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QvAbu.Api.Tests", "..\QvAbu.Api.Tests\QvAbu.Api.Tests.csproj", "{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FF7F77DB-52AF-43AD-B256-868D102E4605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7F77DB-52AF-43AD-B256-868D102E4605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7F77DB-52AF-43AD-B256-868D102E4605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

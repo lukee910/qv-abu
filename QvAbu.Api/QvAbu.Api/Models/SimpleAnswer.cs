@@ -1,6 +1,6 @@
 ﻿namespace QvAbu.Api.Models
 {
-    public class SimpleChoiceAnswer : AnswerBase
+    public class SimpleAnswer : Answer
     {
         #region Properties
         
