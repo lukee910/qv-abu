@@ -25,6 +25,8 @@ namespace QvAbu.Api.Data
         public DbSet<AssignmentQuestion> AssignmentQuestions { get; set; }
         public DbSet<AssignmentAnswer> AssignmentAnswers { get; set; }
         public DbSet<AssignmentOption> AssignmentOptions { get; set; }
+        public DbSet<TextQuestion> TextQuestions { get; set; }
+        public DbSet<TextAnswer> TextAnswers { get; set; }
 
         #endregion
     }
