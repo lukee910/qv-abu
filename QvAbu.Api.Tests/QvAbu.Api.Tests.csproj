@@ -7,7 +7,7 @@
     <ProjectGuid>{9D506BD4-FAD9-4A4C-84F4-AC90AC90ECCB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QvAbu.Api</RootNamespace>
+    <RootNamespace>QvAbu.Api.Tests</RootNamespace>
     <AssemblyName>QvAbu.Api.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
