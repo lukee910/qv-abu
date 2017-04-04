@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using QvAbu.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using QvAbu.Api.Services;
 
 namespace QvAbu.Api
 {
@@ -15,8 +16,14 @@ namespace QvAbu.Api
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", false, true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets("qv-abu");
+            }
+
             this.Configuration = builder.Build();
         }
 
@@ -34,10 +41,11 @@ namespace QvAbu.Api
 
             services.AddScoped<IQuestionsContext, QuestionsContext>();
             services.AddScoped<IQuestionsRepository, QuestionsRepository>();
+            services.AddScoped<IQuestionsService, QuestionsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
                               ILoggerFactory loggerFactory, QuestionsContext context)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));

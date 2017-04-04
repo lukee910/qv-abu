@@ -31,12 +31,12 @@ namespace QvAbu.Api.Data
 
         public async Task<List<SimpleQuestion>> GetSimpleQuestionsAsync()
         {
-            throw new System.NotImplementedException();
+            return await this.context.SimpleQuestions.ToListAsync();
         }
 
         public async Task<List<TextQuestion>> GetTextQuestionsAsync()
         {
-            throw new System.NotImplementedException();
+            return await this.context.TextQuestions.ToListAsync();
         }
 
         #endregion

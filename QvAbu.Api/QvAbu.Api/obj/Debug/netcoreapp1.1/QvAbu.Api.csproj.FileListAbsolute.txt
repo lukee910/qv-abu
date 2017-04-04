@@ -7,3 +7,4 @@ C:\src\qv-abu\QvAbu.Api\QvAbu.Api\obj\Debug\netcoreapp1.1\QvAbu.Api.csprojResolv
 C:\src\qv-abu\QvAbu.Api\QvAbu.Api\obj\Debug\netcoreapp1.1\QvAbu.Api.AssemblyInfo.cs
 C:\src\qv-abu\QvAbu.Api\QvAbu.Api\obj\Debug\netcoreapp1.1\QvAbu.Api.dll
 C:\src\qv-abu\QvAbu.Api\QvAbu.Api\obj\Debug\netcoreapp1.1\QvAbu.Api.pdb
+C:\src\qv-abu\QvAbu.Api\QvAbu.Api\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs

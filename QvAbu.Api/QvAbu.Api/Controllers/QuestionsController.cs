@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QvAbu.Api.Data;
+using QvAbu.Api.Services;
 using QvAbu.Api.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QvAbu.Api.Controllers
@@ -13,13 +12,15 @@ namespace QvAbu.Api.Controllers
     {
         #region Members
 
+        private readonly IQuestionsService service;
+
         #endregion
 
         #region Ctor
 
-        public QuestionsController(QuestionsContext context)
+        public QuestionsController(IQuestionsService service)
         {
-
+            this.service = service;
         }
 
         #endregion
@@ -27,9 +28,9 @@ namespace QvAbu.Api.Controllers
         #region Methods
 
         [HttpGet]
-        public ICollection<Question> GetQuestions()
+        public async Task<ICollection<Question>> GetQuestions()
         {
-            throw new NotImplementedException();
+            return await this.service.GetQuestionsAsync();
         }
 
         #endregion

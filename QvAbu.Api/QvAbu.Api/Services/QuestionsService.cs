@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Services
 {
-    public class QuestionsService
+    public class QuestionsService : IQuestionsService
     {
         #region Members
         
-        private IQuestionsRepository repo;
+        private readonly IQuestionsRepository repo;
 
         #endregion
 

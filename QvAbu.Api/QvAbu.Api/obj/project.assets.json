@@ -1187,6 +1187,22 @@
           "lib/netstandard1.3/Microsoft.Extensions.Configuration.Json.dll": {}
         }
       },
+      "Microsoft.Extensions.Configuration.UserSecrets/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Json": "1.1.1",
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.5/Microsoft.Extensions.Configuration.UserSecrets.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/Microsoft.Extensions.Configuration.UserSecrets.dll": {}
+        },
+        "build": {
+          "build/netstandard1.0/Microsoft.Extensions.Configuration.UserSecrets.targets": {}
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -5115,6 +5131,20 @@
         "lib/netstandard1.3/Microsoft.Extensions.Configuration.Json.xml",
         "microsoft.extensions.configuration.json.1.1.1.nupkg.sha512",
         "microsoft.extensions.configuration.json.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.UserSecrets/1.1.1": {
+      "sha512": "XYQOgVaH8+fSNKrKSckojl9Q+kHiiFMuOYm0M5IV8Uca4eh4P+YI2Ryzce8CoSd4otWcmf925SsRmcF/qvkFkQ==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.usersecrets/1.1.1",
+      "files": [
+        "build/netstandard1.0/Microsoft.Extensions.Configuration.UserSecrets.targets",
+        "lib/net451/Microsoft.Extensions.Configuration.UserSecrets.dll",
+        "lib/net451/Microsoft.Extensions.Configuration.UserSecrets.xml",
+        "lib/netstandard1.5/Microsoft.Extensions.Configuration.UserSecrets.dll",
+        "lib/netstandard1.5/Microsoft.Extensions.Configuration.UserSecrets.xml",
+        "microsoft.extensions.configuration.usersecrets.1.1.1.nupkg.sha512",
+        "microsoft.extensions.configuration.usersecrets.nuspec"
       ]
     },
     "Microsoft.Extensions.DependencyInjection/1.1.0": {
@@ -10761,6 +10791,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 1.1.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 1.1.1",
       "Microsoft.EntityFrameworkCore.SqlServer.Design >= 1.1.1",
+      "Microsoft.Extensions.Configuration.UserSecrets >= 1.1.1",
       "Microsoft.Extensions.Logging.Debug >= 1.1.1",
       "Microsoft.NETCore.App >= 1.1.1",
       "Microsoft.VisualStudio.Web.BrowserLink >= 1.1.0",
@@ -10814,6 +10845,10 @@
           "Microsoft.VisualStudio.Web.BrowserLink": {
             "target": "Package",
             "version": "1.1.0"
+          },
+          "Microsoft.Extensions.Configuration.UserSecrets": {
+            "target": "Package",
+            "version": "1.1.1"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
