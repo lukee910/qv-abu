@@ -13,15 +13,13 @@ namespace QvAbu.Api.Controllers
     {
         #region Members
 
-        private QuestionsContext temp;
-
         #endregion
 
         #region Ctor
 
         public QuestionsController(QuestionsContext context)
         {
-            this.temp = context;
+
         }
 
         #endregion
@@ -31,7 +29,7 @@ namespace QvAbu.Api.Controllers
         [HttpGet]
         public ICollection<Question> GetQuestions()
         {
-            return this.temp.SimpleQuestions.ToArray();
+            throw new NotImplementedException();
         }
 
         #endregion

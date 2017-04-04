@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Data
 {
-    public class QuestionsContext : DbContext
+    public class QuestionsContext : DbContext, IQuestionsContext
     {
         #region Ctor
         
-        public QuestionsContext(DbContextOptions<QuestionsContext> options) : base(options)
+        public QuestionsContext(DbContextOptions options) : base(options)
         {
 
         }
