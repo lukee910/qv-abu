@@ -1,26 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Data;
-using QvAbu.Api.Models;
-using System;
+﻿using QvAbu.Api.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using QvAbu.Api.Data.UnitOfWork;
 
 namespace QvAbu.Api.Services
 {
-    public class QuestionsService : IQuestionsService
+    internal class QuestionsService : IQuestionsService
     {
         #region Members
         
-        private readonly IQuestionsRepository repo;
+        private readonly IQuestionsUnitOfWork unitOfWork;
 
         #endregion
 
         #region Ctor
 
-        public QuestionsService(IQuestionsRepository repo)
+        public QuestionsService(IQuestionsUnitOfWork unitOfWork)
         {
-            this.repo = repo;
+            this.unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -31,9 +28,9 @@ namespace QvAbu.Api.Services
         {
             var ret = new List<Question>();
 
-            ret.AddRange(await this.repo.GetAssignmentQuestionsAsync());
-            ret.AddRange(await this.repo.GetSimpleQuestionsAsync());
-            ret.AddRange(await this.repo.GetTextQuestionsAsync());
+            ret.AddRange(await this.unitOfWork.AssignmentQuestionsRepo.GetAllAsync());
+            ret.AddRange(await this.unitOfWork.SimpleQuestionsRepo.GetAllAsync());
+            ret.AddRange(await this.unitOfWork.TextQuestionsRepo.GetAllAsync());
 
             return ret;
         }

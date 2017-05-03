@@ -9,7 +9,9 @@ namespace QvAbu.Api.Models
     {
         #region Properties
 
-        public AssignmentOption CorrectOption { get; set; }
+        public Guid CorrectOptionId { get; set; }
+
+        public virtual AssignmentOption CorrectOption { get; set; }
 
         #endregion
     }

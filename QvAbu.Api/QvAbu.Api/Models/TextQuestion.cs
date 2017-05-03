@@ -9,7 +9,9 @@ namespace QvAbu.Api.Models
     {
         #region Properties
 
-        public TextAnswer Answer { get; set; }
+        public Guid AnswerId { get; set; }
+
+        public virtual TextAnswer Answer { get; set; }
 
         #endregion
     }

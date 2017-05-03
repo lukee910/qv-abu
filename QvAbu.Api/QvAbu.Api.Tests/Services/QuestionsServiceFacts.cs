@@ -43,11 +43,11 @@ namespace QvAbu.Api.Tests.Services
             allQuestions.AddRange(textQuestions);
 
             var repo = A.Fake<IQuestionsRepository>();
-            A.CallTo(() => repo.GetAssignmentQuestionsAsync())
+            A.CallTo(() => repo.GetAssignmentQuestions())
                 .Returns(assignmentQuestions);
-            A.CallTo(() => repo.GetSimpleQuestionsAsync())
+            A.CallTo(() => repo.GetSimpleQuestions())
                 .Returns(simpleQuestions);
-            A.CallTo(() => repo.GetTextQuestionsAsync())
+            A.CallTo(() => repo.GetTextQuestions())
                 .Returns(textQuestions);
 
             var testee = new QuestionsService(repo);
