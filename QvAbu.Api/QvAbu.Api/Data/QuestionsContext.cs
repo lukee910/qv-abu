@@ -7,13 +7,28 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Data
 {
-    public class QuestionsContext : DbContext, IQuestionsContext
+    public class QuestionsContext : DbContext
     {
         #region Ctor
-        
+
         public QuestionsContext(DbContextOptions options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            this.SetQuestionKey<SimpleQuestion>(modelBuilder);
+            this.SetQuestionKey<AssignmentQuestion>(modelBuilder);
+            this.SetQuestionKey<TextQuestion>(modelBuilder);
+        }
+
+        private void SetQuestionKey<T>(ModelBuilder modelBuilder) where T : Question
+        {
+            modelBuilder.Entity<T>()
+                .HasKey(_ => new { _.ID, _.Revision });
         }
 
         #endregion

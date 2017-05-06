@@ -38,7 +38,7 @@ namespace QvAbu.Api
             services.AddMvc();
 
             services.AddDbContext<QuestionsContext>(options =>
-                options.UseSqlServer(this.Configuration["QvAbuConnection"])
+                options.UseSqlServer(this.Configuration["QvAbuLocalConnection"])
             );
 
             AddInjections(services);
@@ -61,7 +61,7 @@ namespace QvAbu.Api
             #region Data
 
             // Contexts
-            services.AddScoped<IQuestionsContext, QuestionsContext>();
+            services.AddScoped<QuestionsContext>();
 
             // Repos
             services.AddScoped<IAssignmentQuestionsRepo, AssignmentQuestionsRepo>();

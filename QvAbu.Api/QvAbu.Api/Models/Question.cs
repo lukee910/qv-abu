@@ -9,6 +9,7 @@ namespace QvAbu.Api.Models
     {
         #region Properties
 
+        public int Revision { get; set; }
         public string Text { get; set; }
 
         #endregion

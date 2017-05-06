@@ -77,12 +77,14 @@ namespace QvAbu.Api.Data
             context.AssignmentQuestions.Add(new AssignmentQuestion
             {
                 ID = Guid.NewGuid(),
+                Revision = 1,
                 Text = "Ordnen Sie die Lernorte a) - c) den Aussagen 1. - 4. zu.",
                 Answers = assignmentAnswers,
                 Options = assignmentOptions
             });
 
             // Multiple Choice
+            var multipleChoiceID = Guid.NewGuid();
             var simpleAnswers = new List<SimpleAnswer>
             {
                 new SimpleAnswer
@@ -113,10 +115,49 @@ namespace QvAbu.Api.Data
             context.SimpleAnswers.AddRange(simpleAnswers);
             context.SimpleQuestions.Add(new SimpleQuestion
             {
-                ID = Guid.NewGuid(),
+                ID = multipleChoiceID,
+                Revision = 1,
                 Text = "Was trifft auf die Bundesverfassung (BV) zu?",
                 Answers = simpleAnswers,
                 IsMultipleChoice = false,
+                IsNumberOfAnswersGiven = false
+            });
+            // Multiple Choice, Revision 2
+            simpleAnswers = new List<SimpleAnswer>
+            {
+                new SimpleAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    IsCorrect = false,
+                    Text = "Die BV ist das Grundgesetz der Schweiz"
+                },
+                new SimpleAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    IsCorrect = true,
+                    Text = "Das Personenrecht ist in der BV enthalten"
+                },
+                new SimpleAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    IsCorrect = true,
+                    Text = "Die BV gilt nur auf Bundesebene"
+                },
+                new SimpleAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    IsCorrect = true,
+                    Text = "Die BV richtet sich nicht nach den Menschenrechten"
+                }
+            };
+            context.SimpleAnswers.AddRange(simpleAnswers);
+            context.SimpleQuestions.Add(new SimpleQuestion
+            {
+                ID = multipleChoiceID,
+                Revision = 2,
+                Text = "Was trifft nicht auf die Bundesverfassung (BV) zu?",
+                Answers = simpleAnswers,
+                IsMultipleChoice = true,
                 IsNumberOfAnswersGiven = false
             });
 
@@ -159,6 +200,7 @@ namespace QvAbu.Api.Data
             context.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = Guid.NewGuid(),
+                Revision = 1,
                 Text = "Beurteilen Sie die Aussagen zu den Möglichkeiten nach der Lehre",
                 Answers = simpleAnswers,
                 IsMultipleChoice = true,
@@ -199,6 +241,7 @@ namespace QvAbu.Api.Data
             context.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = Guid.NewGuid(),
+                Revision = 1,
                 Text = "Beurteilen Sie die Aussagen zu den Lernorten",
                 Answers = simpleAnswers,
                 IsMultipleChoice = true,
@@ -215,6 +258,7 @@ namespace QvAbu.Api.Data
             context.TextQuestions.Add(new TextQuestion
             {
                 ID = Guid.NewGuid(),
+                Revision = 1,
                 Text = "Beschreiben Sie die Hauptaufgabe der Berufsfachschule stichwortartig",
                 Answer = textAnswer
             });
