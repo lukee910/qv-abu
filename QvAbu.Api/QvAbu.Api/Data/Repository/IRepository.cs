@@ -7,12 +7,12 @@ using QvAbu.Api.Models;
 
 namespace QvAbu.Api.Data.Repository
 {
-    internal interface IRepository<T> where T : Entity
+    public interface IRepository<T> where T : Entity
     {
         Task<IEnumerable<T>> GetAllAsync();
     }
 
-    internal abstract class Repository<TEntity, TContext> : IRepository<TEntity>
+    public abstract class Repository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : Entity
         where TContext : DbContext
     {

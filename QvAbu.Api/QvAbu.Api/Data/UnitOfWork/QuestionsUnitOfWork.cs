@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QvAbu.Api.Data.Repository;
+using QvAbu.Api.Data.Repository.Questions;
 
 namespace QvAbu.Api.Data.UnitOfWork
 {
-    internal interface IQuestionsUnitOfWork : IUnitOfWork
+    public interface IQuestionsUnitOfWork : IUnitOfWork
     {
         IAssignmentQuestionsRepo AssignmentQuestionsRepo { get; }
         ISimpleQuestionsRepo SimpleQuestionsRepo { get; }
         ITextQuestionsRepo TextQuestionsRepo { get; }
     }
 
-    internal class QuestionsUnitOfWork : IQuestionsUnitOfWork
+    public class QuestionsUnitOfWork : IQuestionsUnitOfWork
     {
         #region Members
 

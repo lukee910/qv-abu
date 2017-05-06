@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Models;
+using QvAbu.Api.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

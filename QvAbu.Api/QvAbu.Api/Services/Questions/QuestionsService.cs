@@ -1,11 +1,11 @@
-﻿using QvAbu.Api.Models;
+﻿using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QvAbu.Api.Data.UnitOfWork;
 
-namespace QvAbu.Api.Services
+namespace QvAbu.Api.Services.Questions
 {
-    internal class QuestionsService : IQuestionsService
+    public class QuestionsService : IQuestionsService
     {
         #region Members
         

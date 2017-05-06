@@ -1,4 +1,4 @@
-﻿namespace QvAbu.Api.Models
+﻿namespace QvAbu.Api.Models.Questions
 {
     public class TextAnswer : Answer
     {

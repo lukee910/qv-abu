@@ -1,12 +1,12 @@
 ﻿using FakeItEasy;
-using QvAbu.Api.Data;
-using QvAbu.Api.Models;
-using QvAbu.Api.Services;
+using QvAbu.Api.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
+using QvAbu.Api.Data.UnitOfWork;
+using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api.Tests.Services
 {
@@ -42,15 +42,15 @@ namespace QvAbu.Api.Tests.Services
             allQuestions.AddRange(simpleQuestions);
             allQuestions.AddRange(textQuestions);
 
-            var repo = A.Fake<IQuestionsRepository>();
-            A.CallTo(() => repo.GetAssignmentQuestions())
+            var uow = A.Fake<IQuestionsUnitOfWork>();
+            A.CallTo(() => uow.AssignmentQuestionsRepo.GetAllAsync())
                 .Returns(assignmentQuestions);
-            A.CallTo(() => repo.GetSimpleQuestions())
+            A.CallTo(() => uow.SimpleQuestionsRepo.GetAllAsync())
                 .Returns(simpleQuestions);
-            A.CallTo(() => repo.GetTextQuestions())
+            A.CallTo(() => uow.TextQuestionsRepo.GetAllAsync())
                 .Returns(textQuestions);
 
-            var testee = new QuestionsService(repo);
+            var testee = new QuestionsService(uow);
 
             // Act
             var result = await testee.GetQuestionsAsync();

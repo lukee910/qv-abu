@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
 using QvAbu.Api.Controllers;
-using QvAbu.Api.Models;
-using QvAbu.Api.Services;
 using Xunit;
+using QvAbu.Api.Models.Questions;
+using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api.Tests.Controllers
 {

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using QvAbu.Api.Data.Repository;
 using QvAbu.Api.Data.UnitOfWork;
 using QvAbu.Api.Services;
+using QvAbu.Api.Data.Repository.Questions;
+using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api
 {

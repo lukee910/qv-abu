@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Models;
+using QvAbu.Api.Models.Questions;
 
-namespace QvAbu.Api.Data.Repository
+namespace QvAbu.Api.Data.Repository.Questions
 {
-    internal interface IAssignmentQuestionsRepo : IRepository<AssignmentQuestion>
+    public interface IAssignmentQuestionsRepo : IRepository<AssignmentQuestion>
     {
     }
 
-    internal class AssignmentQuestionsRepo 
+    public class AssignmentQuestionsRepo 
         : Repository<AssignmentQuestion, QuestionsContext>, IAssignmentQuestionsRepo
     {
         #region Members

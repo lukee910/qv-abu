@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QvAbu.Api.Services;
-using QvAbu.Api.Models;
-using System;
+using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api.Controllers
 {
@@ -28,7 +27,7 @@ namespace QvAbu.Api.Controllers
         #region Methods
 
         [HttpGet]
-        public async Task<ICollection<Question>> GetQuestions()
+        public async Task<IEnumerable<Question>> GetQuestions()
         {
             return await this.service.GetQuestionsAsync();
         }

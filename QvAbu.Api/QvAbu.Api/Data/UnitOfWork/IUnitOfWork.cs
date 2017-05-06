@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Data.UnitOfWork
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork
     {
         Task<int> Complete();
     }
