@@ -5,11 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using QvAbu.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Data.Repository;
 using QvAbu.Api.Data.UnitOfWork;
-using QvAbu.Api.Services;
 using QvAbu.Api.Data.Repository.Questions;
 using QvAbu.Api.Services.Questions;
+using QvAbu.Api.Services.Questionnaire;
+using QvAbu.Api.Data.Repository.Questionnaire;
 
 namespace QvAbu.Api
 {
@@ -39,28 +39,31 @@ namespace QvAbu.Api
             // Add framework services.
             services.AddMvc();
 
+            var connection = this.Configuration["QvAbuLocalConnection"];
             services.AddDbContext<QuestionsContext>(options =>
-                options.UseSqlServer(this.Configuration["QvAbuLocalConnection"])
+                options.UseSqlServer(connection)
             );
 
             AddInjections(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-                              ILoggerFactory loggerFactory, QuestionsContext context)
+        public void Configure(IApplicationBuilder app, 
+                              IHostingEnvironment env,
+                              ILoggerFactory loggerFactory, 
+                              QuestionsContext questionsContext)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
 
-            DbInitializer.Initialize(context);
+            DbInitializer.Initialize(env, questionsContext);
         }
 
         private static void AddInjections(IServiceCollection services)
         {
-            #region Data
+            #region Questions
 
             // Contexts
             services.AddScoped<QuestionsContext>();
@@ -73,11 +76,21 @@ namespace QvAbu.Api
             // UnitOfWork
             services.AddScoped<IQuestionsUnitOfWork, QuestionsUnitOfWork>();
 
+            // Services
+            services.AddScoped<IQuestionsService, QuestionsService>();
+
             #endregion
 
-            #region Services
+            #region Questionnaire
 
-            services.AddScoped<IQuestionsService, QuestionsService>();
+            // Repos
+            services.AddScoped<IQuestionnaireRepo, QuestionnaireRepo>();
+
+            // UnitOfWork
+            services.AddScoped<IQuestionnaireUnitOfWork, QuestionnaireUnitOfWork>();
+
+            // Services
+            services.AddScoped<IQuestionnaireService, QuestionnaireService>();
 
             #endregion
         }

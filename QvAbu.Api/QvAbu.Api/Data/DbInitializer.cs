@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using QvAbu.Api.Models.Questions;
+using Microsoft.AspNetCore.Hosting;
+using QvAbu.Api.Models.Questionnaire;
 
 namespace QvAbu.Api.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(QuestionsContext context)
+        public static void Initialize(IHostingEnvironment env, 
+                                      QuestionsContext questionContext)
         {
-            context.Database.EnsureCreated();
+            questionContext.Database.EnsureCreated();
 
             // Has been seeded?
-            if (context.SimpleQuestions.Any())
+            if (!env.IsDevelopment() || questionContext.SimpleQuestions.Any())
             {
                 return;
             }
@@ -41,7 +42,7 @@ namespace QvAbu.Api.Data
                     Text = "Lehrbetrieb"
                 }
             };
-            context.AssignmentOptions.AddRange(assignmentOptions);
+            questionContext.AssignmentOptions.AddRange(assignmentOptions);
 
             var assignmentAnswers = new List<AssignmentAnswer>
             {
@@ -72,9 +73,9 @@ namespace QvAbu.Api.Data
                     Text = "An diesem Lernort verbringen Sie die meiste Zeit Ihrer Ausbildung."
                 }
             };
-            context.AssignmentAnswers.AddRange(assignmentAnswers);
+            questionContext.AssignmentAnswers.AddRange(assignmentAnswers);
 
-            context.AssignmentQuestions.Add(new AssignmentQuestion
+            questionContext.AssignmentQuestions.Add(new AssignmentQuestion
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
@@ -112,8 +113,8 @@ namespace QvAbu.Api.Data
                     Text = "Die BV richtet sich nicht nach den Menschenrechten"
                 }
             };
-            context.SimpleAnswers.AddRange(simpleAnswers);
-            context.SimpleQuestions.Add(new SimpleQuestion
+            questionContext.SimpleAnswers.AddRange(simpleAnswers);
+            questionContext.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = multipleChoiceID,
                 Revision = 1,
@@ -150,8 +151,8 @@ namespace QvAbu.Api.Data
                     Text = "Die BV richtet sich nicht nach den Menschenrechten"
                 }
             };
-            context.SimpleAnswers.AddRange(simpleAnswers);
-            context.SimpleQuestions.Add(new SimpleQuestion
+            questionContext.SimpleAnswers.AddRange(simpleAnswers);
+            questionContext.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = multipleChoiceID,
                 Revision = 2,
@@ -196,8 +197,8 @@ namespace QvAbu.Api.Data
                     Text = "Mit dem EFZ können Sie an eine Höhere Fachschule gehen"
                 }
             };
-            context.SimpleAnswers.AddRange(simpleAnswers);
-            context.SimpleQuestions.Add(new SimpleQuestion
+            questionContext.SimpleAnswers.AddRange(simpleAnswers);
+            questionContext.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
@@ -237,8 +238,8 @@ namespace QvAbu.Api.Data
                            "und bereitet Sie auch auf Ihr privates Leben vor"
                 }
             };
-            context.SimpleAnswers.AddRange(simpleAnswers);
-            context.SimpleQuestions.Add(new SimpleQuestion
+            questionContext.SimpleAnswers.AddRange(simpleAnswers);
+            questionContext.SimpleQuestions.Add(new SimpleQuestion
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
@@ -254,8 +255,8 @@ namespace QvAbu.Api.Data
                 ID = Guid.NewGuid(),
                 Text = "..."
             };
-            context.TextAnswers.Add(textAnswer);
-            context.TextQuestions.Add(new TextQuestion
+            questionContext.TextAnswers.Add(textAnswer);
+            questionContext.TextQuestions.Add(new TextQuestion
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
@@ -264,7 +265,43 @@ namespace QvAbu.Api.Data
             });
 
             // Save Changes
-            context.SaveChanges();
+            questionContext.SaveChanges();
+
+            // -- Questionnaire /TODO: FIX THIS
+
+            // Simple Questions
+            questionContext.Questionnaires.Add(new Questionnaire
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Name = "Multiple Choice, newest",
+                Questions = new List<Question>(questionContext.SimpleQuestions
+                    .Where(_ => _.ID != multipleChoiceID || _.Revision == 2))
+            });
+            questionContext.Questionnaires.Add(new Questionnaire
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Name = "Multiple Choice, Revision 1",
+                Questions = new List<Question>(questionContext.SimpleQuestions
+                    .Where(_ => _.Revision == 1))
+            });
+
+            // All
+            var questions = new List<Question>();
+            questions.AddRange(questionContext.AssignmentQuestions);
+            questions.AddRange(questionContext.SimpleQuestions);
+            questions.AddRange(questionContext.TextQuestions);
+            questionContext.Questionnaires.Add(new Questionnaire
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Name = "Multiple Choice, Revision 1",
+                Questions = questions
+            });
+
+            // Save Changes
+            questionContext.SaveChanges();
         }
     }
 }

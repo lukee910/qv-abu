@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QvAbu.Api.Models;
+using QvAbu.Api.Models.Questionnaire;
 using QvAbu.Api.Models.Questions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QvAbu.Api.Data
 {
@@ -11,7 +9,7 @@ namespace QvAbu.Api.Data
     {
         #region Ctor
 
-        public QuestionsContext(DbContextOptions options) : base(options)
+        public QuestionsContext(DbContextOptions<QuestionsContext> options) : base(options)
         {
 
         }
@@ -20,12 +18,14 @@ namespace QvAbu.Api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            this.SetQuestionKey<SimpleQuestion>(modelBuilder);
-            this.SetQuestionKey<AssignmentQuestion>(modelBuilder);
-            this.SetQuestionKey<TextQuestion>(modelBuilder);
+            //modelBuilder.SetRevisionEntityKey<SimpleQuestion>();
+            //modelBuilder.SetRevisionEntityKey<AssignmentQuestion>();
+            //modelBuilder.SetRevisionEntityKey<TextQuestion>();
+            modelBuilder.SetRevisionEntityKey<Question>();
+            modelBuilder.SetRevisionEntityKey<Questionnaire>();
         }
 
-        private void SetQuestionKey<T>(ModelBuilder modelBuilder) where T : Question
+        private void SetQuestionKey<T>(ModelBuilder modelBuilder) where T : RevisionEntity
         {
             modelBuilder.Entity<T>()
                 .HasKey(_ => new { _.ID, _.Revision });
@@ -42,6 +42,8 @@ namespace QvAbu.Api.Data
         public DbSet<AssignmentOption> AssignmentOptions { get; set; }
         public DbSet<TextQuestion> TextQuestions { get; set; }
         public DbSet<TextAnswer> TextAnswers { get; set; }
+
+        public DbSet<Questionnaire> Questionnaires { get; set; }
 
         #endregion
     }

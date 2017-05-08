@@ -5,6 +5,11 @@ using QvAbu.Api.Data.UnitOfWork;
 
 namespace QvAbu.Api.Services.Questions
 {
+    public interface IQuestionsService
+    {
+        Task<List<Question>> GetQuestionsAsync();
+    }
+
     public class QuestionsService : IQuestionsService
     {
         #region Members
