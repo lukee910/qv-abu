@@ -30,7 +30,8 @@ namespace QvAbu.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<QuestionnaireModel>> GetQuestionnaires()
         {
-            return await this.service.GetQuestionnairesAsync();
+            var result = await this.service.GetQuestionnairesAsync();
+            return result;
         }
 
         #endregion

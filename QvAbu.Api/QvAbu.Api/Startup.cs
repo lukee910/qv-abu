@@ -10,6 +10,7 @@ using QvAbu.Api.Data.Repository.Questions;
 using QvAbu.Api.Services.Questions;
 using QvAbu.Api.Services.Questionnaire;
 using QvAbu.Api.Data.Repository.Questionnaire;
+using Newtonsoft.Json;
 
 namespace QvAbu.Api
 {
@@ -37,9 +38,15 @@ namespace QvAbu.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvcCore()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                })
+                .AddJsonFormatters()
+                .AddFormatterMappings();
 
-            var connection = this.Configuration["QvAbuLocalConnection"];
+            var connection = this.Configuration["QvAbuConnection"];
             services.AddDbContext<QuestionsContext>(options =>
                 options.UseSqlServer(connection)
             );

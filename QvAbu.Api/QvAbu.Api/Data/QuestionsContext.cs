@@ -1,7 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using QvAbu.Api.Models;
+using QvAbu.Api.Models.Glue;
 using QvAbu.Api.Models.Questionnaire;
 using QvAbu.Api.Models.Questions;
+using QvAbu.Api.Services;
+using System;
 
 namespace QvAbu.Api.Data
 {
@@ -11,24 +17,17 @@ namespace QvAbu.Api.Data
 
         public QuestionsContext(DbContextOptions<QuestionsContext> options) : base(options)
         {
-
+            var serviceProvider = this.GetInfrastructure();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            loggerFactory.AddProvider(new LoggerProvider());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.SetRevisionEntityKey<SimpleQuestion>();
-            //modelBuilder.SetRevisionEntityKey<AssignmentQuestion>();
-            //modelBuilder.SetRevisionEntityKey<TextQuestion>();
             modelBuilder.SetRevisionEntityKey<Question>();
             modelBuilder.SetRevisionEntityKey<Questionnaire>();
-        }
-
-        private void SetQuestionKey<T>(ModelBuilder modelBuilder) where T : RevisionEntity
-        {
-            modelBuilder.Entity<T>()
-                .HasKey(_ => new { _.ID, _.Revision });
         }
 
         #endregion
@@ -44,6 +43,8 @@ namespace QvAbu.Api.Data
         public DbSet<TextAnswer> TextAnswers { get; set; }
 
         public DbSet<Questionnaire> Questionnaires { get; set; }
+
+        public DbSet<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using QvAbu.Api.Models.Questions;
+﻿using QvAbu.Api.Models.Glue;
+using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 
 namespace QvAbu.Api.Models.Questionnaire
@@ -7,6 +8,6 @@ namespace QvAbu.Api.Models.Questionnaire
     {
         public string Name { get; set; }
         
-        public virtual IEnumerable<Question> Questions { get; set; }
+        public virtual IEnumerable<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
     }
 }

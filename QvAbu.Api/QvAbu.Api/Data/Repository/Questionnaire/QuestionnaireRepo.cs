@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using QvAbu.Api.Models.Questionnaire;
 using QuestionnaireModel = QvAbu.Api.Models.Questionnaire.Questionnaire;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace QvAbu.Api.Data.Repository.Questionnaire
 {
@@ -33,7 +34,20 @@ namespace QvAbu.Api.Data.Repository.Questionnaire
 
         public async override Task<IEnumerable<QuestionnaireModel>> GetAllAsync()
         {
-            return await this.Context.Questionnaires.Include(_ => _.Questions).ToListAsync();
+            var result = await this.Context.Questionnaires
+                .Include(_ => _.QuestionnaireQuestions)
+                    .ThenInclude(_ => _.Question)
+                .ToListAsync();
+
+            result.ForEach(q => q.QuestionnaireQuestions
+                                 .ToList()
+                                 .ForEach(qq => 
+                                 {
+                                     qq.Questionnaire = null;
+                                     qq.Question.QuestionnaireQuestions = null;
+                                 }));
+
+            return result;
         }
 
         #endregion
