@@ -12,7 +12,7 @@ namespace QvAbu.Api.Data.Repository
 
     public abstract class Repository<TEntity, TContext> : IRepository<TEntity>
         where TEntity : Entity
-        where TContext : DbContext
+        where TContext : IDbContext
     {
         #region Members
 

@@ -49,7 +49,7 @@ namespace QvAbu.Api
                 options.UseSqlServer(connection)
             );
 
-            AddInjections(services);
+            Injections.AddAll(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,40 +64,6 @@ namespace QvAbu.Api
             app.UseMvc();
 
             DbInitializer.Initialize(env, questionsContext);
-        }
-
-        private static void AddInjections(IServiceCollection services)
-        {
-            #region Questions
-
-            // Contexts
-            services.AddScoped<QuestionsContext>();
-
-            // Repos
-            services.AddScoped<IAssignmentQuestionsRepo, AssignmentQuestionsRepo>();
-            services.AddScoped<ISimpleQuestionsRepo, SimpleQuestionsRepo>();
-            services.AddScoped<ITextQuestionsRepo, TextQuestionsRepo>();
-
-            // UnitOfWork
-            services.AddScoped<IQuestionsUnitOfWork, QuestionsUnitOfWork>();
-
-            // Services
-            services.AddScoped<IQuestionsService, QuestionsService>();
-
-            #endregion
-
-            #region Questionnaire
-
-            // Repos
-            services.AddScoped<IQuestionnaireRepo, QuestionnaireRepo>();
-
-            // UnitOfWork
-            services.AddScoped<IQuestionnaireUnitOfWork, QuestionnaireUnitOfWork>();
-
-            // Services
-            services.AddScoped<IQuestionnaireService, QuestionnaireService>();
-
-            #endregion
         }
     }
 }

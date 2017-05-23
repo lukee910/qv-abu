@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 
 namespace QvAbu.Api.Services.Questions
 {
-    public interface IQuestionnaireService
+    public interface IQuestionnairesService
     {
         Task<IEnumerable<Questionnaire>> GetQuestionnairesAsync();
     }
 
-    public class QuestionnaireService : IQuestionnaireService
+    public class QuestionnairesService : IQuestionnairesService
     {
         #region Members
 
-        private IQuestionnaireUnitOfWork unitOfWork;
+        private IQuestionnairesUnitOfWork unitOfWork;
 
         #endregion
 
         #region Ctor
 
-        public QuestionnaireService(IQuestionnaireUnitOfWork unitOfWork)
+        public QuestionnairesService(IQuestionnairesUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
@@ -35,7 +35,7 @@ namespace QvAbu.Api.Services.Questions
 
         public async Task<IEnumerable<Questionnaire>> GetQuestionnairesAsync()
         {
-            return await this.unitOfWork.QuestionnaireRepo.GetAllAsync();
+            return await this.unitOfWork.QuestionnairesRepo.GetAllAsync();
         }
 
         #endregion

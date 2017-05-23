@@ -10,7 +10,7 @@ namespace QvAbu.Api.Data.Repository.Questions
     }
 
     public class TextQuestionsRepo
-        : Repository<TextQuestion, QuestionsContext>, ITextQuestionsRepo
+        : Repository<TextQuestion, IQuestionsContext>, ITextQuestionsRepo
     {
         #region Members
 
@@ -18,7 +18,7 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Ctor
 
-        public TextQuestionsRepo(QuestionsContext context) : base(context)
+        public TextQuestionsRepo(IQuestionsContext context) : base(context)
         {
         }
 

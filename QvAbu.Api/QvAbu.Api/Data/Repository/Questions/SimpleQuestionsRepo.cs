@@ -10,7 +10,7 @@ namespace QvAbu.Api.Data.Repository.Questions
     }
 
     public class SimpleQuestionsRepo 
-        : Repository<SimpleQuestion, QuestionsContext>, ISimpleQuestionsRepo
+        : Repository<SimpleQuestion, IQuestionsContext>, ISimpleQuestionsRepo
     {
         #region Members
 
@@ -18,7 +18,7 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Ctor
 
-        public SimpleQuestionsRepo(QuestionsContext context) : base(context)
+        public SimpleQuestionsRepo(IQuestionsContext context) : base(context)
         {
         }
 

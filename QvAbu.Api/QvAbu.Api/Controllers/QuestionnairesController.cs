@@ -7,17 +7,17 @@ using QvAbu.Api.Services.Questions;
 namespace QvAbu.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class QuestionnaireController : Controller
+    public class QuestionnairesController : Controller
     {
         #region Members
 
-        private readonly IQuestionnaireService service;
+        private readonly IQuestionnairesService service;
 
         #endregion
 
         #region Ctor
 
-        public QuestionnaireController(IQuestionnaireService service)
+        public QuestionnairesController(IQuestionnairesService service)
         {
             this.service = service;
         }

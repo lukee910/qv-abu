@@ -6,12 +6,12 @@ using QvAbu.Api.Models.Questions;
 
 namespace QvAbu.Api.Data.Repository.Questions
 {
-    public interface IQuestionnaireRepo : IRepository<Questionnaire>
+    public interface IQuestionnairesRepo : IRepository<Questionnaire>
     {
     }
 
-    public class QuestionnaireRepo 
-        : Repository<Questionnaire, QuestionsContext>, IQuestionnaireRepo
+    public class QuestionnairesRepo 
+        : Repository<Questionnaire, IQuestionsContext>, IQuestionnairesRepo
     {
         #region Members
 
@@ -19,7 +19,7 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Ctor
 
-        public QuestionnaireRepo(QuestionsContext context) : base(context)
+        public QuestionnairesRepo(IQuestionsContext context) : base(context)
         {
         }
 

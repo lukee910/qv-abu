@@ -10,7 +10,7 @@ namespace QvAbu.Api.Data.Repository.Questions
     }
 
     public class AssignmentQuestionsRepo 
-        : Repository<AssignmentQuestion, QuestionsContext>, IAssignmentQuestionsRepo
+        : Repository<AssignmentQuestion, IQuestionsContext>, IAssignmentQuestionsRepo
     {
         #region Members
 
@@ -18,7 +18,7 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Ctor
 
-        public AssignmentQuestionsRepo(QuestionsContext context) : base(context)
+        public AssignmentQuestionsRepo(IQuestionsContext context) : base(context)
         {
         }
 
