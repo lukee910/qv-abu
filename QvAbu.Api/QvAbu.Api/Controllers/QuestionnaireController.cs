@@ -2,8 +2,7 @@
 using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using QuestionnaireModel = QvAbu.Api.Models.Questionnaire.Questionnaire;
-using QvAbu.Api.Services.Questionnaire;
+using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api.Controllers
 {
@@ -28,10 +27,9 @@ namespace QvAbu.Api.Controllers
         #region Methods
 
         [HttpGet]
-        public async Task<IEnumerable<QuestionnaireModel>> GetQuestionnaires()
+        public async Task<IEnumerable<Questionnaire>> GetQuestionnaires()
         {
-            var result = await this.service.GetQuestionnairesAsync();
-            return result;
+            return await this.service.GetQuestionnairesAsync();
         }
 
         #endregion

@@ -2,12 +2,8 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QvAbu.Api.Models;
-using QvAbu.Api.Models.Glue;
-using QvAbu.Api.Models.Questionnaire;
 using QvAbu.Api.Models.Questions;
 using QvAbu.Api.Services;
-using System;
 
 namespace QvAbu.Api.Data
 {

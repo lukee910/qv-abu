@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using QvAbu.Api.Models.Questions;
 using Microsoft.AspNetCore.Hosting;
-using QvAbu.Api.Models.Questionnaire;
-using QvAbu.Api.Models.Glue;
 
 namespace QvAbu.Api.Data
 {

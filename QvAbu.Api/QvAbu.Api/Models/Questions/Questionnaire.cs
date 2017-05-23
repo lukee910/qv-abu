@@ -1,8 +1,6 @@
-﻿using QvAbu.Api.Models.Glue;
-using QvAbu.Api.Models.Questions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace QvAbu.Api.Models.Questionnaire
+namespace QvAbu.Api.Models.Questions
 {
     public class Questionnaire : RevisionEntity
     {

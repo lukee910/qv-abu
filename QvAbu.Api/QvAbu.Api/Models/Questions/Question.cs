@@ -1,5 +1,4 @@
-﻿using QvAbu.Api.Models.Glue;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace QvAbu.Api.Models.Questions
 {

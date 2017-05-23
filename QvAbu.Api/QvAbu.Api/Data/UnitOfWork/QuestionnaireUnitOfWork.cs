@@ -1,4 +1,4 @@
-﻿using QvAbu.Api.Data.Repository.Questionnaire;
+﻿using QvAbu.Api.Data.Repository.Questions;
 
 namespace QvAbu.Api.Data.UnitOfWork
 {

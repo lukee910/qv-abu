@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using QvAbu.Api.Models.Questionnaire;
-using QuestionnaireModel = QvAbu.Api.Models.Questionnaire.Questionnaire;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using QvAbu.Api.Models.Questions;
 
-namespace QvAbu.Api.Data.Repository.Questionnaire
+namespace QvAbu.Api.Data.Repository.Questions
 {
-    public interface IQuestionnaireRepo : IRepository<QuestionnaireModel>
+    public interface IQuestionnaireRepo : IRepository<Questionnaire>
     {
     }
 
     public class QuestionnaireRepo 
-        : Repository<QuestionnaireModel, QuestionsContext>, IQuestionnaireRepo
+        : Repository<Questionnaire, QuestionsContext>, IQuestionnaireRepo
     {
         #region Members
 
@@ -32,7 +31,7 @@ namespace QvAbu.Api.Data.Repository.Questionnaire
 
         #region Public Methods
 
-        public async override Task<IEnumerable<QuestionnaireModel>> GetAllAsync()
+        public async override Task<IEnumerable<Questionnaire>> GetAllAsync()
         {
             var result = await this.Context.Questionnaires
                 .Include(_ => _.QuestionnaireQuestions)
