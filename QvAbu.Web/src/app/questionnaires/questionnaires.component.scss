@@ -1,0 +1,16 @@
+@import "../../variables";
+
+.questionnaire-preview {
+  padding: $general-spacing;
+}
+
+.questionnaire-preview-content {
+  padding: $general-spacing;
+  border: 3px solid $gray-light;
+  //background-color: $gray-lightest;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray-lighter;
+  }
+}
