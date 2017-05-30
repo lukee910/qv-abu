@@ -28,9 +28,10 @@ namespace QvAbu.Api.Controllers
         #region Methods
 
         [HttpGet("previews")]
-        public async Task<IEnumerable<QuestionnairePreview>> GetQuestionnaires()
+        public async Task<IEnumerable<QuestionnairePreview>> GetPreviews()
         {
-            return await this.service.GetQuestionnairePreviewsAsync();
+            var result = await this.service.GetQuestionnairePreviewsAsync();
+            return result;
         }
 
         #endregion

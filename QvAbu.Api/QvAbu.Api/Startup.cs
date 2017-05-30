@@ -49,6 +49,8 @@ namespace QvAbu.Api
                 options.UseSqlServer(connection)
             );
 
+            services.AddCors();
+
             Injections.AddAll(services);
         }
 
@@ -60,6 +62,8 @@ namespace QvAbu.Api
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseMvc();
 

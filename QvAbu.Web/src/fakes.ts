@@ -1,9 +1,36 @@
 import Spy = jasmine.Spy;
 
-export class QuestionnaireServiceFake {
-  getPreviews: Spy;
+class Fake {
+  protected createSpies(props: string[]) {
+    props.forEach(prop => {
+      this[prop] = <any>jasmine.createSpy(prop);
+    });
+  }
+}
 
-  constructor() {
-    this.getPreviews = jasmine.createSpy('getPreviews');
+export class QuestionnaireServiceFake extends Fake {
+  getPreviews: Spy = null;
+
+  constructor () {
+    super();
+    this.createSpies(Object.keys(this));
+  }
+}
+
+export class ApiServiceFake extends Fake {
+  get: Spy = null;
+
+  constructor () {
+    super();
+    this.createSpies(Object.keys(this));
+  }
+}
+
+export class HttpFake extends Fake {
+  get: Spy = null;
+
+  constructor () {
+    super();
+    this.createSpies(Object.keys(this));
   }
 }

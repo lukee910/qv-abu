@@ -1,6 +1,6 @@
 export class QuestionnairePreview {
-  id: string;
-  revision: number;
-  name: string;
-  questionsCount: number;
+  constructor(public id: string,
+              public revision: number,
+              public name: string,
+              public questionsCount: number) { }
 }
