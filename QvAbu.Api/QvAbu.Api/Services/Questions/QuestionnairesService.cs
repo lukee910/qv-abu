@@ -2,12 +2,13 @@
 using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QvAbu.Api.Models.Questions.ReadModel;
 
 namespace QvAbu.Api.Services.Questions
 {
     public interface IQuestionnairesService
     {
-        Task<IEnumerable<Questionnaire>> GetQuestionnairesAsync();
+        Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync();
     }
 
     public class QuestionnairesService : IQuestionnairesService
@@ -33,9 +34,9 @@ namespace QvAbu.Api.Services.Questions
 
         #region Public Methods
 
-        public async Task<IEnumerable<Questionnaire>> GetQuestionnairesAsync()
+        public async Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync()
         {
-            return await this.unitOfWork.QuestionnairesRepo.GetAllAsync();
+            return await this.unitOfWork.QuestionnairesRepo.GetPreviewsAsync();
         }
 
         #endregion

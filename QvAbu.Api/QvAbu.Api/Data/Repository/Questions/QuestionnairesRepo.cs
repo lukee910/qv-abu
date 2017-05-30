@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using QvAbu.Api.Models.Questions;
+using QvAbu.Api.Models.Questions.ReadModel;
 
 namespace QvAbu.Api.Data.Repository.Questions
 {
     public interface IQuestionnairesRepo : IRepository<Questionnaire>
     {
+        Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync();
     }
 
     public class QuestionnairesRepo 
@@ -31,22 +33,15 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Public Methods
 
-        public async override Task<IEnumerable<Questionnaire>> GetAllAsync()
+        public async Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync()
         {
-            var result = await this.Context.Questionnaires
-                .Include(_ => _.QuestionnaireQuestions)
-                    .ThenInclude(_ => _.Question)
-                .ToListAsync();
-
-            result.ForEach(q => q.QuestionnaireQuestions
-                                 .ToList()
-                                 .ForEach(qq => 
-                                 {
-                                     qq.Questionnaire = null;
-                                     qq.Question.QuestionnaireQuestions = null;
-                                 }));
-
-            return result;
+            return await this.Context.Questionnaires.Select(_ => new QuestionnairePreview
+            {
+                ID = _.ID,
+                Revision = _.Revision,
+                Name = _.Name,
+                QuestionsCount = _.QuestionnaireQuestions.Count()
+            }).ToListAsync();
         }
 
         #endregion

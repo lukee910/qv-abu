@@ -1,22 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionnaireComponent } from './questionnaire.component';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 describe('QuestionnaireComponent', () => {
   let component: QuestionnaireComponent;
-  let fixture: ComponentFixture<QuestionnaireComponent>;
+
+  const id = 'id';
+  const revision = 0;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuestionnaireComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionnaireComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new QuestionnaireComponent(<ActivatedRoute>{
+      params: Observable.of({
+        id: id,
+        revision: revision
+      })
+    });
   });
 
   it('should create', () => {

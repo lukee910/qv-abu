@@ -1,25 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionnairesComponent } from './questionnaires.component';
+import { QuestionnairesService } from '../services/questionnaires.service';
+import { QuestionnaireServiceFake } from '../../fakes';
+import { QuestionnairePreview } from '../models/questionnaire-preview';
+import { Observable } from 'rxjs/Observable';
 
 describe('QuestionnairesComponent', () => {
   let component: QuestionnairesComponent;
-  let fixture: ComponentFixture<QuestionnairesComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ QuestionnairesComponent ]
-    })
-    .compileComponents();
-  }));
+  let questionnairesService: QuestionnaireServiceFake;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionnairesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    questionnairesService = new QuestionnaireServiceFake();
+    component = new QuestionnairesComponent(questionnairesService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should load previews on init', async(() => {
+    // Arrange
+    const previews: QuestionnairePreview[] = [];
+    questionnairesService.getPreviews.and.returnValue(Observable.of(previews));
+
+    // Act
+    component.ngOnInit();
+
+    // Assert
+    expect(component.questionnaires).toEqual(previews);
+  }));
 });

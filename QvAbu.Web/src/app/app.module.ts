@@ -8,10 +8,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
+import { QuestionnairesService } from './services/questionnaires.service';
+import { ApiService } from './services/api.service';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
-  {path: 'questionnaire/:id', component: QuestionnaireComponent}
+  {path: 'questionnaire/:id/:revision', component: QuestionnaireComponent}
   // {
   //   path: 'heroes',
   //   component: HeroListComponent,
@@ -37,7 +39,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    QuestionnairesService,
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
