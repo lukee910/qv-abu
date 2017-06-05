@@ -7,13 +7,13 @@ using QvAbu.Api.Models.Questions.ReadModel;
 
 namespace QvAbu.Api.Data.Repository.Questions
 {
-    public interface IQuestionnairesRepo : IRepository<Questionnaire>
+    public interface IQuestionnairesRepo : IRevisionEntitesRepo<Questionnaire>
     {
         Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync();
     }
 
     public class QuestionnairesRepo 
-        : Repository<Questionnaire, IQuestionsContext>, IQuestionnairesRepo
+        : RevisionEntitesRepo<Questionnaire, IQuestionsContext>, IQuestionnairesRepo
     {
         #region Members
 

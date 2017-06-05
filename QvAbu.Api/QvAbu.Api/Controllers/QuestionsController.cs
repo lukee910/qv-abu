@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,10 +27,10 @@ namespace QvAbu.Api.Controllers
 
         #region Methods
 
-        [HttpGet]
-        public async Task<IEnumerable<Question>> GetQuestions()
+        [HttpGet("{id}/{revision}")]
+        public async Task<Question> GetQuestion(Guid id, int revision)
         {
-            return await this.service.GetQuestionsAsync();
+            return await this.service.GetQuestionAsync(id, revision);
         }
 
         #endregion
