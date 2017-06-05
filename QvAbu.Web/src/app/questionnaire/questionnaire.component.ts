@@ -8,9 +8,13 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class QuestionnaireComponent implements OnInit {
   private id: string;
+  private revision: number;
 
   constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe((params: Params) => this.id = params['id']);
+    this.route.params.subscribe((params: Params) => {
+      this.id = params['id'];
+      this.revision = params['revision'];
+    });
   }
 
   ngOnInit() {

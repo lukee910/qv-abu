@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace QvAbu.Api.Data.Repository.Questions
     public interface IQuestionnairesRepo : IRevisionEntitesRepo<Questionnaire>
     {
         Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync();
+        Task<IEnumerable<(Guid id, int revision)>> GetQuestionKeysAsync(Guid id, int revision);
     }
 
     public class QuestionnairesRepo 
@@ -42,6 +44,15 @@ namespace QvAbu.Api.Data.Repository.Questions
                 Name = _.Name,
                 QuestionsCount = _.QuestionnaireQuestions.Count()
             }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<(Guid id, int revision)>> GetQuestionKeysAsync(Guid id, int revision)
+        {
+            return (await this.Context.QuestionnaireQuestions
+                .Where(_ => _.Questionnaire.ID == id && _.Questionnaire.Revision == revision)
+                .Select(_ => new Tuple<Guid, int>(_.Question.ID, _.Question.Revision))
+                .ToListAsync())
+                .Select(tuple => (tuple.Item1, tuple.Item2));
         }
 
         #endregion

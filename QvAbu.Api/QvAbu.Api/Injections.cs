@@ -43,7 +43,6 @@ namespace QvAbu.Api
         public static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IQuestionsService, QuestionsService>();
-            services.AddScoped<IQuestionnairesService, QuestionnairesService>();
         }
     }
 }

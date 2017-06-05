@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,13 +13,13 @@ namespace QvAbu.Api.Controllers
     {
         #region Members
 
-        private readonly IQuestionnairesService service;
+        private readonly IQuestionsService service;
 
         #endregion
 
         #region Ctor
 
-        public QuestionnairesController(IQuestionnairesService service)
+        public QuestionnairesController(IQuestionsService service)
         {
             this.service = service;
         }
@@ -30,8 +31,13 @@ namespace QvAbu.Api.Controllers
         [HttpGet("previews")]
         public async Task<IEnumerable<QuestionnairePreview>> GetPreviews()
         {
-            var result = await this.service.GetQuestionnairePreviewsAsync();
-            return result;
+            return await this.service.GetQuestionnairePreviewsAsync();
+        }
+
+        [HttpGet("{id}/{revision}/questions")]
+        public async Task<IEnumerable<Question>> GetQuestions(Guid id, int revision)
+        {
+            return await this.service.GetQuestionsForQuestionnaireAsync(id, revision);
         }
 
         #endregion
