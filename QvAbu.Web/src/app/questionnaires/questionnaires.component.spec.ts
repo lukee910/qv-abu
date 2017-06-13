@@ -1,9 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, } from '@angular/core/testing';
 
 import { QuestionnairesComponent } from './questionnaires.component';
-import { QuestionnairesService } from '../services/questionnaires.service';
 import { QuestionnaireServiceFake } from '../../fakes';
-import { QuestionnairePreview } from '../models/questionnaire-preview';
+import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 import { Observable } from 'rxjs/Observable';
 
 describe('QuestionnairesComponent', () => {
@@ -12,7 +11,7 @@ describe('QuestionnairesComponent', () => {
 
   beforeEach(() => {
     questionnairesService = new QuestionnaireServiceFake();
-    component = new QuestionnairesComponent(questionnairesService);
+    component = new QuestionnairesComponent(<any>questionnairesService);
   });
 
   it('should load previews on init', async(() => {

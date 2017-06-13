@@ -6,7 +6,8 @@
 
 <div class="row">
   <div class="col-4 questionnaire-preview" *ngFor="let questionnaire of questionnaires">
-    <div class="questionnaire-preview-content" routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}">
+    <div class="questionnaire-preview-content"
+         routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}/{{questionnaire.name}}">
       <h3>{{questionnaire.name}}</h3>
       <span>{{questionnaire.questionsCount}} Fragen</span>
     </div>

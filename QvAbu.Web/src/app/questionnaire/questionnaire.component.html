@@ -1,5 +1,11 @@
 <div class="row">
-  <div class="col">
-    <h2 class="page-title">{{id}}</h2>
+  <div class="col-12">
+    <h2 class="page-title">{{name}}</h2>
+  </div>
+
+  <div *ngFor="let question of questions" class="col-12">
+    <h4>{{question.text}}</h4>
+    <p>{{question.id.toUpperCase()}}/{{question.revision}}</p>
+    <p>{{toJson(question)}}</p>
   </div>
 </div>

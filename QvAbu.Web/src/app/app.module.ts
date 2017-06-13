@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,7 +13,7 @@ import { ApiService } from './services/api.service';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
-  {path: 'questionnaire/:id/:revision', component: QuestionnaireComponent}
+  {path: 'questionnaire/:id/:revision/:name', component: QuestionnaireComponent}
   // {
   //   path: 'heroes',
   //   component: HeroListComponent,
