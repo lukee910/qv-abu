@@ -10,6 +10,7 @@ class Fake {
 
 export class QuestionnaireServiceFake extends Fake {
   getPreviews: Spy = null;
+  getPreview: Spy = null;
   getQuestionsForQuestionnaire: Spy = null;
 
   constructor () {

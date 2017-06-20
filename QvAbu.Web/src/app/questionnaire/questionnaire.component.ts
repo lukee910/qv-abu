@@ -11,18 +11,18 @@ import { Question } from '../models/questions/question';
 export class QuestionnaireComponent implements OnInit {
   public id: string;
   public revision: number;
-  public name: number;
+  public name: string;
   public questions: Question[];
 
   constructor(private route: ActivatedRoute, private service: QuestionnairesService) {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
-      this.revision = params['revision'];
-      this.name = params['name'];
+      this.revision = parseInt(params['revision'], 10);
     });
   }
 
   ngOnInit() {
+    this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);
     this.service.getQuestionsForQuestionnaire(this.id, this.revision)
       .subscribe(_ => this.questions = _);
   }

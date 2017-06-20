@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { QuestionnaireServiceFake } from '../../fakes';
 import { Question, QuestionType } from '../models/questions/question';
+import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 
 describe('QuestionnaireComponent', () => {
   let component: QuestionnaireComponent;
@@ -13,7 +14,6 @@ describe('QuestionnaireComponent', () => {
 
   const id = 'id';
   const revision = 0;
-  const name = 'name';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,8 +26,7 @@ describe('QuestionnaireComponent', () => {
     component = new QuestionnaireComponent(<ActivatedRoute>{
       params: Observable.of({
         id: id,
-        revision: revision,
-        name: name
+        revision: revision
       })
     }, <any>questionnaireService);
   });
@@ -42,10 +41,9 @@ describe('QuestionnaireComponent', () => {
     // Assert
     expect(component.revision).toBe(revision);
     expect(component.id).toBe(id);
-    expect(component.name).toBe(name);
   });
 
-  it('should load the questions for the questionnaire', () => {
+  it('should load the questions and preview', () => {
     // Arrange
     const questions: Question[] = [{
       id: 'id1',
@@ -53,6 +51,13 @@ describe('QuestionnaireComponent', () => {
       text: 'text1',
       questionType: QuestionType.textQuestion
     }];
+    const preview: QuestionnairePreview = {
+      revision: 0,
+      id: 'id',
+      name: 'name',
+      questionsCount: 2
+    };
+    questionnaireService.getPreview.and.returnValue(Observable.of(preview));
     questionnaireService.getQuestionsForQuestionnaire.and.returnValue(Observable.of(questions));
 
     // Act
@@ -60,5 +65,6 @@ describe('QuestionnaireComponent', () => {
 
     // Assert
     expect(component.questions).toEqual(questions);
+    expect(component.name).toBe('name');
   });
 });

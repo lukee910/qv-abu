@@ -14,6 +14,8 @@ export class QuestionnairesComponent implements OnInit {
 
   ngOnInit() {
     this.questionnairesService.getPreviews()
-      .subscribe(_ => this.questionnaires = _);
+      .subscribe(_ => {
+        this.questionnaires = _;
+      });
   }
 }

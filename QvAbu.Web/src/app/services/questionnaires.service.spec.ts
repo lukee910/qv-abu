@@ -28,7 +28,7 @@ describe('QuestionnairesService', () => {
     apiServiceFake = <any>api;
   }));
 
-  it('should request and return the previews', async(() => {
+  it('should request, return and cache the previews', async(() => {
     // Arrange
     const data = [
       new QuestionnairePreview('id1', 1, 'preview1', 1),
@@ -37,14 +37,18 @@ describe('QuestionnairesService', () => {
     apiServiceFake.get.and.returnValue(Observable.of({
       json: jasmine.createSpy('json').and.returnValue(data)
     }));
-    let result: QuestionnairePreview[] = undefined;
+    let allResult: QuestionnairePreview[] = undefined;
+    let singleResult: QuestionnairePreview = undefined;
 
     // Act
-    testee.getPreviews().subscribe(_ => result = _);
+    testee.getPreviews().subscribe(_ => allResult = _);
+    testee.getPreview('id1', 1).subscribe(_ => singleResult = _);
 
     // Assert
     expect(apiServiceFake.get).toHaveBeenCalledWith('questionnaires/previews');
-    expect(result).toEqual(data);
+    expect(apiServiceFake.get).toHaveBeenCalledTimes(1);
+    expect(allResult).toEqual(data);
+    expect(singleResult).toEqual(data[0]);
   }));
 
   it('should request and return the questions for a questionnaire', async(() => {
