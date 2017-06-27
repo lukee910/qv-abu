@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
-import { Observable } from 'rxjs/Observable';
 import { ApiService } from './api.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import { Question } from '../models/questions/question';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class QuestionnairesService {
@@ -19,6 +20,14 @@ export class QuestionnairesService {
   }
 
   public getPreview(id: string, revision: number): Observable<QuestionnairePreview> {
+    if (!this.previews) {
+      return Observable.create((o: Observer<QuestionnairePreview>) => {
+        this.getPreviews().subscribe(previews => {
+          this.getPreview(id, revision).subscribe(preview => o.next(preview));
+        });
+      });
+    }
+
     let preview: QuestionnairePreview = null;
     this.previews.forEach(_ => {
       if (_.id === id && _.revision === revision) {

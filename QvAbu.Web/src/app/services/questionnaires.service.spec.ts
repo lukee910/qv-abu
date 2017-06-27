@@ -51,6 +51,26 @@ describe('QuestionnairesService', () => {
     expect(singleResult).toEqual(data[0]);
   }));
 
+  it('should request the previews if a single preview is requested and no cache exists', async(() => {
+    // Arrange
+    const data = [
+      new QuestionnairePreview('id1', 1, 'preview1', 1),
+      new QuestionnairePreview('id2', 2, 'preview2', 2)
+    ];
+    apiServiceFake.get.and.returnValue(Observable.of({
+      json: jasmine.createSpy('json').and.returnValue(data)
+    }));
+    let result: QuestionnairePreview = undefined;
+
+    // Act
+    testee.getPreview('id1', 1).subscribe(_ => result = _);
+
+    // Assert
+    expect(apiServiceFake.get).toHaveBeenCalledWith('questionnaires/previews');
+    expect(apiServiceFake.get).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(data[0]);
+  }));
+
   it('should request and return the questions for a questionnaire', async(() => {
     // Arrange
     const data: Question[] = [<AssignmentQuestion>{
