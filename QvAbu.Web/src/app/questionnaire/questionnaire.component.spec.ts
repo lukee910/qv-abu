@@ -1,5 +1,3 @@
-import { async, TestBed } from '@angular/core/testing';
-
 import { QuestionnaireComponent } from './questionnaire.component';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -14,12 +12,6 @@ describe('QuestionnaireComponent', () => {
 
   const id = 'id';
   const revision = 0;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
@@ -49,7 +41,7 @@ describe('QuestionnaireComponent', () => {
       id: 'id1',
       revision: 1,
       text: 'text1',
-      questionType: QuestionType.textQuestion
+      type: QuestionType.textQuestion
     }];
     const preview: QuestionnairePreview = {
       revision: 0,

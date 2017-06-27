@@ -2,7 +2,7 @@ import { RevisionEntity } from '../revision-entity';
 
 export class Question extends RevisionEntity {
   text: string;
-  questionType: QuestionType;
+  type: QuestionType;
 }
 
 export enum QuestionType {

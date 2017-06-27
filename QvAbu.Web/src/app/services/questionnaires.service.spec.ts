@@ -75,7 +75,7 @@ describe('QuestionnairesService', () => {
     // Arrange
     const data: Question[] = [<AssignmentQuestion>{
       id: 'id1',
-      questionType: 0,
+      type: 0,
       revision: 0,
       text: 'text1',
       // Assignment Question:
@@ -91,7 +91,7 @@ describe('QuestionnairesService', () => {
       }]
     }, <SimpleQuestion>{
       id: 'id2',
-      questionType: 1,
+      type: 1,
       revision: 1,
       text: 'text2',
       // Simple Question:
@@ -104,7 +104,7 @@ describe('QuestionnairesService', () => {
       }]
     }, <TextQuestion>{
       id: 'id3',
-      questionType: 2,
+      type: 2,
       revision: 2,
       text: 'text1',
       // Text Question:

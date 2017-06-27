@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
 import { QuestionnairesService } from './services/questionnaires.service';
 import { ApiService } from './services/api.service';
+import { SimpleQuestionComponent } from './questions/simple-question/simple-question.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     QuestionnairesComponent,
-    QuestionnaireComponent
+    QuestionnaireComponent,
+    SimpleQuestionComponent
   ],
   imports: [
     BrowserModule,

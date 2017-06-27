@@ -6,8 +6,7 @@
 
 .questionnaire-preview-content {
   padding: $general-spacing;
-  border: 3px solid $gray-light;
-  //background-color: $gray-lightest;
+  border: $border-fat;
   cursor: pointer;
 
   &:hover {

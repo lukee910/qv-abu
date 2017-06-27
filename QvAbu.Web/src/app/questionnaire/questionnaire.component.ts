@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { QuestionnairesService } from '../services/questionnaires.service';
-import { Question } from '../models/questions/question';
+import { Question, QuestionType } from '../models/questions/question';
 
 @Component({
   selector: 'app-questionnaire',
@@ -13,6 +13,12 @@ export class QuestionnaireComponent implements OnInit {
   public revision: number;
   public name: string;
   public questions: Question[];
+  //noinspection JSUnusedLocalSymbols
+  private questionTypes = {
+    simpleQuestion: QuestionType.simpleQuestion,
+    assignmentQuestion: QuestionType.assignmentQuestion,
+    textQuestion: QuestionType.textQuestion
+  };
 
   constructor(private route: ActivatedRoute, private service: QuestionnairesService) {
     this.route.params.subscribe((params: Params) => {
@@ -27,6 +33,7 @@ export class QuestionnaireComponent implements OnInit {
       .subscribe(_ => this.questions = _);
   }
 
+  //noinspection JSUnusedGlobalSymbols
   toJson(q: Question): string {
     return JSON.stringify(q);
   }

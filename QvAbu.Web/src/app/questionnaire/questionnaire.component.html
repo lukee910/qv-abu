@@ -3,9 +3,7 @@
     <h2 class="page-title">{{name}}</h2>
   </div>
 
-  <div *ngFor="let question of questions" class="col-12">
-    <h4>{{question.text}}</h4>
-    <p>{{question.id.toUpperCase()}}/{{question.revision}}</p>
-    <p>{{toJson(question)}}</p>
+  <div *ngFor="let question of questions" class="col-12 question">
+    <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
   </div>
 </div>
