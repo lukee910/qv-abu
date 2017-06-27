@@ -1,16 +1,20 @@
 <div class="h4">{{question.text}}</div>
-<p>Kreuzen sie die
+<p>Kreuzen Sie die
   {{question.isMultipleChoice
     ? ('zutreffenden' + (question.isNumberOfAnswersGiven ? ' ' + correctAnswersCount : '') + ' Aussagen')
   : 'zutreffende Aussage'}}
   an.</p>
 
-<div class="row">
-  <div class="col-12" *ngFor="let answer of question.answers; index as i;">
-    <input id="answer-{{answer.id}}"
-           type="{{question.isMultipleChoice ? 'checkbox' : 'radio'}}"
-           name="answer-{{question.id}}-{{question.revision}}"
-           [(ngModel)]="answer.isSelected">
-    <label for="answer-{{answer.id}}">{{answer.text}}</label>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12" *ngFor="let answer of question.answers; index as i;">
+      <label class="custom-control custom-{{question.isMultipleChoice ? 'checkbox' : 'radio'}}">
+        <input type="{{question.isMultipleChoice ? 'checkbox' : 'radio'}}"
+               class="custom-control-input"
+               name="answer-{{question.id}}-{{question.revision}}">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{answer.text}})</span>
+      </label>
+    </div>
   </div>
 </div>

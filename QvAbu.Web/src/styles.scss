@@ -24,3 +24,25 @@ body {
   text-align: center;
   margin-bottom: $general-spacing;
 }
+
+/* Positioning */
+.top-left-absolute {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Buttons */
+.btn.btn-link {
+  cursor: pointer;
+  color: $gray-dark;
+  text-decoration: none !important;
+
+  &:hover {
+    background-color: $gray-lightest;
+  }
+
+  &:focus {
+    background-color: $gray-lighter;
+  }
+}

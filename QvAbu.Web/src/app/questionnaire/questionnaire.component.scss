@@ -1,9 +1,7 @@
 @import '../../variables';
 
 .question {
-  //border-bottom: $border-fat;
-  margin-bottom: $general-spacing;
+  margin-bottom: $general-spacing * 3;
+  border: $border-fat;
+  padding: $general-spacing;
 }
-//.question:first-child {
-//  border-top: $border-fat;
-//}
