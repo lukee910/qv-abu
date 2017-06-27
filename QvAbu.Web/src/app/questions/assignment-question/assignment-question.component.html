@@ -1,0 +1,26 @@
+<div class="h4">{{question.text}}</div>
+<p>Kreuzen Sie den jeweils zutreffenden Buchstaben an.</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12" *ngFor="let option of question.options; index as iOpt">
+      {{toChar(iOpt)}}) {{option.text}}
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-12" *ngFor="let answer of question.answers; index as iAns;">
+      <label class="custom-control custom-radio" *ngFor="let option of question.options; index as iOpt">
+        <input type="radio"
+               class="custom-control-input"
+               name="answer-{{answer.id}}">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{toChar(iOpt)}})</span>
+      </label>
+
+      <span>{{answer.text}}</span>
+    </div>
+  </div>
+</div>
