@@ -1,0 +1,16 @@
+<div class="h4">{{question.text}}</div>
+<p>{{subtitle}}</p>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12" *ngFor="let answer of question.answers; index as i;">
+      <label class="custom-control custom-{{question.simpleQuestionType === 0 ? 'radio': 'checkbox'}}">
+        <input type="{{question.simpleQuestionType === 0 ? 'radio': 'checkbox'}}"
+               class="custom-control-input"
+               name="answer-{{question.id}}-{{question.revision}}">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{answer.text}}</span>
+      </label>
+    </div>
+  </div>
+</div>

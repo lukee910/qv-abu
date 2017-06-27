@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-12">
+    <button class="btn btn-link top-left-absolute" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>
+    <h2 class="page-title">{{name}}</h2>
+  </div>
+
+  <div *ngFor="let question of questions" class="col-12 question">
+    <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
+    <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
+    <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+  </div>
+</div>

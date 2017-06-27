@@ -7,7 +7,20 @@ using QvAbu.Api.Services;
 
 namespace QvAbu.Api.Data
 {
-    public class QuestionsContext : DbContext
+    public interface IQuestionsContext : IDbContext
+    {
+        DbSet<AssignmentAnswer> AssignmentAnswers { get; set; }
+        DbSet<AssignmentOption> AssignmentOptions { get; set; }
+        DbSet<AssignmentQuestion> AssignmentQuestions { get; set; }
+        DbSet<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
+        DbSet<Questionnaire> Questionnaires { get; set; }
+        DbSet<SimpleAnswer> SimpleAnswers { get; set; }
+        DbSet<SimpleQuestion> SimpleQuestions { get; set; }
+        DbSet<TextAnswer> TextAnswers { get; set; }
+        DbSet<TextQuestion> TextQuestions { get; set; }
+    }
+
+    public class QuestionsContext : DbContext, IQuestionsContext
     {
         #region Ctor
 

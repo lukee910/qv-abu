@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QvAbu.Api.Models.Questions;
 
 namespace QvAbu.Api.Data.Repository.Questions
 {
-    public interface ITextQuestionsRepo : IRepository<TextQuestion>
+    public interface ITextQuestionsRepo : IRevisionEntitesRepo<TextQuestion>
     {
     }
 
     public class TextQuestionsRepo
-        : Repository<TextQuestion, QuestionsContext>, ITextQuestionsRepo
+        : RevisionEntitesRepo<TextQuestion, IQuestionsContext>, ITextQuestionsRepo
     {
         #region Members
 
@@ -18,7 +19,7 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Ctor
 
-        public TextQuestionsRepo(QuestionsContext context) : base(context)
+        public TextQuestionsRepo(IQuestionsContext context) : base(context)
         {
         }
 
@@ -26,11 +27,9 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         #region Public Methods
 
-        public override async Task<IEnumerable<TextQuestion>> GetAllAsync()
+        public override async Task<TextQuestion> GetEntityAsync(Guid id, int revision)
         {
-            return await this.Context.TextQuestions
-                .Include(_ => _.Answer)
-                .ToListAsync();
+            return await this.GetEntityAsync(id, revision, queryable => queryable.Include(_ => _.Answer));
         }
 
         #endregion

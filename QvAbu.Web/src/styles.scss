@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+
+body {
+  margin-top: $general-spacing * 2;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+/* Loading Spinner */
+.loading-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* General */
+.page-title {
+  text-align: center;
+  margin-bottom: $general-spacing;
+}
+
+/* Positioning */
+.top-left-absolute {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Buttons */
+.btn.btn-link {
+  cursor: pointer;
+  color: $gray-dark;
+  text-decoration: none !important;
+
+  &:hover {
+    background-color: $gray-lightest;
+  }
+
+  &:focus {
+    background-color: $gray-lighter;
+  }
+}

@@ -1,0 +1,15 @@
+@import "../../variables";
+
+.questionnaire-preview {
+  padding: $general-spacing;
+}
+
+.questionnaire-preview-content {
+  padding: $general-spacing;
+  border: $border-fat;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray-lightest;
+  }
+}
