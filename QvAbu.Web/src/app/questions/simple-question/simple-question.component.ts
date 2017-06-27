@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SimpleQuestion } from '../../models/questions/simple-question';
+import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simple-question';
 
 @Component({
   selector: 'app-simple-question',
@@ -10,11 +10,26 @@ export class SimpleQuestionComponent implements OnInit {
   @Input()
   question: SimpleQuestion;
 
-  correctAnswersCount: number;
+  subtitle: string;
+
+  /*question.simpleQuestionType
+   ? ('zutreffenden' + (question.isNumberOfAnswersGiven ? ' ' + correctAnswersCount : '') + ' Aussagen')
+   : 'zutreffende Aussage'*/
 
   constructor() { }
 
   ngOnInit() {
-    this.correctAnswersCount = this.question.answers.filter(_ => _.isCorrect).length;
+    switch (this.question.simpleQuestionType) {
+      case SimpleQuestionType.singleChoice:
+        this.subtitle = 'Kreuzen sie die zutreffende Aussage an.';
+        break;
+      case SimpleQuestionType.multipleChoice:
+        const correctAnswersCount = this.question.answers.filter(_ => _.isCorrect).length;
+        this.subtitle = `Kreuzen sie die zutreffenden ${correctAnswersCount} Aussagen an.`;
+        break;
+      case SimpleQuestionType.trueFalse:
+        this.subtitle = 'Kreuzen sie die zutreffenden Aussagen an.';
+        break;
+    }
   }
 }

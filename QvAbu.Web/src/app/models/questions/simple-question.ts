@@ -3,6 +3,11 @@ import { SimpleAnswer } from './simple-answer';
 
 export class SimpleQuestion extends Question {
   answers: SimpleAnswer[];
-  isMultipleChoice: boolean;
-  isNumberOfAnswersGiven: boolean;
+  simpleQuestionType: SimpleQuestionType;
+}
+
+export enum SimpleQuestionType {
+  singleChoice = 0,
+  multipleChoice = 1,
+  trueFalse = 2
 }

@@ -1,6 +1,5 @@
 import { SimpleQuestionComponent } from './simple-question.component';
-import { SimpleQuestion } from '../../models/questions/simple-question';
-import { QuestionType } from '../../models/questions/question';
+import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simple-question';
 import { SimpleAnswer } from '../../models/questions/simple-answer';
 
 describe('SimpleQuestionComponent', () => {
@@ -10,30 +9,48 @@ describe('SimpleQuestionComponent', () => {
     component = new SimpleQuestionComponent();
   });
 
-  it('should load the number of correct answers', () => {
+  it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = <SimpleQuestion>{
-      id: 'id',
-      revision: 1,
-      text: 'text',
-      isMultipleChoice: true,
-      isNumberOfAnswersGiven: true,
-      type: QuestionType.simpleQuestion,
-      answers: <SimpleAnswer[]>[{
-        text: 'text',
-        id: 'id',
-        isCorrect: false
-      }, {
-        text: 'text',
-        id: 'id',
-        isCorrect: true
-      }]
-    };
+    component.question = new SimpleQuestion();
+    component.question.answers = [];
+    component.question.simpleQuestionType = SimpleQuestionType.singleChoice;
 
     // Act
     component.ngOnInit();
 
     // Assert
-    expect(component.correctAnswersCount).toBe(1);
+    expect(component.subtitle).toBe('Kreuzen sie die zutreffende Aussage an.');
+  });
+  it('should set the correct subtitle for single choice', () => {
+    // Arrange
+    component.question = new SimpleQuestion();
+    component.question.answers = [<SimpleAnswer>{
+      text: 'text',
+      id: 'id',
+      isCorrect: false
+    }, <SimpleAnswer>{
+      text: 'text',
+      id: 'id',
+      isCorrect: true
+    }];
+    component.question.simpleQuestionType = SimpleQuestionType.multipleChoice;
+
+    // Act
+    component.ngOnInit();
+
+    // Assert
+    expect(component.subtitle).toBe('Kreuzen sie die zutreffenden 1 Aussagen an.');
+  });
+  it('should set the correct subtitle for single choice', () => {
+    // Arrange
+    component.question = new SimpleQuestion();
+    component.question.answers = [];
+    component.question.simpleQuestionType = SimpleQuestionType.trueFalse;
+
+    // Act
+    component.ngOnInit();
+
+    // Assert
+    expect(component.subtitle).toBe('Kreuzen sie die zutreffenden Aussagen an.');
   });
 });

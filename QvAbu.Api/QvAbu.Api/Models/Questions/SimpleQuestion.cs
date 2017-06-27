@@ -7,9 +7,15 @@ namespace QvAbu.Api.Models.Questions
         #region Properties
 
         public ICollection<SimpleAnswer> Answers { get; set; }
-        public bool IsMultipleChoice { get; set; }
-        public bool IsNumberOfAnswersGiven { get; set; }
+        public SimpleQuestionType SimpleQuestionType { get; set; }
 
         #endregion
+    }
+
+    public enum SimpleQuestionType
+    {
+        SingleChoice = 0,
+        MultipleChoice = 1,
+        TrueFalse = 2
     }
 }
