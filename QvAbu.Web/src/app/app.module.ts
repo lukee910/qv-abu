@@ -12,6 +12,7 @@ import { QuestionnairesService } from './services/questionnaires.service';
 import { ApiService } from './services/api.service';
 import { SimpleQuestionComponent } from './questions/simple-question/simple-question.component';
 import { AssignmentQuestionComponent } from './questions/assignment-question/assignment-question.component';
+import { TextQuestionComponent } from './questions/text-question/text-question.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     QuestionnairesComponent,
     QuestionnaireComponent,
     SimpleQuestionComponent,
-    AssignmentQuestionComponent
+    AssignmentQuestionComponent,
+    TextQuestionComponent
   ],
   imports: [
     BrowserModule,

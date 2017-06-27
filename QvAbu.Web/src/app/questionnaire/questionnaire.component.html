@@ -7,5 +7,6 @@
   <div *ngFor="let question of questions" class="col-12 question">
     <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
     <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
+    <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
   </div>
 </div>
