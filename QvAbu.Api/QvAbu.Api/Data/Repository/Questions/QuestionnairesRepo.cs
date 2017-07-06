@@ -6,7 +6,7 @@ using System.Linq;
 using QvAbu.Api.Models.Questions;
 using QvAbu.Api.Models.Questions.ReadModel;
 
-namespace QvAbu.Api.Data.Repository.Questions
+namespace QvAbu.Api.Data.Repository
 {
     public interface IQuestionnairesRepo : IRevisionEntitesRepo<Questionnaire>
     {

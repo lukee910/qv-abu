@@ -19,9 +19,6 @@ namespace QvAbu.Api.Data
                 return;
             }
 
-            // TODO: Add seeding data
-            // see https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro#add-code-to-initialize-the-database-with-test-data
-
             // Assignment Questions
             var assignmentOptions = new List<AssignmentOption>
             {

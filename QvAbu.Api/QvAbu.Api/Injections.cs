@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QvAbu.Api.Data;
-using QvAbu.Api.Data.Repository.Questions;
+using QvAbu.Api.Data.Repository;
 using QvAbu.Api.Data.UnitOfWork;
 using QvAbu.Api.Services.Questions;
 using System;

@@ -1,4 +1,4 @@
-﻿using QvAbu.Api.Data.Repository.Questions;
+﻿using QvAbu.Api.Data.Repository;
 
 namespace QvAbu.Api.Data.UnitOfWork
 {
@@ -18,7 +18,7 @@ namespace QvAbu.Api.Data.UnitOfWork
         public QuestionnairesUnitOfWork(QuestionsContext context, IQuestionnairesRepo repo) : base(context)
         {
             this.QuestionnairesRepo = repo;
-            this.context = context;
+            this.Context = context;
         }
 
         #endregion

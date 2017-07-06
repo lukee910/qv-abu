@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
-using QvAbu.Api.Data.Repository.Questions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using QvAbu.Api.Data.Repository;
+using QvAbu.Api.Models.Questions;
 
 namespace QvAbu.Api.Data.UnitOfWork
 {

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using QvAbu.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using QvAbu.Api.Data.UnitOfWork;
-using QvAbu.Api.Data.Repository.Questions;
+using QvAbu.Api.Data.Repository;
 using QvAbu.Api.Services.Questions;
 using Newtonsoft.Json;
 
@@ -21,11 +21,6 @@ namespace QvAbu.Api
                 .AddJsonFile("appsettings.json", false, true)
                 //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
-
-            //if (env.IsDevelopment())
-            //{
-            //    builder.AddUserSecrets("9BE1513D90384D9EAE8655AF1DAD67CA");
-            //}
 
             this.Configuration = builder.Build();
         }
