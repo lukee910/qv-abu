@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QvAbu.Api.Models.Questions;
 
-namespace QvAbu.Api.Data.Repository.Questions
+namespace QvAbu.Api.Data.Repository
 {
     public interface ISimpleQuestionsRepo : IRevisionEntitesRepo<SimpleQuestion>
     {
@@ -21,16 +21,12 @@ namespace QvAbu.Api.Data.Repository.Questions
 
         public SimpleQuestionsRepo(IQuestionsContext context) : base(context)
         {
+            this.IncludesFunc = queryable => queryable.Include(_ => _.Answers);
         }
 
         #endregion
 
         #region Public Methods
-
-        public override async Task<SimpleQuestion> GetEntityAsync(Guid id, int revision)
-        {
-            return await this.GetEntityAsync(id, revision, queryable => queryable.Include(_ => _.Answers));
-        }
 
         #endregion
     }

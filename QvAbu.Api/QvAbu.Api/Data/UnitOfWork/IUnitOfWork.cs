@@ -10,16 +10,16 @@ namespace QvAbu.Api.Data.UnitOfWork
 
     public abstract class UnitOfWork : IUnitOfWork
     {
-        protected DbContext context;
+        protected DbContext Context;
 
-        public UnitOfWork(DbContext context)
+        protected UnitOfWork(DbContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
 
         public async Task<int> Complete()
         {
-            return await this.context.SaveChangesAsync();
+            return await this.Context.SaveChangesAsync();
         }
     }
 }

@@ -11,7 +11,6 @@ namespace QvAbu.Api.Services.Questions
 {
     public interface IQuestionsService
     {
-        Task<Question> GetQuestionAsync(Guid id, int revision);
         Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync();
         Task<IEnumerable<Question>> GetQuestionsForQuestionnaireAsync(Guid id, int revision);
     }
@@ -36,25 +35,7 @@ namespace QvAbu.Api.Services.Questions
         #endregion
 
         #region Public Methods
-
-        public async Task<Question> GetQuestionAsync(Guid id, int revision)
-        {
-            foreach (var repo in new IRevisionEntitesRepo[]
-            {
-                this.questionsUow.AssignmentQuestionsRepo,
-                this.questionsUow.SimpleQuestionsRepo,
-                this.questionsUow.TextQuestionsRepo
-            })
-            {
-                var ret = await repo.GetAsync(id, revision);
-                if (ret != null)
-                {
-                    return (Question) ret;
-                }
-            }
-
-            return null;
-        }
+        
         public async Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync()
         {
             return await this.questionnairesUow.QuestionnairesRepo.GetPreviewsAsync();
@@ -62,12 +43,19 @@ namespace QvAbu.Api.Services.Questions
 
         public async Task<IEnumerable<Question>> GetQuestionsForQuestionnaireAsync(Guid id, int revision)
         {
-            var keys = await this.questionnairesUow.QuestionnairesRepo.GetQuestionKeysAsync(id, revision);
+            var keys = (await this.questionnairesUow.QuestionnairesRepo.GetQuestionKeysAsync(id, revision)).ToList();
             var ret = new List<Question>();
-            foreach (var key in keys)
+
+            foreach (var repo in new IRevisionEntitesRepo[]
             {
-                ret.Add(await this.GetQuestionAsync(key.id, key.revision));
+                this.questionsUow.AssignmentQuestionsRepo,
+                this.questionsUow.SimpleQuestionsRepo,
+                this.questionsUow.TextQuestionsRepo
+            })
+            {
+                ret.AddRange((IEnumerable<Question>) await repo.GetListAsync(keys));
             }
+
             return ret;
         }
 

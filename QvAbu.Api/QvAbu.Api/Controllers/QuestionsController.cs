@@ -27,11 +27,11 @@ namespace QvAbu.Api.Controllers
 
         #region Methods
 
-        [HttpGet("{id}/{revision}")]
-        public async Task<Question> GetQuestion(Guid id, int revision)
-        {
-            return await this.service.GetQuestionAsync(id, revision);
-        }
+        //[HttpGet("{id}/{revision}")]
+        //public async Task<Question> GetQuestion(Guid id, int revision)
+        //{
+        //    return await this.service.GetQuestionAsync(id, revision);
+        //}
 
         #endregion
     }

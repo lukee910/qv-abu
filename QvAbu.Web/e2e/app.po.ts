@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class QvAbu.WebPage {
+export class QvAbuWebPage {
   navigateTo() {
     return browser.get('/');
   }

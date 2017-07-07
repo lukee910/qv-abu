@@ -19,9 +19,6 @@ namespace QvAbu.Api.Data
                 return;
             }
 
-            // TODO: Add seeding data
-            // see https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro#add-code-to-initialize-the-database-with-test-data
-
             // Assignment Questions
             var assignmentOptions = new List<AssignmentOption>
             {
@@ -119,8 +116,7 @@ namespace QvAbu.Api.Data
                 Revision = 1,
                 Text = "Was trifft auf die Bundesverfassung (BV) zu?",
                 Answers = simpleAnswers,
-                IsMultipleChoice = false,
-                IsNumberOfAnswersGiven = false
+                SimpleQuestionType = SimpleQuestionType.SingleChoice
             });
             // Multiple Choice, Revision 2
             simpleAnswers = new List<SimpleAnswer>
@@ -157,8 +153,7 @@ namespace QvAbu.Api.Data
                 Revision = 2,
                 Text = "Was trifft nicht auf die Bundesverfassung (BV) zu?",
                 Answers = simpleAnswers,
-                IsMultipleChoice = true,
-                IsNumberOfAnswersGiven = false
+                SimpleQuestionType = SimpleQuestionType.MultipleChoice
             });
 
             // Pick a certain number
@@ -203,8 +198,7 @@ namespace QvAbu.Api.Data
                 Revision = 1,
                 Text = "Beurteilen Sie die Aussagen zu den Möglichkeiten nach der Lehre",
                 Answers = simpleAnswers,
-                IsMultipleChoice = true,
-                IsNumberOfAnswersGiven = true
+                SimpleQuestionType = SimpleQuestionType.TrueFalse
             });
 
             // True/False
@@ -244,8 +238,7 @@ namespace QvAbu.Api.Data
                 Revision = 1,
                 Text = "Beurteilen Sie die Aussagen zu den Lernorten",
                 Answers = simpleAnswers,
-                IsMultipleChoice = true,
-                IsNumberOfAnswersGiven = false
+                SimpleQuestionType = SimpleQuestionType.MultipleChoice
             });
 
             // Text Questions
