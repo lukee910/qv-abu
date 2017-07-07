@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using QvAbu.Api.Models;
-using QvAbu.Api.Models.Questions;
 
 namespace QvAbu.Api.Data.Repository
 {
@@ -29,11 +28,16 @@ namespace QvAbu.Api.Data.Repository
 
         public async Task<IEnumerable<object>> GetListAsync(IEnumerable<(Guid id, int revision)> keys)
         {
-            var calcedKeys = keys.Select(key => key.id.ToString() + key.revision).ToList();
+            // Fucking multiple enumeration
+            keys = keys.ToList();
 
-            return await this.IncludesFunc(this.Context.Set<T>())
-                .Where(_ => calcedKeys.Contains(_.ID.ToString() + _.Revision))
-                .ToListAsync();
+            var ids = keys.Select(_ => _.id);
+            var combinedKeys = keys.Select(key => key.id.CombineRevision(key.revision)).ToList();
+
+            return (await this.IncludesFunc(this.Context.Set<T>())
+                .Where(_ => ids.Contains(_.ID))
+                .ToListAsync())
+                .Where(_ => combinedKeys.Contains(_.ID.CombineRevision(_.Revision)));
         }
     }
 }

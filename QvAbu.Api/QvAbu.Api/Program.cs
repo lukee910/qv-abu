@@ -13,6 +13,7 @@ namespace QvAbu.Api
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
+                .UseUrls("http://0.0.0.0:55555")
                 .Build();
 
             host.Run();

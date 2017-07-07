@@ -39,7 +39,7 @@ namespace QvAbu.Api
                 .AddJsonFormatters()
                 .AddFormatterMappings();
 
-            var connection = this.Configuration["QvAbuConnection"];
+            var connection = this.Configuration["QvAbuConnection"] ?? "Data Source=.;Initial Catalog=QvAbu;Integrated Security=True;";
             services.AddDbContext<QuestionsContext>(options =>
                 options.UseSqlServer(connection)
             );

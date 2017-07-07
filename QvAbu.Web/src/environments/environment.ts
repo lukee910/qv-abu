@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  urlBase: 'http://localhost:51673/'
+  urlBase: 'http://localhost:55555/'
 };
