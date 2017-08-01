@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using QvAbu.Data;
@@ -11,10 +12,7 @@ namespace QvAbu.CLI
         public Startup()
         {
             var builder = new ConfigurationBuilder()
-                //.AddJsonFile("appsettings.json", false, true)
-                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                //.AddEnvironmentVariables()
-                ;
+                .AddEnvironmentVariables();
 
             this.Configuration = builder.Build();
         }
