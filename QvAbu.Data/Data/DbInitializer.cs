@@ -8,13 +8,13 @@ namespace QvAbu.Data.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(IHostingEnvironment env,
+        public static void Initialize(bool isDevelopment,
                                       QuestionsContext context)
         {
             context.Database.EnsureCreated();
 
             // Has been seeded?
-            if (!env.IsDevelopment() || context.SimpleQuestions.Any())
+            if (!isDevelopment || context.SimpleQuestions.Any())
             {
                 return;
             }

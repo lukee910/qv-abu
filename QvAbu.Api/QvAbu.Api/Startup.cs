@@ -59,7 +59,7 @@ namespace QvAbu.Api
 
             app.UseMvc();
 
-            DbInitializer.Initialize(env, questionsContext);
+            DbInitializer.Initialize(env.IsDevelopment(), questionsContext);
         }
     }
 }
