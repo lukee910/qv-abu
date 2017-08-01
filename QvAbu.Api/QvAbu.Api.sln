@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QvAbu.Api", "QvAbu.Api\QvAbu.Api.csproj", "{D65A59A1-E9E8-4CCD-B8DB-6652BD2ECEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Api", "QvAbu.Api\QvAbu.Api.csproj", "{D65A59A1-E9E8-4CCD-B8DB-6652BD2ECEDE}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FF7F77DB-52AF-43AD-B256-868D102E4605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QvAbu.Api.Tests", "QvAbu.Api.Tests\QvAbu.Api.Tests.csproj", "{212F42E2-8A25-41BF-8E0C-264B7E5B1AF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Api.Tests", "QvAbu.Api.Tests\QvAbu.Api.Tests.csproj", "{212F42E2-8A25-41BF-8E0C-264B7E5B1AF1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E830EED2-2959-4FE4-8A43-55BCD96BFB85}"
 	ProjectSection(SolutionItems) = preProject
 		ReadMe.md = ReadMe.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QvAbu.Data", "..\QvAbu.Data\QvAbu.Data.csproj", "{2006C458-7982-446F-B393-B499034A9D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{212F42E2-8A25-41BF-8E0C-264B7E5B1AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{212F42E2-8A25-41BF-8E0C-264B7E5B1AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{212F42E2-8A25-41BF-8E0C-264B7E5B1AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2006C458-7982-446F-B393-B499034A9D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2006C458-7982-446F-B393-B499034A9D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2006C458-7982-446F-B393-B499034A9D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2006C458-7982-446F-B393-B499034A9D24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

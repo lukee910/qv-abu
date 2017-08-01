@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QvAbu.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Data.UnitOfWork;
-using QvAbu.Api.Data.Repository;
-using QvAbu.Api.Services.Questions;
 using Newtonsoft.Json;
+using QvAbu.Data.Data;
 
 namespace QvAbu.Api
 {
