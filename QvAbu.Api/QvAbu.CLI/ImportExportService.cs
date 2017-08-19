@@ -57,50 +57,99 @@ namespace QvAbu.CLI
             var erroredFiles = new List<string>();
             var questionsCount = 0;
 
-            foreach (var file in filesToImport)
+            foreach (var fileName in filesToImport)
             {
                 List<List<string>> csv;
                 QuestionType type;
-
-                var text = await this.file.ReadAllText(file);
-                csv = text.Split('\n').Select(_ => _.Split(';').ToList()).ToList();
-                type = (QuestionType) Convert.ToInt32(csv[0][0]);
+                try
+                {
+                    var text = await this.file.ReadAllText(fileName);
+                    csv = text.Split('\n').Select(_ => _.Split(';').ToList()).ToList();
+                    type = (QuestionType)Convert.ToInt32(csv[0][0]);
+                }
+                catch
+                {
+                    erroredFiles.Add(fileName);
+                    continue;
+                }
 
                 foreach (var line in csv.Skip(2))
                 {
-                    if (line.Count < 4)
+                    if (line.Count <= 1)
                     {
                         continue;
                     }
 
-                    var question = new SimpleQuestion
+                    Task<bool> parsingTask;
+                    switch (type)
                     {
-                        ID = Guid.NewGuid(),
-                        Revision = 1,
-                        Text = line[0],
-                        SimpleQuestionType = (SimpleQuestionType) Convert.ToInt32(line[1]),
-                        Answers = new List<SimpleAnswer>()
-                    };
-
-                    for (var i = 2; i < line.Count; i += 2)
-                    {
-                        question.Answers.Add(new SimpleAnswer
-                        {
-                            ID = Guid.NewGuid(),
-                            Text = line[i],
-                            IsCorrect = Convert.ToBoolean(line[i + 1])
-                        });
+                        case QuestionType.SimpleQuestion:
+                            parsingTask = this.ParseSimpleQuestion(line, questionnaire.ID);
+                            break;
+                        case QuestionType.TextQuestion:
+                            parsingTask = this.ParseTextQuestion(line, questionnaire.ID);
+                            break;
+                        default:
+                            continue;
                     }
 
-                    this.questionsUow.SimpleQuestionsRepo.Add(question);
-                    await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaire.ID, question);
-                    await this.questionsUow.Complete();
-
-                    questionsCount++;
+                    if (await parsingTask)
+                    {
+                        questionsCount++;
+                    }
                 }
             }
 
-            return (questionsCount, null);
+            return (questionsCount, erroredFiles);
+        }
+
+        private async Task<bool> ParseSimpleQuestion(List<string> line, Guid questionnaireId)
+        {
+            var question = new SimpleQuestion
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Text = line[0],
+                SimpleQuestionType = (SimpleQuestionType)Convert.ToInt32(line[1]),
+                Answers = new List<SimpleAnswer>()
+            };
+
+            for (var i = 2; i < line.Count; i += 2)
+            {
+                question.Answers.Add(new SimpleAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    Text = line[i],
+                    IsCorrect = Convert.ToBoolean(line[i + 1])
+                });
+            }
+
+            this.questionsUow.SimpleQuestionsRepo.Add(question);
+            await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
+            await this.questionsUow.Complete();
+
+            return true;
+        }
+
+        private async Task<bool> ParseTextQuestion(List<string> line, Guid questionnaireId)
+        {
+            var question = new TextQuestion
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Text = line[0],
+                Answer = new TextAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    Text = line[1]
+                }
+            };
+
+            this.questionsUow.TextQuestionsRepo.Add(question);
+            await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
+            await this.questionsUow.Complete();
+
+            return true;
         }
 
         public Task Export()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using FluentAssertions;
 using QvAbu.CLI;
 using QvAbu.CLI.Wrappers;
 using QvAbu.Data.Data.UnitOfWork;
+using QvAbu.Data.Models;
 using QvAbu.Data.Models.Questions;
 using Xunit;
 
@@ -15,6 +17,12 @@ namespace QvAbu.Api.Tests.CLI
 {
     public class ImportExportServiceFacts
     {
+        private Func<RevisionEntity, RevisionEntity, bool> matchEntity = (left, right) =>
+        {
+            left.ShouldBeEquivalentTo(right, options => options.Excluding(_ => _.ID));
+            return true;
+        };
+
         [Fact]
         public async Task ImportsSimpleQuestions()
         {
@@ -93,17 +101,164 @@ namespace QvAbu.Api.Tests.CLI
             importedQuestions.Should().Be(2);
             erroredFiles.Should().BeNullOrEmpty();
 
-            A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => _.Equals(questionnaire))))
+            A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
                 .MustHaveHappened();
-            A.CallTo(() => questionsUow.SimpleQuestionsRepo.Add(A<SimpleQuestion>.That.Matches(_ => _.Equals(question1))))
+            A.CallTo(() => questionsUow.SimpleQuestionsRepo.Add(A<SimpleQuestion>.That.Matches(_ => this.matchEntity(_, question1))))
                 .MustHaveHappened();
-            A.CallTo(() => questionsUow.SimpleQuestionsRepo.Add(A<SimpleQuestion>.That.Matches(_ => _.Equals(question2))))
+            A.CallTo(() => questionsUow.SimpleQuestionsRepo.Add(A<SimpleQuestion>.That.Matches(_ => this.matchEntity(_, question2))))
                 .MustHaveHappened();
 
             A.CallTo(() => questionnairesUow.Complete())
                 .MustNotHaveHappened();
             A.CallTo(() => questionsUow.Complete())
                 .MustHaveHappened(Repeated.Exactly.Twice);
+        }
+
+        [Fact]
+        public async Task ImportsTextQuestions()
+        {
+            // Arrange
+            const string name = "text question";
+            var fileNames = new[] { "file1", "file2" };
+
+            var questionnaire = new Questionnaire
+            {
+                Revision = 1,
+                Name = name
+            };
+            var question1 = new TextQuestion
+            {
+                Revision = 1,
+                Text = "TextQuestion1",
+                Answer = new TextAnswer
+                {
+                    Text = "TextAnswer1"
+                }
+            };
+            var question2 = new TextQuestion
+            {
+                Revision = 1,
+                Text = "TextQuestion2",
+                Answer = new TextAnswer
+                {
+                    Text = "TextAnswer2"
+                }
+            };
+            var question3 = new TextQuestion
+            {
+                Revision = 1,
+                Text = "TextQuestion3",
+                Answer = new TextAnswer
+                {
+                    Text = "TextAnswer3"
+                }
+            };
+            var fileText1 = "2\n" +
+                           "Text;Antwort\n" +
+                           $"{question1.Text};{question1.Answer.Text}\n" +
+                           $"{question2.Text};{question2.Answer.Text}\n" +
+                           $"{question3.Text};{question3.Answer.Text}";
+            var question4 = new TextQuestion
+            {
+                Revision = 1,
+                Text = "TextQuestion4",
+                Answer = new TextAnswer
+                {
+                    Text = "TextAnswer4"
+                }
+            };
+            var fileText2 = "2\n" +
+                            "Text;Antwort\n" +
+                            $"{question4.Text};{question4.Answer.Text}\n";
+
+            var questionsUow = A.Fake<IQuestionsUnitOfWork>();
+            var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
+            var file = A.Fake<IFile>();
+
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[0])))
+                .Returns(fileText1);
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[1])))
+                .Returns(fileText2);
+
+            var testee = new ImportExportService(questionnairesUow, questionsUow, file);
+
+            // Act
+            (int importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+
+            // Assert
+            importedQuestions.Should().Be(4);
+            erroredFiles.Should().BeNullOrEmpty();
+
+            A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.TextQuestionsRepo.Add(A<TextQuestion>.That.Matches(_ => this.matchEntity(_, question1))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.TextQuestionsRepo.Add(A<TextQuestion>.That.Matches(_ => this.matchEntity(_, question2))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.TextQuestionsRepo.Add(A<TextQuestion>.That.Matches(_ => this.matchEntity(_, question3))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.TextQuestionsRepo.Add(A<TextQuestion>.That.Matches(_ => this.matchEntity(_, question4))))
+                .MustHaveHappened();
+
+            A.CallTo(() => questionnairesUow.Complete())
+                .MustNotHaveHappened();
+            A.CallTo(() => questionsUow.Complete())
+                .MustHaveHappened(Repeated.Exactly.Times(4));
+        }
+
+        [Fact]
+        public async Task ImportsTextQuestions_WhenOneFileIsNotFound()
+        {
+            // Arrange
+            const string name = "text question";
+            var fileNames = new[] { "file1", "invalidFile" };
+
+            var questionnaire = new Questionnaire
+            {
+                Revision = 1,
+                Name = name
+            };
+
+            var question1 = new TextQuestion
+            {
+                Revision = 1,
+                Text = "TextQuestion1",
+                Answer = new TextAnswer
+                {
+                    Text = "TextAnswer1"
+                }
+            };
+            var fileText1 = "2\n" +
+                            "Text;Antwort\n" +
+                            $"{question1.Text};{question1.Answer.Text}\n";
+
+            var questionsUow = A.Fake<IQuestionsUnitOfWork>();
+            var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
+            var file = A.Fake<IFile>();
+
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[0])))
+                .Returns(fileText1);
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[1])))
+                .Throws(() => new FileNotFoundException());
+
+            var testee = new ImportExportService(questionnairesUow, questionsUow, file);
+
+            // Act
+            (int importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+
+            // Assert
+            importedQuestions.Should().Be(1);
+            erroredFiles.Should().BeEquivalentTo(fileNames[1]);
+
+            A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.TextQuestionsRepo.Add(A<TextQuestion>.That.Matches(_ => this.matchEntity(_, question1))))
+                .MustHaveHappened();
+
+            A.CallTo(() => questionnairesUow.Complete())
+                .MustNotHaveHappened();
+            A.CallTo(() => questionsUow.Complete())
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }
