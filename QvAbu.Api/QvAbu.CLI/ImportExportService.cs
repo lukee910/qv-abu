@@ -53,6 +53,7 @@ namespace QvAbu.CLI
                 Name = name
             };
             this.questionnairesUow.QuestionnairesRepo.Add(questionnaire);
+            await this.questionnairesUow.Complete();
 
             var erroredFiles = new List<string>();
             var questionsCount = 0;
@@ -73,7 +74,12 @@ namespace QvAbu.CLI
                     continue;
                 }
 
-                foreach (var line in csv.Skip(2))
+                var filteredCsv = new List<List<string>>();
+                csv.Skip(2)
+                    .ToList()
+                    .ForEach(x => filteredCsv.Add(x.Where(_ => _ != "\r").ToList()));
+
+                foreach (var line in filteredCsv)
                 {
                     if (line.Count <= 1)
                     {
@@ -114,13 +120,18 @@ namespace QvAbu.CLI
                 Answers = new List<SimpleAnswer>()
             };
 
-            for (var i = 2; i < line.Count; i += 2)
+            for (var i = 2; i < line.Count - 1; i += 2)
             {
+                if (!bool.TryParse(line[i + 1], out bool isCorrect))
+                {
+                    continue;
+                }
+
                 question.Answers.Add(new SimpleAnswer
                 {
                     ID = Guid.NewGuid(),
                     Text = line[i],
-                    IsCorrect = Convert.ToBoolean(line[i + 1])
+                    IsCorrect = isCorrect
                 });
             }
 

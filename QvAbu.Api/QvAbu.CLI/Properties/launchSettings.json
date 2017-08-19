@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "QvAbu.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Bob\\Downloads\\SimpleQuestions.csv\""
+    }
+  }
+}

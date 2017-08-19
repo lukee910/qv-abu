@@ -81,8 +81,8 @@ namespace QvAbu.Api.Tests.CLI
             };
             var answers2 = question2.Answers.ToList();
             var fileText = "1\n" +
-                "Text;Typ;Text Antwort 1;Anwort korrekt?;Text Antwort 2;Antwort korrekt?\n" +
-                $"{question1.Text};{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect}\n" +
+                "Text;Typ;Text Antwort 1;Anwort korrekt?;Text Antwort 2;;;\n" +
+                $"{question1.Text};{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect};;\r\n" +
                 $"{question2.Text};{(int)question2.SimpleQuestionType};{answers2[0].Text};{answers2[0].IsCorrect};{answers2[1].Text};{answers2[1].IsCorrect};{answers2[2].Text};{answers2[2].IsCorrect}\n";
             
             var questionsUow = A.Fake<IQuestionsUnitOfWork>();

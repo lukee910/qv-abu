@@ -58,11 +58,12 @@ namespace QvAbu.Data.Data.Repository.Questions
 
         public async Task AddQuestion(Guid questionnaireId, Question question)
         {
+            var questionnaire = await this.Context.Questionnaires.SingleOrDefaultAsync(_ => _.ID == questionnaireId);
             this.Context.QuestionnaireQuestions.Add(new QuestionnaireQuestion
             {
                 ID = Guid.NewGuid(),
                 Question = question,
-                Questionnaire = await this.Context.Questionnaires.SingleOrDefaultAsync(_ => _.ID == questionnaireId)
+                Questionnaire = questionnaire
             });
         }
 
