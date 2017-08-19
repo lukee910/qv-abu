@@ -6,8 +6,8 @@ namespace QvAbu.Data.Models.Questions
     {
         #region Properties
 
-        public ICollection<AssignmentOption> Options { get; set; }
-        public ICollection<AssignmentAnswer> Answers { get; set; }
+        public IEnumerable<AssignmentOption> Options { get; set; }
+        public IEnumerable<AssignmentAnswer> Answers { get; set; }
 
         #endregion
     }

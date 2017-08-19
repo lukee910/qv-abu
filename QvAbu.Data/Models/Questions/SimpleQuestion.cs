@@ -6,7 +6,7 @@ namespace QvAbu.Data.Models.Questions
     {
         #region Properties
 
-        public ICollection<SimpleAnswer> Answers { get; set; }
+        public IList<SimpleAnswer> Answers { get; set; }
         public SimpleQuestionType SimpleQuestionType { get; set; }
 
         #endregion

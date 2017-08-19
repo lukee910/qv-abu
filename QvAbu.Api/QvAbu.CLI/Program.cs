@@ -16,6 +16,7 @@ namespace QvAbu.CLI
 
             var dbContext = scope.Resolve<IQuestionsContext>();
             var importExportService = scope.Resolve<IImportExportService>();
+
             startup.Configure((QuestionsContext)dbContext);
 
             //var selection = "";
@@ -28,7 +29,9 @@ namespace QvAbu.CLI
             //    selection = Console.ReadLine();
             //}
 
-            var task = importExportService.Import();
+            Console.WriteLine("Wie soll der Fragebogen heissen?");
+            var name = Console.ReadLine();
+            var task = importExportService.Import(name, args);
             //switch (selection)
             //{
             //    case "1":

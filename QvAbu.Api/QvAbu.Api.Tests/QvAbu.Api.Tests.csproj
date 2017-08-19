@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QvAbu.Api\QvAbu.Api.csproj" />
+    <ProjectReference Include="..\QvAbu.CLI\QvAbu.CLI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
