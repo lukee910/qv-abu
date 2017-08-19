@@ -12,8 +12,9 @@ namespace QvAbu.Data.Data.Repository
         Task<IEnumerable<object>> GetListAsync(IEnumerable<(Guid id, int revision)> keys);
     }
 
-    public interface IRevisionEntitesRepo<T> : IRevisionEntitesRepo where T : RevisionEntity
+    public interface IRevisionEntitesRepo<in T> : IRevisionEntitesRepo where T : RevisionEntity
     {
+        void Add(T entity);
     }
 
     public abstract class RevisionEntitesRepo<T, TContext> : Repository<T, TContext>, IRevisionEntitesRepo<T> 
@@ -24,6 +25,11 @@ namespace QvAbu.Data.Data.Repository
 
         protected RevisionEntitesRepo(TContext context) : base(context)
         {
+        }
+
+        public virtual void Add(T entity)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<object>> GetListAsync(IEnumerable<(Guid id, int revision)> keys)

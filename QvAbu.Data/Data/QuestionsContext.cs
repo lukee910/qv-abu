@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -45,11 +46,21 @@ namespace QvAbu.Data.Data
         public DbSet<AssignmentAnswer> AssignmentAnswers { get; set; }
         public DbSet<AssignmentOption> AssignmentOptions { get; set; }
         public DbSet<TextQuestion> TextQuestions { get; set; }
+
         public DbSet<TextAnswer> TextAnswers { get; set; }
 
         public DbSet<Questionnaire> Questionnaires { get; set; }
 
         public DbSet<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public Task<int> SaveChangesAsync()
+        {
+            return base.SaveChangesAsync();
+        }
 
         #endregion
     }

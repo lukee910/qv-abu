@@ -12,6 +12,7 @@ namespace QvAbu.Data.Data.Repository.Questions
     {
         Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync();
         Task<IEnumerable<(Guid id, int revision)>> GetQuestionKeysAsync(Guid id, int revision);
+        Task AddQuestion(Guid questionnaireId, Question question);
     }
 
     public class QuestionnairesRepo 
@@ -53,6 +54,21 @@ namespace QvAbu.Data.Data.Repository.Questions
                 .Select(_ => new Tuple<Guid, int>(_.Question.ID, _.Question.Revision))
                 .ToListAsync())
                 .Select(tuple => (tuple.Item1, tuple.Item2));
+        }
+
+        public async Task AddQuestion(Guid questionnaireId, Question question)
+        {
+            this.Context.QuestionnaireQuestions.Add(new QuestionnaireQuestion
+            {
+                ID = Guid.NewGuid(),
+                Question = question,
+                Questionnaire = await this.Context.Questionnaires.SingleOrDefaultAsync(_ => _.ID == questionnaireId)
+            });
+        }
+
+        public override void Add(Questionnaire entity)
+        {
+            this.Context.Questionnaires.Add(entity);
         }
 
         #endregion

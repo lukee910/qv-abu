@@ -14,13 +14,13 @@ namespace QvAbu.Data.Data.UnitOfWork
     {
         #region Members
 
-        private readonly QuestionsContext context;
+        private readonly IQuestionsContext context;
 
         #endregion
 
         #region Ctor
 
-        public QuestionsUnitOfWork(QuestionsContext context,
+        public QuestionsUnitOfWork(IQuestionsContext context,
             IAssignmentQuestionsRepo assignmentQuestionsRepo,
             ISimpleQuestionsRepo simpleQuestionsRepo,
             ITextQuestionsRepo textQuestionsRepo)

@@ -14,8 +14,9 @@ namespace QvAbu.CLI
             var startup = Setup();
             var scope = startup.ApplicationContainer.BeginLifetimeScope();
 
-            var dbContext = scope.Resolve<QuestionsContext>();
-            startup.Configure(dbContext);
+            var dbContext = scope.Resolve<IQuestionsContext>();
+            var importExportService = scope.Resolve<IImportExportService>();
+            startup.Configure((QuestionsContext)dbContext);
 
             //var selection = "";
             //var options = new[] {"1", "2"};
@@ -27,7 +28,6 @@ namespace QvAbu.CLI
             //    selection = Console.ReadLine();
             //}
 
-            var importExportService = scope.Resolve<IImportExportService>();
             var task = importExportService.Import();
             //switch (selection)
             //{

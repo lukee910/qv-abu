@@ -56,12 +56,20 @@ namespace QvAbu.CLI
             return Task.CompletedTask;
         }
 
-        public Task Import()
+        public async Task Import()
         {
             WriteHeader("Import");
 
+            var question = new SimpleQuestion
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Text = "Test1"
+            };
+            this.questionsUow.SimpleQuestionsRepo.Add(question);
+            await this.questionsUow.Complete();
+
             // TODO: Import
-            return Task.CompletedTask;
         }
 
         private void WriteHeader(string text)
