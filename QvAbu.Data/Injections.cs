@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using QvAbu.Data.Data;
 using QvAbu.Data.Data.Repository.Questions;
 using QvAbu.Data.Data.UnitOfWork;
@@ -7,30 +8,38 @@ namespace QvAbu.Data
 {
     public static class Injections
     {
-        public static void AddAll(IServiceCollection services)
+        public static ContainerBuilder AddData(this ContainerBuilder builder)
         {
-            AddContexts(services);
-            AddRepos(services);
-            AddUnitsOfWork(services);
+            return builder.AddDataContexts()
+                .AddRepos()
+                .AddUnitsOfWork();
         }
 
-        public static void AddContexts(IServiceCollection services)
+        private static ContainerBuilder AddDataContexts(this ContainerBuilder builder)
         {
-            services.AddScoped<IQuestionsContext, QuestionsContext>();
+            builder.RegisterType<QuestionsContext>()
+                .As<IQuestionsContext>()
+                .InstancePerLifetimeScope();
+
+            return builder;
         }
 
-        public static void AddRepos(IServiceCollection services)
+        private static ContainerBuilder AddRepos(this ContainerBuilder builder)
         {
-            services.AddScoped<IAssignmentQuestionsRepo, AssignmentQuestionsRepo>();
-            services.AddScoped<ISimpleQuestionsRepo, SimpleQuestionsRepo>();
-            services.AddScoped<ITextQuestionsRepo, TextQuestionsRepo>();
-            services.AddScoped<IQuestionnairesRepo, QuestionnairesRepo>();
+            builder.RegisterType<AssignmentQuestionsRepo>().As<IAssignmentQuestionsRepo>();
+            builder.RegisterType<SimpleQuestionsRepo>().As<ISimpleQuestionsRepo>();
+            builder.RegisterType<TextQuestionsRepo>().As<ITextQuestionsRepo>();
+            builder.RegisterType<QuestionnairesRepo>().As<IQuestionnairesRepo>();
+
+            return builder;
         }
 
-        public static void AddUnitsOfWork(IServiceCollection services)
+        private static ContainerBuilder AddUnitsOfWork(this ContainerBuilder builder)
         {
-            services.AddScoped<IQuestionsUnitOfWork, QuestionsUnitOfWork>();
-            services.AddScoped<IQuestionnairesUnitOfWork, QuestionnairesUnitOfWork>();
+            builder.RegisterType<QuestionsUnitOfWork>().As<IQuestionsUnitOfWork>();
+            builder.RegisterType<QuestionnairesUnitOfWork>().As<IQuestionnairesUnitOfWork>();
+
+            return builder;
         }
     }
 }

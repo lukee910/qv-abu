@@ -1,19 +1,21 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api
 {
     public static class Injections
     {
-        public static void AddAll(IServiceCollection services)
+        public static ContainerBuilder AddApi(this ContainerBuilder builder)
         {
-            Data.Injections.AddAll(services);
-            AddServices(services);
+            return builder.AddServices();
         }
 
-        public static void AddServices(IServiceCollection services)
+        public static ContainerBuilder AddServices(this ContainerBuilder builder)
         {
-            services.AddScoped<IQuestionsService, QuestionsService>();
+            builder.RegisterType<QuestionsService>().As<IQuestionsService>();
+
+            return builder;
         }
     }
 }

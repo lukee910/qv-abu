@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using QvAbu.Data.Data.UnitOfWork;
+using QvAbu.Data.Models.Questions;
 
 namespace QvAbu.CLI
 {
@@ -41,15 +42,15 @@ namespace QvAbu.CLI
         {
             this.WriteHeader("Export");
 
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var targetDirectory = currentDirectory;
-            do
-            {
-                Console.WriteLine("Please enter the path where the files should be exported.");
-                Console.WriteLine($"Leave empty for current folder ({currentDirectory}).");
-            } while (!new DirectoryInfo(targetDirectory).Exists);
+            //var currentDirectory = Directory.GetCurrentDirectory();
+            //var targetDirectory = currentDirectory;
+            //do
+            //{
+            //    Console.WriteLine("Please enter the path where the files should be exported.");
+            //    Console.WriteLine($"Leave empty for current folder ({currentDirectory}).");
+            //} while (!new DirectoryInfo(targetDirectory).Exists);
 
-            Console.WriteLine($"\n\nStarting export to \"{currentDirectory}\"...");
+            //Console.WriteLine($"\n\nStarting export to \"{currentDirectory}\"...");
 
             // TODO: Export
             return Task.CompletedTask;
@@ -57,6 +58,8 @@ namespace QvAbu.CLI
 
         public Task Import()
         {
+            WriteHeader("Import");
+
             // TODO: Import
             return Task.CompletedTask;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using QvAbu.Data.Data;
 
@@ -10,32 +11,36 @@ namespace QvAbu.CLI
     {
         static void Main(string[] args)
         {
-            var serviceProvider = Setup();
+            var startup = Setup();
+            var scope = startup.ApplicationContainer.BeginLifetimeScope();
 
-            var selection = "";
-            var options = new[] {"1", "2"};
-            while (!options.Contains(selection))
-            {
-                Console.WriteLine("Please select an action:");
-                Console.WriteLine(" 1 -> Export");
-                Console.WriteLine(" 2 -> Import");
-                selection = Console.ReadLine();
-            }
+            var dbContext = scope.Resolve<QuestionsContext>();
+            startup.Configure(dbContext);
 
-            var importExportService = serviceProvider.GetService<IImportExportService>();
-            Task task;
-            switch (selection)
-            {
-                case "1":
-                    task = importExportService.Export();
-                    break;
-                case "2":
-                    task = importExportService.Import();
-                    break;
-                default:
-                    Console.WriteLine("This shouldn't happen, no selection detected. Please contact the system admin.");
-                    return;
-            }
+            //var selection = "";
+            //var options = new[] {"1", "2"};
+            //while (!options.Contains(selection))
+            //{
+            //    Console.WriteLine("Please select an action:");
+            //    Console.WriteLine(" 1 -> Export");
+            //    Console.WriteLine(" 2 -> Import");
+            //    selection = Console.ReadLine();
+            //}
+
+            var importExportService = scope.Resolve<IImportExportService>();
+            var task = importExportService.Import();
+            //switch (selection)
+            //{
+            //    case "1":
+            //        task = importExportService.Export();
+            //        break;
+            //    case "2":
+            //        task = importExportService.Import();
+            //        break;
+            //    default:
+            //        Console.WriteLine("This shouldn't happen, no selection detected. Please contact the system admin.");
+            //        return;
+            //}
 
             task.Wait();
 
@@ -43,17 +48,12 @@ namespace QvAbu.CLI
             Console.ReadKey();
         }
 
-        private static IServiceProvider Setup()
+        private static Startup Setup()
         {
             var services = new ServiceCollection();
             var startup = new Startup();
             startup.ConfigureServices(services);
-            var serviceProvider = services.BuildServiceProvider();
-
-            var dbContext = serviceProvider.GetService<QuestionsContext>();
-            startup.Configure(dbContext);
-
-            return serviceProvider;
+            return startup;
         }
     }
 }

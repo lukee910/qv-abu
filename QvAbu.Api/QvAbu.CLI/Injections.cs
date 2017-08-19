@@ -1,18 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace QvAbu.CLI
 {
     public static class Injections
     {
-        public static void AddAll(IServiceCollection services)
+        public static ContainerBuilder AddCli(this ContainerBuilder builder)
         {
-            Data.Injections.AddAll(services);
-            AddServices(services);
-        }
+            builder.RegisterType<ImportExportService>().As<IImportExportService>();
 
-        public static void AddServices(IServiceCollection services)
-        {
-            services.AddScoped<IImportExportService, ImportExportService>();
+            return builder;
         }
     }
 }
