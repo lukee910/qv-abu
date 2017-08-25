@@ -135,6 +135,7 @@ namespace QvAbu.CLI
                 });
             }
 
+            await this.questionsUow.Complete();
             this.questionsUow.SimpleQuestionsRepo.Add(question);
             await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
             await this.questionsUow.Complete();
@@ -142,7 +143,7 @@ namespace QvAbu.CLI
             return true;
         }
 
-        private async Task<bool> ParseTextQuestion(List<string> line, Guid questionnaireId)
+        private async Task<bool> ParseTextQuestion(IReadOnlyList<string> line, Guid questionnaireId)
         {
             var question = new TextQuestion
             {

@@ -26,6 +26,11 @@ namespace QvAbu.Data.Data.Repository.Questions
 
         #region Public Methods
 
+        public override void Add(AssignmentQuestion entity)
+        {
+            this.Context.AssignmentQuestions.Add(entity);
+        }
+
         #endregion
     }
 }

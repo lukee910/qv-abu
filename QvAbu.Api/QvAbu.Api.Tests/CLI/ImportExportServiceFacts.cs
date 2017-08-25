@@ -109,7 +109,7 @@ namespace QvAbu.Api.Tests.CLI
                 .MustHaveHappened();
 
             A.CallTo(() => questionnairesUow.Complete())
-                .MustNotHaveHappened();
+                .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
                 .MustHaveHappened(Repeated.Exactly.Twice);
         }
@@ -201,7 +201,7 @@ namespace QvAbu.Api.Tests.CLI
                 .MustHaveHappened();
 
             A.CallTo(() => questionnairesUow.Complete())
-                .MustNotHaveHappened();
+                .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
                 .MustHaveHappened(Repeated.Exactly.Times(4));
         }
@@ -256,7 +256,7 @@ namespace QvAbu.Api.Tests.CLI
                 .MustHaveHappened();
 
             A.CallTo(() => questionnairesUow.Complete())
-                .MustNotHaveHappened();
+                .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
