@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QvAbu.Data\QvAbu.Data.csproj" />
+    <ProjectReference Include="..\QvAbu.Data\QvAbu.Data.csproj" />
   </ItemGroup>
 
 </Project>

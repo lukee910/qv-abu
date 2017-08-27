@@ -10,6 +10,8 @@ namespace QvAbu.CLI
 {
     class Program
     {
+        const int ShownQuestionsCountPerFile = 10;
+
         static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -37,34 +39,12 @@ namespace QvAbu.CLI
 
             startup.Configure((QuestionsContext)dbContext);
 
-            //var selection = "";
-            //var options = new[] {"1", "2"};
-            //while (!options.Contains(selection))
-            //{
-            //    Console.WriteLine("Please select an action:");
-            //    Console.WriteLine(" 1 -> Export");
-            //    Console.WriteLine(" 2 -> Import");
-            //    selection = Console.ReadLine();
-            //}
-
             Console.WriteLine("How should the questionnaire be called?");
             var name = Console.ReadLine();
             Console.WriteLine("Importing...\n");
             try
             {
                 var task = importExportService.Import(name, args);
-                //switch (selection)
-                //{
-                //    case "1":
-                //        task = importExportService.Export();
-                //        break;
-                //    case "2":
-                //        task = importExportService.Import();
-                //        break;
-                //    default:
-                //        Console.WriteLine("This shouldn't happen, no selection detected. Please contact the system admin.");
-                //        return;
-                //}
 
                 (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = task.GetAwaiter().GetResult();
 
@@ -74,14 +54,14 @@ namespace QvAbu.CLI
                 foreach (var file in importedQuestions)
                 {
                     Console.WriteLine($"    {file.Key}");
-                    if (file.Value.Count > 2)
-                    {
-                        Console.WriteLine($"      {file.Value.Count} Questions");
-                        continue;
-                    }
-                    foreach (var question in file.Value)
+                    foreach (var question in file.Value.Take(ShownQuestionsCountPerFile))
                     {
                         Console.WriteLine($"      {question}");
+                    }
+                    if (file.Value.Count > ShownQuestionsCountPerFile)
+                    {
+                        Console.WriteLine($"      ... and {file.Value.Count - ShownQuestionsCountPerFile} more ({file.Value.Count} total)");
+                        continue;
                     }
                 }
 

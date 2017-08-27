@@ -54,6 +54,7 @@ namespace QvAbu.CLI
             };
             this.questionnairesUow.QuestionnairesRepo.Add(questionnaire);
             await this.questionnairesUow.Complete();
+            await this.questionsUow.Complete();
 
             var importedQuestions = new Dictionary<string, List<string>>();
             var erroredFiles = new List<string>();
@@ -138,7 +139,6 @@ namespace QvAbu.CLI
                 });
             }
 
-            await this.questionsUow.Complete();
             this.questionsUow.SimpleQuestionsRepo.Add(question);
             await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
             await this.questionsUow.Complete();

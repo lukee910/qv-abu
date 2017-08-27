@@ -80,7 +80,7 @@ namespace QvAbu.Api.Tests.CLI
                 }
             };
             var answers2 = question2.Answers.ToList();
-            var fileText = "1\n" +
+            var fileText = "1;;;;;;;\n" +
                 "Text;Typ;Text Antwort 1;Anwort korrekt?;Text Antwort 2;;;\n" +
                 $"{question1.Text};{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect};;\r\n" +
                 $"{question2.Text};{(int)question2.SimpleQuestionType};{answers2[0].Text};{answers2[0].IsCorrect};{answers2[1].Text};{answers2[1].IsCorrect};{answers2[2].Text};{answers2[2].IsCorrect}\n";
@@ -120,7 +120,7 @@ namespace QvAbu.Api.Tests.CLI
             A.CallTo(() => questionnairesUow.Complete())
                 .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
-                .MustHaveHappened(Repeated.Exactly.Twice);
+                .MustHaveHappened(Repeated.Exactly.Times(3));
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace QvAbu.Api.Tests.CLI
                     Text = "TextAnswer3"
                 }
             };
-            var fileText1 = "2\n" +
+            var fileText1 = "2;\n" +
                            "Text;Antwort\n" +
                            $"{question1.Text};{question1.Answer.Text}\n" +
                            $"{question2.Text};{question2.Answer.Text}\n" +
@@ -226,7 +226,7 @@ namespace QvAbu.Api.Tests.CLI
             A.CallTo(() => questionnairesUow.Complete())
                 .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
-                .MustHaveHappened(Repeated.Exactly.Times(4));
+                .MustHaveHappened(Repeated.Exactly.Times(5));
         }
 
         [Fact]
@@ -289,7 +289,7 @@ namespace QvAbu.Api.Tests.CLI
             A.CallTo(() => questionnairesUow.Complete())
                 .MustHaveHappened();
             A.CallTo(() => questionsUow.Complete())
-                .MustHaveHappened(Repeated.Exactly.Once);
+                .MustHaveHappened(Repeated.Exactly.Twice);
         }
     }
 }
