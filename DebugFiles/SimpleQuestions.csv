@@ -1,0 +1,5 @@
+﻿1;;Antworten:;;;;;;;
+Text;Typ;A1 Text;A1 ist korrekte Antwort;A2 Text;A2 ist korrekte Antwort;A3 Text;A3 ist korrekte Antwort;A4 Text;A4 ist korrekte Antwort
+SingleChoiceQuestion1;0;SimpleAnswer1.1;true;SimpleAnswer1.2;false;SimpleAnswer1.3;false;SimpleAnswer1.4;false
+MultipleChoiceQuestion1;1;MChoiceAnswer1.1;true;MChoiceAnswer1.2;true;MChoiceAnswer1.3;false;;
+TrueFalseQuestion1;2;TrueFalseAnswer1.1;false;TrueFalseAnswer1.2;false;TrueFalseAnswer1.3;true;TrueFalseAnswer1.4;1

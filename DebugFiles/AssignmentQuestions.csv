@@ -1,0 +1,5 @@
+0;Antwortoptionen:;;;;[Separator, leer lassen];;;;;;
+Text;Text Option 1;Text Option 2;Text Option 3;;;Text Zuweisung 1;N� Korr. Option Zuweisung 1;Text Zuweisung 2;N� Korr. Option Zuweisung 2;Text Zuweisung 3;N� Korr. Option Zuweisung 3
+AssignmentQuestion1;AssignmentOption1.1;AssignmentOption1.2;AssignmentOption1.3;;;AssignAnswer1.1;1;AssignAnswer1.2;3;AssignAnswer1.3;2
+AssignmentQuestion2;AssignmentOption2.1;AssignmentOption2.2;AssignmentOption2.3;;;AssignAnswer2.1;1;AssignAnswer2.2;1;;
+AssignmentQuestion3;AssignmentOption3.1;AssignmentOption3.2;AssignmentOption3.3;AssignmentOption3.4;;AssignAnswer3.1;2;AssignAnswer3.2;1;AssignAnswer3.3;4

@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using QvAbu.Api.Models.Questions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using QvAbu.Api.Services.Questions;
 
 namespace QvAbu.Api.Controllers

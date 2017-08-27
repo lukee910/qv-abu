@@ -1,11 +1,11 @@
 ﻿using System;
-using QvAbu.Api.Models.Questions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QvAbu.Api.Data.Repository;
-using QvAbu.Api.Data.UnitOfWork;
-using QvAbu.Api.Models.Questions.ReadModel;
+using QvAbu.Data.Data.UnitOfWork;
+using QvAbu.Data.Models.Questions;
+using QvAbu.Data.Models.Questions.ReadModel;
+using QvAbu.Data.Data.Repository;
 
 namespace QvAbu.Api.Services.Questions
 {

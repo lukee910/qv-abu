@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Autofac;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QvAbu.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using QvAbu.Api.Data.UnitOfWork;
-using QvAbu.Api.Data.Repository;
-using QvAbu.Api.Services.Questions;
 using Newtonsoft.Json;
+using QvAbu.Data.Data;
+using QvAbu.Data;
+using Autofac.Extensions.DependencyInjection;
 
 namespace QvAbu.Api
 {
@@ -28,7 +29,7 @@ namespace QvAbu.Api
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddMvcCore()
@@ -45,8 +46,17 @@ namespace QvAbu.Api
             );
 
             services.AddCors();
+            
+            // Autofac
+            var containerBuilder = new ContainerBuilder();
 
-            Injections.AddAll(services);
+            containerBuilder.AddApi()
+                .AddData();
+
+            containerBuilder.Populate(services);
+            var applicationContainer = containerBuilder.Build();
+
+            return new AutofacServiceProvider(applicationContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +72,7 @@ namespace QvAbu.Api
 
             app.UseMvc();
 
-            DbInitializer.Initialize(env, questionsContext);
+            DbInitializer.Initialize(env.IsDevelopment(), questionsContext);
         }
     }
 }
