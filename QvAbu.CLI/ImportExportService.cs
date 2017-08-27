@@ -98,6 +98,9 @@ namespace QvAbu.CLI
                         case QuestionType.TextQuestion:
                             parsingTask = this.ParseTextQuestion(line, questionnaire.ID);
                             break;
+                        case QuestionType.AssignmentQuestion:
+                            parsingTask = this.ParseAssignmentQuestion(line, questionnaire.ID);
+                            break;
                         default:
                             continue;
                     }
@@ -161,6 +164,49 @@ namespace QvAbu.CLI
             };
 
             this.questionsUow.TextQuestionsRepo.Add(question);
+            await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
+            await this.questionsUow.Complete();
+
+            return true;
+        }
+        private async Task<bool> ParseAssignmentQuestion(IReadOnlyList<string> line, Guid questionnaireId)
+        {
+            var question = new AssignmentQuestion
+            {
+                ID = Guid.NewGuid(),
+                Revision = 1,
+                Text = line[0],
+                Options = new List<AssignmentOption>(),
+                Answers = new List<AssignmentAnswer>()
+            };
+
+            var optionTexts = line.Skip(1).TakeWhile(_ => !string.IsNullOrWhiteSpace(_));
+            foreach (var optionText in optionTexts)
+            {
+                question.Options.Add(new AssignmentOption
+                {
+                    ID = Guid.NewGuid(),
+                    Text = optionText
+                });
+            }
+
+            var answerFields = line.SkipWhile(_ => !string.IsNullOrWhiteSpace(_))
+                                   .SkipWhile(_ => string.IsNullOrWhiteSpace(_))
+                                   .TakeWhile(_ => !string.IsNullOrWhiteSpace(_))
+                                   .ToList();
+            for(var i = 0; i + 1 < answerFields.Count(); i += 2)
+            {
+                var optionIndex = Convert.ToInt32(answerFields[i + 1]) - 1;
+                
+                question.Answers.Add(new AssignmentAnswer
+                {
+                    ID = Guid.NewGuid(),
+                    Text = answerFields[i],
+                    CorrectOption = question.Options[optionIndex]
+                });
+            }
+
+            this.questionsUow.AssignmentQuestionsRepo.Add(question);
             await this.questionnairesUow.QuestionnairesRepo.AddQuestion(questionnaireId, question);
             await this.questionsUow.Complete();
 

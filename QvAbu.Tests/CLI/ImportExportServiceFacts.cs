@@ -230,6 +230,177 @@ namespace QvAbu.Api.Tests.CLI
         }
 
         [Fact]
+        public async Task ImportsAssignmentQuestions()
+        {
+            // Arrange
+            const string name = "assignment question";
+            var fileNames = new[] { "file1", "file2" };
+
+            var questionnaire = new Questionnaire
+            {
+                Revision = 1,
+                Name = name
+            };
+            var question1 = new AssignmentQuestion
+            {
+                Revision = 1,
+                Text = "AssignmentQuestion1",
+                Options = new List<AssignmentOption>
+                {
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt1"
+                    },
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt2"
+                    },
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt3"
+                    }
+                }
+            };
+            var q1Opts = question1.Options.ToList();
+            var q1Answers = (question1.Answers = new List<AssignmentAnswer>
+            {
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer1",
+                    CorrectOption = question1.Options.First()
+                },
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer2",
+                    CorrectOption = question1.Options.Skip(1).First()
+                },
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer3",
+                    CorrectOption = question1.Options.Skip(2).First()
+                }
+            }).ToList();
+            var question2 = new AssignmentQuestion
+            {
+                Revision = 1,
+                Text = "AssignmentQuestion2",
+                Options = new List<AssignmentOption>
+                {
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt21"
+                    },
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt23"
+                    }
+                }
+            };
+            var q2Opts = question2.Options.ToList();
+            var q2Answers = (question2.Answers = new List<AssignmentAnswer>
+            {
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer21",
+                    CorrectOption = question2.Options.Skip(1).First()
+                },
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer22",
+                    CorrectOption = question2.Options.First()
+                }
+            }).ToList();
+            var question3 = new AssignmentQuestion
+            {
+                Revision = 1,
+                Text = "AssignmentQuestion2",
+                Options = new List<AssignmentOption>
+                {
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt31"
+                    },
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt32"
+                    },
+                    new AssignmentOption
+                    {
+                        Text = "AssignOpt33"
+                    }
+                }
+            };
+            var q3Opts = question3.Options.ToList();
+            var q3Answers = (question3.Answers = new List<AssignmentAnswer>
+            {
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer31",
+                    CorrectOption = question3.Options.Skip(2).First()
+                },
+                new AssignmentAnswer
+                {
+                    Text = "AssignAnswer32",
+                    CorrectOption = question3.Options.First()
+                }
+            }).ToList();
+            var fileText1 = "0;\n" +
+                            "Text;Opt1;Opt2;Opt3;;Assign1Text;Assign1Opt;Assign2Text;Assign2Opt;Assign3Text;Assign3Opt\n" +
+                            $"{question1.Text};{q1Opts[0].Text};{q1Opts[1].Text};{q1Opts[2].Text};;{q1Answers[0].Text};1;{q1Answers[1].Text};2;{q1Answers[2].Text};3\n" +
+                            $"{question2.Text};{q2Opts[0].Text};{q2Opts[1].Text};;;{q2Answers[0].Text};2;{q2Answers[1].Text};1;;\n" +
+                            $"";
+            var fileText2 = "0;\n" +
+                            "Text;Opt1;Opt2;Opt3;;Assign1Text;Assign1Opt;Assign2Text;Assign2Opt;Assign3Text;Assign3Opt\n" +
+                            $"{question3.Text};{q3Opts[0].Text};{q3Opts[1].Text};{q3Opts[2].Text};;{q3Answers[0].Text};3;{q3Answers[1].Text};1;;;\n" +
+                            $"";
+
+            var expectedImportedQuestions = new Dictionary<string, List<string>>
+            {
+                [fileNames[0]] = new List<string>
+                {
+                    question1.Text,
+                    question2.Text
+                },
+                [fileNames[1]] = new List<string>
+                {
+                    question3.Text
+                }
+            };
+
+            var questionsUow = A.Fake<IQuestionsUnitOfWork>();
+            var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
+            var file = A.Fake<IFile>();
+
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[0])))
+                .Returns(fileText1);
+            A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[1])))
+                .Returns(fileText2);
+
+            var testee = new ImportExportService(questionnairesUow, questionsUow, file);
+
+            // Act
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+
+            // Assert
+            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
+            erroredFiles.Should().BeNullOrEmpty();
+
+            A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.AssignmentQuestionsRepo.Add(A<AssignmentQuestion>.That.Matches(_ => this.matchEntity(_, question1))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.AssignmentQuestionsRepo.Add(A<AssignmentQuestion>.That.Matches(_ => this.matchEntity(_, question2))))
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.AssignmentQuestionsRepo.Add(A<AssignmentQuestion>.That.Matches(_ => this.matchEntity(_, question3))))
+                .MustHaveHappened();
+
+            A.CallTo(() => questionnairesUow.Complete())
+                .MustHaveHappened();
+            A.CallTo(() => questionsUow.Complete())
+                .MustHaveHappened(Repeated.Exactly.Times(4));
+        }
+
+        [Fact]
         public async Task ImportsTextQuestions_WhenOneFileIsNotFound()
         {
             // Arrange
