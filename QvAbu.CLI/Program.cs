@@ -14,6 +14,9 @@ namespace QvAbu.CLI
 
         static void Main(string[] args)
         {
+            Console.WriteLine(string.Join(";", args));
+            Console.WriteLine("============");
+
             if (args.Length == 0)
             {
                 Console.WriteLine("Please pass the names of the .csv-files to import as arguments.");
@@ -24,11 +27,58 @@ namespace QvAbu.CLI
             var firstArg = args[0].ToLower();
             if (firstArg == "--help" || firstArg == "/?" || firstArg == "-h")
             {
-                Console.WriteLine("Usage: Pass files with questions to import as arguments (either by console or by drag-and-drop onto the program). " +
-                                  "The file format must be ;-separated .CSV." +
-                                  "Every run is grouped together in one Questionnaire. " +
-                                  "To create import multiple questionnaires, multiple import runs are neccessary.");
-                Console.WriteLine("Example: \"C:\\path\\to\\multiple choice questions.csv\" \"\\\\server\\path\\to\\text questions.csv\"");
+                Console.WriteLine("Usage: Pass files with questions to import as arguments (either by console or by drag-and-drop onto the program).\n" +
+                                  "The file format must be ;-separated .CSV.\n" +
+                                  "Every run is grouped together in one Questionnaire.\n" +
+                                  "To create import multiple questionnaires, multiple import runs are neccessary.\n" +
+                                  "Each quesiton type (Multiple Choice, Assignment, Text) has to be in a separate file with the according file format.");
+                Console.WriteLine("  Example: `run.cmd \"C:\\path\\to\\multiple choice questions.csv\" \"\\\\server\\path\\to\\text questions.csv\"`");
+                Console.WriteLine();
+                Console.WriteLine("File Formats:");
+                Console.WriteLine("  Format info:");
+                Console.WriteLine("    Whenever \" is used in a format description, it's for an informative purpose and shouldn't be written in the files.");
+                Console.WriteLine("    \"...is correct\" has to be replaced by either \"true\" or \"false\".");
+                Console.WriteLine("  Each file has the following base structure:");
+                Console.WriteLine("    1st  Line: QuestionType");
+                Console.WriteLine("    2nd  Line: Column Headers (Only informative, irrelevant for import)");
+                Console.WriteLine("    3rd+ Line: Questions, 1 per line, in the specified format by QuestionType");
+                Console.WriteLine();
+                Console.WriteLine("Simple Question:");
+                Console.WriteLine("  Simple questions are multiple choice questions in three types (called \"Simple Question Type\"):");
+                Console.WriteLine("    0: One possible answer");
+                Console.WriteLine("    1: Multiple possible answers, number of correct answers given");
+                Console.WriteLine("    2: Multiple possible answers, number of correct answers not given (format for true/false questions)");
+                Console.WriteLine("  Question Format:");
+                Console.WriteLine("    \"Text;Simple Question Type;Answer 1 Text;Answer 1 is correct;Answer 2 Text; Answer 2 is  correct;...\"");
+                Console.WriteLine("    \"Simple Question Type\" is the number from above");
+                Console.WriteLine("  Example:");
+                Console.WriteLine("    1;;;;;;;");
+                Console.WriteLine("    ;;;;;;;");
+                Console.WriteLine("    SingleChoiceQuestionText?;0;Answer1;false;Answer2;true;Answer3;false");
+                Console.WriteLine();
+                Console.WriteLine("Text Question:");
+                Console.WriteLine("  Text questions are a questions that are answered in a free text format. The answer is given as a self-correction hint to the student.");
+                Console.WriteLine("  Question Format:");
+                Console.WriteLine("    \"Text;Suggested Answer Text\"");
+                Console.WriteLine("  Example:");
+                Console.WriteLine("    2;");
+                Console.WriteLine("    ;");
+                Console.WriteLine("    TextQuestionText?;ExampleAnswerText");
+                Console.WriteLine();
+                Console.WriteLine("Assignment Question:");
+                Console.WriteLine("  Assignment questions are questions where answers have to be matched with the correct option.");
+                Console.WriteLine("  Question Format:");
+                Console.WriteLine("    \"Text;Option 1;Option 2;...;;Answer 1 Text; Answer 1 option number;Answer 2 Text; Answer 2 option number;...\"");
+                Console.WriteLine("    \"Option number\" is the number of the option in the same line, e.g. \"1\" for \"Option 1\"");
+                Console.WriteLine("    The options and answers are separated by an empty cell (here before \"Answer 1 Text\").");
+                Console.WriteLine("  Example:");
+                Console.WriteLine("    0;;;;;;;;;");
+                Console.WriteLine("    ;;;;;;;;;");
+                Console.WriteLine("    AssignmentQuestionText;Option1;Option2;;AnswerWithOption1;1;AnswerWithOption2;2;Answer2WithOption1;1");
+                Console.WriteLine();
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadLine();
+                return;
             }
 
             var startup = Setup();
