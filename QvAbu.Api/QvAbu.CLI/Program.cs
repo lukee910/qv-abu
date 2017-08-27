@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -48,6 +49,7 @@ namespace QvAbu.CLI
 
             Console.WriteLine("How should the questionnaire be called?");
             var name = Console.ReadLine();
+            Console.WriteLine("Importing...\n");
             try
             {
                 var task = importExportService.Import(name, args);
@@ -64,7 +66,34 @@ namespace QvAbu.CLI
                 //        return;
                 //}
 
-                task.Wait();
+                (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = task.GetAwaiter().GetResult();
+
+                Console.WriteLine("Import Complete");
+
+                Console.WriteLine("  Imported files:");
+                foreach (var file in importedQuestions)
+                {
+                    Console.WriteLine($"    {file.Key}");
+                    if (file.Value.Count > 2)
+                    {
+                        Console.WriteLine($"      {file.Value.Count} Questions");
+                        continue;
+                    }
+                    foreach (var question in file.Value)
+                    {
+                        Console.WriteLine($"      {question}");
+                    }
+                }
+
+                Console.WriteLine("\n  Import failed for files:");
+                if (erroredFiles.Count == 0)
+                {
+                    Console.WriteLine("    None");
+                }
+                foreach (var file in erroredFiles)
+                {
+                    Console.WriteLine($"    {file}");
+                }
             }
             catch (Exception e)
             {
@@ -74,7 +103,7 @@ namespace QvAbu.CLI
                 Console.WriteLine("== ERROR MESSAGE END");
             }
 
-            Console.WriteLine("\n\n\nTask completed.\nPress any key to exit...");
+            Console.WriteLine("\nTask completed.\nPress any key to exit...");
             Console.ReadKey();
         }
 

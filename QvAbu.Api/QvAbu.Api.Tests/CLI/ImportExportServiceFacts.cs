@@ -84,7 +84,16 @@ namespace QvAbu.Api.Tests.CLI
                 "Text;Typ;Text Antwort 1;Anwort korrekt?;Text Antwort 2;;;\n" +
                 $"{question1.Text};{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect};;\r\n" +
                 $"{question2.Text};{(int)question2.SimpleQuestionType};{answers2[0].Text};{answers2[0].IsCorrect};{answers2[1].Text};{answers2[1].IsCorrect};{answers2[2].Text};{answers2[2].IsCorrect}\n";
-            
+
+            var expectedImportedQuestions = new Dictionary<string, List<string>>
+            {
+                [fileNames[0]] = new List<string>
+                {
+                    question1.Text,
+                    question2.Text
+                }
+            };
+
             var questionsUow = A.Fake<IQuestionsUnitOfWork>();
             var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
             var file = A.Fake<IFile>();
@@ -95,10 +104,10 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (int importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.Should().Be(2);
+            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeNullOrEmpty();
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
@@ -171,6 +180,20 @@ namespace QvAbu.Api.Tests.CLI
                             "Text;Antwort\n" +
                             $"{question4.Text};{question4.Answer.Text}\n";
 
+            var expectedImportedQuestions = new Dictionary<string, List<string>>
+            {
+                [fileNames[0]] = new List<string>
+                {
+                    question1.Text,
+                    question2.Text,
+                    question3.Text
+                },
+                [fileNames[1]] = new List<string>
+                {
+                    question4.Text
+                }
+            };
+
             var questionsUow = A.Fake<IQuestionsUnitOfWork>();
             var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
             var file = A.Fake<IFile>();
@@ -183,10 +206,10 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (int importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.Should().Be(4);
+            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeNullOrEmpty();
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
@@ -236,6 +259,14 @@ namespace QvAbu.Api.Tests.CLI
             var questionnairesUow = A.Fake<IQuestionnairesUnitOfWork>();
             var file = A.Fake<IFile>();
 
+            var expectedImportedQuestions = new Dictionary<string, List<string>>
+            {
+                [fileNames[0]] = new List<string>
+                {
+                    question1.Text
+                }
+            };
+
             A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[0])))
                 .Returns(fileText1);
             A.CallTo(() => file.ReadAllText(A<string>.That.Matches(_ => _ == fileNames[1])))
@@ -244,10 +275,10 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (int importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.Should().Be(1);
+            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeEquivalentTo(fileNames[1]);
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))

@@ -1,6 +1,10 @@
-SELECT * FROM Question
 SELECT * FROM Questionnaires
+SELECT * FROM QuestionnaireQuestions
+SELECT * FROM Question
+SELECT * FROM AssignmentAnswers
+SELECT * FROM AssignmentOptions
 SELECT * FROM SimpleAnswers
+SELECT * FROM TextAnswers
 
 /*
 DELETE FROM QuestionnaireQuestions

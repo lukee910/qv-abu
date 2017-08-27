@@ -11,7 +11,7 @@ namespace QvAbu.CLI
 {
     public interface IImportExportService
     {
-        Task<(int importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport);
+        Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport);
         Task Export();
     }
 
@@ -44,7 +44,7 @@ namespace QvAbu.CLI
 
         #region Methods
 
-        public async Task<(int importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport)
+        public async Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport)
         {
             var questionnaire = new Questionnaire
             {
@@ -55,6 +55,7 @@ namespace QvAbu.CLI
             this.questionnairesUow.QuestionnairesRepo.Add(questionnaire);
             await this.questionnairesUow.Complete();
 
+            var importedQuestions = new Dictionary<string, List<string>>();
             var erroredFiles = new List<string>();
             var questionsCount = 0;
 
@@ -74,6 +75,7 @@ namespace QvAbu.CLI
                     continue;
                 }
 
+                importedQuestions[fileName] = new List<string>();
                 var filteredCsv = new List<List<string>>();
                 csv.Skip(2)
                     .ToList()
@@ -101,12 +103,13 @@ namespace QvAbu.CLI
 
                     if (await parsingTask)
                     {
+                        importedQuestions[fileName].Add(line[0]);
                         questionsCount++;
                     }
                 }
             }
 
-            return (questionsCount, erroredFiles);
+            return (importedQuestions, erroredFiles);
         }
 
         private async Task<bool> ParseSimpleQuestion(List<string> line, Guid questionnaireId)
