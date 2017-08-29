@@ -33,6 +33,9 @@ namespace QvAbu.CLI
                                   "To create import multiple questionnaires, multiple import runs are neccessary.\n" +
                                   "Each quesiton type (Multiple Choice, Assignment, Text) has to be in a separate file with the according file format.");
                 Console.WriteLine("  Example: `run.cmd \"C:\\path\\to\\multiple choice questions.csv\" \"\\\\server\\path\\to\\text questions.csv\"`");
+                Console.WriteLine("  Note: There are two ways to save a ;-separated .CSV in Excel:");
+                Console.WriteLine("    1) Save it as \"Text (Tabstopp-getrennt) (.txt)\" and replace the tab character with ;");
+                Console.WriteLine("    2) Change the Windows list separator to ; (see https://superuser.com/a/783065, but with ; instead of |)");
                 Console.WriteLine();
                 Console.WriteLine("File Formats:");
                 Console.WriteLine("  Format info:");
@@ -127,7 +130,7 @@ namespace QvAbu.CLI
             }
             catch (Exception e)
             {
-                Console.WriteLine("An error occurred. Please confirm that the imported file is valid and/or relay this error message to the admins/developers.\n");
+                Console.WriteLine("An error occurred. Please confirm that the imported file is valid.\n");
                 Console.WriteLine("== ERROR MESSAGE");
                 Console.WriteLine(e.Message);
                 Console.WriteLine("== ERROR MESSAGE END");
