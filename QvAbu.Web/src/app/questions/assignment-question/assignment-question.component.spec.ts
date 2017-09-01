@@ -1,9 +1,8 @@
 import { AssignmentQuestionComponent } from './assignment-question.component';
 import { AssignmentQuestion } from '../../models/questions/assignment-question';
 import { AssignmentResponseAnswer } from '../../models/questions/response-answer';
-import { AssignmentOption } from '../../models/questions/assignment-option';
-import { AssignmentAnswer } from '../../models/questions/assignment-answer';
 import { QuestionType } from '../../models/questions/question';
+import { AssignmentAnswer } from '../../models/questions/assignment-answer';
 
 describe('AssignmentQuestionComponent', () => {
   let component: AssignmentQuestionComponent;
@@ -34,12 +33,38 @@ describe('AssignmentQuestionComponent', () => {
       answers: [],
       options: []
     };
-    const expectedResponses: AssignmentResponseAnswer[] = [];
+
+    const answer1 = <AssignmentAnswer> {
+      id: 'answerId',
+      text: 'answerText',
+      correctOption: undefined,
+      correctOptionId: 'otherId'
+    };
+    const answer2 = <AssignmentAnswer> {
+      id: 'otherAnswerId',
+      text: 'answerText',
+      correctOption: undefined,
+      correctOptionId: 'otherId'
+    };
+    const expectedResponse1 = new AssignmentResponseAnswer();
+    expectedResponse1.answer = answer1;
+    expectedResponse1.value = 'id';
+    const expectedResponse2 = new AssignmentResponseAnswer();
+    expectedResponse2.answer = answer2;
+    expectedResponse2.value = 'id2';
+    const expectedResponses: AssignmentResponseAnswer[] = [expectedResponse1, expectedResponse2];
 
     component.question = question;
 
     // Act
-    component.setResponseValue(new AssignmentOption(), new AssignmentAnswer());
+    component.setResponseValue({
+      id: 'id',
+      text: 'text'
+    }, answer1);
+    component.setResponseValue({
+      id: 'id2',
+      text: 'text'
+    }, answer2);
 
     // Assert
     expect(component.responses).toEqual(expectedResponses);

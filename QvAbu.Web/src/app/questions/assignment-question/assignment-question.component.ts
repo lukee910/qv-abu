@@ -15,8 +15,6 @@ export class AssignmentQuestionComponent implements OnInit {
   @Output()
   responses: AssignmentResponseAnswer[] = [];
 
-  selectedValues: {[key: string]: boolean} = {};
-
   constructor() { }
 
   ngOnInit() {
@@ -32,13 +30,13 @@ export class AssignmentQuestionComponent implements OnInit {
   }
 
   setResponseValue(option: AssignmentOption, answer: AssignmentAnswer): void {
-    // const filteredResponses = this.responses.filter(_ => _.answer.id === answer.id);
-    // let response = filteredResponses.length === 0 ? undefined : filteredResponses[0];
-    // if (!response) {
-    //   response = new AssignmentResponseAnswer();
-    //   response.answer = answer;
-    //   this.responses.push(response);
-    // }
-    // response.value = option.id;
+    const filteredResponses = this.responses.filter(_ => _.answer.id === answer.id);
+    let response = filteredResponses.length === 0 ? undefined : filteredResponses[0];
+    if (!response) {
+      response = new AssignmentResponseAnswer();
+      response.answer = answer;
+      this.responses.push(response);
+    }
+    response.value = option.id;
   }
 }
