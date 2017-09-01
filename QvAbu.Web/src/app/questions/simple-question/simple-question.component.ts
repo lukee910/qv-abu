@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simple-question';
+import { SimpleResponseAnswer } from '../../models/questions/response-answer';
 
 @Component({
   selector: 'app-simple-question',
@@ -9,12 +10,10 @@ import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simpl
 export class SimpleQuestionComponent implements OnInit {
   @Input()
   question: SimpleQuestion;
+  @Output()
+  responses: SimpleResponseAnswer[] = [];
 
   subtitle: string;
-
-  /*question.simpleQuestionType
-   ? ('zutreffenden' + (question.isNumberOfAnswersGiven ? ' ' + correctAnswersCount : '') + ' Aussagen')
-   : 'zutreffende Aussage'*/
 
   constructor() { }
 

@@ -1,4 +1,6 @@
+import { Guid } from '../guid';
+
 export class Answer {
-  id: string;
+  id: Guid;
   text: string;
 }

@@ -15,7 +15,9 @@
       <label class="custom-control custom-radio" *ngFor="let option of question.options; index as iOpt">
         <input type="radio"
                class="custom-control-input"
-               name="answer-{{answer.id}}">
+               name="answer-{{answer.id}}"
+               (value)="option.id"
+               (click)="setResponseValue(option, answer)">
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">{{toChar(iOpt)}})</span>
       </label>

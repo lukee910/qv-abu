@@ -7,6 +7,7 @@ import 'rxjs/add/observable/of';
 import { Question } from '../models/questions/question';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
+import { Guid } from '../models/guid';
 
 @Injectable()
 export class QuestionnairesService {
@@ -19,7 +20,7 @@ export class QuestionnairesService {
                           .map((_: Response) => this.previews = _.json());
   }
 
-  public getPreview(id: string, revision: number): Observable<QuestionnairePreview> {
+  public getPreview(id: Guid, revision: number): Observable<QuestionnairePreview> {
     if (!this.previews) {
       return Observable.create((o: Observer<QuestionnairePreview>) => {
         this.getPreviews().subscribe(previews => {
@@ -37,7 +38,7 @@ export class QuestionnairesService {
     return Observable.of(preview);
   }
 
-  getQuestionsForQuestionnaire(id: string, revision: number): Observable<Question[]> {
+  getQuestionsForQuestionnaire(id: Guid, revision: number): Observable<Question[]> {
     return this.apiService.get('questionnaires/' + id + '/' + revision + '/questions')
                           .map((_: Response) => _.json());
   }

@@ -1,4 +1,6 @@
+import { Guid } from './guid';
+
 export class RevisionEntity {
-  id: string;
+  id: Guid;
   revision: number;
 }

@@ -1,4 +1,6 @@
+import { Guid } from '../guid';
+
 export class AssignmentOption {
   text: string;
-  id: string;
+  id: Guid;
 }

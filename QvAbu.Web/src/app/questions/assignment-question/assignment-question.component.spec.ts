@@ -1,4 +1,9 @@
 import { AssignmentQuestionComponent } from './assignment-question.component';
+import { AssignmentQuestion } from '../../models/questions/assignment-question';
+import { AssignmentResponseAnswer } from '../../models/questions/response-answer';
+import { AssignmentOption } from '../../models/questions/assignment-option';
+import { AssignmentAnswer } from '../../models/questions/assignment-answer';
+import { QuestionType } from '../../models/questions/question';
 
 describe('AssignmentQuestionComponent', () => {
   let component: AssignmentQuestionComponent;
@@ -17,5 +22,26 @@ describe('AssignmentQuestionComponent', () => {
 
     // Assert
     expect(result).toBe(char);
+  });
+
+  it('should set the response values', () => {
+    // Arrange
+    const question = <AssignmentQuestion> {
+      id: 'id',
+      revision: 1,
+      text: 'text',
+      type: QuestionType.assignmentQuestion,
+      answers: [],
+      options: []
+    };
+    const expectedResponses: AssignmentResponseAnswer[] = [];
+
+    component.question = question;
+
+    // Act
+    component.setResponseValue(new AssignmentOption(), new AssignmentAnswer());
+
+    // Assert
+    expect(component.responses).toEqual(expectedResponses);
   });
 });
