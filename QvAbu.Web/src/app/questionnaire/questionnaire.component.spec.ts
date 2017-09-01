@@ -15,7 +15,7 @@ describe('QuestionnaireComponent', () => {
 
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
-    component = new QuestionnaireComponent(<ActivatedRoute>{
+    component = new QuestionnaireComponent(<ActivatedRoute><any>{
       params: Observable.of({
         id: id,
         revision: revision

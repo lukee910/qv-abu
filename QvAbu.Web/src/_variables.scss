@@ -1,8 +1,9 @@
+@import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 
 // Spacing
 $general-spacing:         20px;
 
 // Border
-$border-normal:           1px solid $gray-light;
-$border-fat:              3px solid $gray-light;
+$border-normal:           1px solid $gray-300;
+$border-fat:              3px solid $gray-300;

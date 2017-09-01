@@ -7,8 +7,9 @@ import { QuestionnairePreview } from '../models/questions/questionnaire-preview'
 import { Observable } from 'rxjs/Observable';
 import { Question } from '../models/questions/question';
 import { AssignmentQuestion } from '../models/questions/assignment-question';
-import { SimpleQuestion } from '../models/questions/simple-question';
+import { SimpleQuestion, SimpleQuestionType } from '../models/questions/simple-question';
 import { TextQuestion } from '../models/questions/text-question';
+import { SimpleAnswer } from '../models/questions/simple-answer';
 
 describe('QuestionnairesService', () => {
   let testee: QuestionnairesService;
@@ -97,11 +98,12 @@ describe('QuestionnairesService', () => {
       // Simple Question:
       isNumberOfAnswersGiven: true,
       isMultipleChoice: true,
-      answers: [{
+      answers: [<SimpleAnswer>{
         text: 'answer1text',
         id: 'id2',
         isCorrect: true
-      }]
+      }],
+      simpleQuestionType: SimpleQuestionType.trueFalse
     }, <TextQuestion>{
       id: 'id3',
       type: 2,
