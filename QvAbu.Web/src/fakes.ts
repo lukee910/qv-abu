@@ -36,3 +36,13 @@ export class HttpFake extends Fake {
     this.createSpies(Object.keys(this));
   }
 }
+
+export class EventEmitterFake extends Fake {
+  emit: Spy = null;
+  subscribe: Spy = null;
+
+  constructor() {
+    super();
+    this.createSpies(Object.keys(this));
+  }
+}

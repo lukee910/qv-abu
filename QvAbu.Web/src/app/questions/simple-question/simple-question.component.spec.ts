@@ -11,7 +11,7 @@ describe('SimpleQuestionComponent', () => {
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion();
+    component.question = new SimpleQuestion('questionId');
     component.question.answers = [];
     component.question.simpleQuestionType = SimpleQuestionType.singleChoice;
 
@@ -23,7 +23,7 @@ describe('SimpleQuestionComponent', () => {
   });
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion();
+    component.question = new SimpleQuestion('questionId');
     component.question.answers = [<SimpleAnswer>{
       text: 'text',
       id: 'id',
@@ -43,7 +43,7 @@ describe('SimpleQuestionComponent', () => {
   });
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion();
+    component.question = new SimpleQuestion('questionId');
     component.question.answers = [];
     component.question.simpleQuestionType = SimpleQuestionType.trueFalse;
 

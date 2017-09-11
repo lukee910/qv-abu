@@ -13,6 +13,7 @@ import { ApiService } from './services/api.service';
 import { SimpleQuestionComponent } from './questions/simple-question/simple-question.component';
 import { AssignmentQuestionComponent } from './questions/assignment-question/assignment-question.component';
 import { TextQuestionComponent } from './questions/text-question/text-question.component';
+import { ValidationMessageComponent } from './validation-message/validation-message.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     QuestionnaireComponent,
     SimpleQuestionComponent,
     AssignmentQuestionComponent,
-    TextQuestionComponent
+    TextQuestionComponent,
+    ValidationMessageComponent
   ],
   imports: [
     BrowserModule,
