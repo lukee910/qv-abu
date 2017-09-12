@@ -1,4 +1,4 @@
-import { Question } from './question';
+import { Question, QuestionType } from './question';
 import { SimpleAnswer } from './simple-answer';
 import { Guid } from '../guid';
 
@@ -9,6 +9,8 @@ export class SimpleQuestion extends Question {
   constructor(id: Guid) {
     super();
     this.id = id;
+
+    this.type = QuestionType.simpleQuestion;
   }
 }
 

@@ -1,20 +1,20 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ValidationService } from './validation.service';
+import { QuestionnaireValidationService } from './questionnaire-validation.service';
 import { QuestionnaireValidationPhase, ValidationState } from '../models/validation-message';
 import { Guid } from '../models/guid';
 import { EventEmitterFake } from '../../fakes';
 
 describe('ValidationService', () => {
-  let testee: ValidationService;
+  let testee: QuestionnaireValidationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ValidationService]
+      providers: [QuestionnaireValidationService]
     });
   });
 
-  beforeEach(inject([ValidationService], (t: ValidationService) => {
+  beforeEach(inject([QuestionnaireValidationService], (t: QuestionnaireValidationService) => {
     testee = t;
   }));
 
@@ -36,7 +36,7 @@ describe('ValidationService', () => {
 
     // Act
     testee.initQuestionnaire([]);
-    testee.validate();
+    testee.getValidationResult();
 
     // Assert
     expect(eventEmitterFake.emit).toHaveBeenCalledWith(QuestionnaireValidationPhase.init);
@@ -63,7 +63,7 @@ describe('ValidationService', () => {
     testee.setQuestionState('id5', ValidationState.invalid);
 
     // Act
-    const result = testee.validate();
+    const result = testee.getValidationResult();
 
     // Assert
     expect(result).toEqual({
@@ -71,6 +71,6 @@ describe('ValidationService', () => {
       'invalid': 1,
       'info': 1,
       'notValidated': 1
-    })
+    });
   });
 });

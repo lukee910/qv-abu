@@ -6,7 +6,7 @@ import {
 } from '../models/validation-message';
 
 @Injectable()
-export class ValidationService {
+export class QuestionnaireValidationService {
   validationStates: { [id: string]: ValidationState };
   questionnaireValidationPhaseChange: EventEmitter<QuestionnaireValidationPhase> = new EventEmitter();
 
@@ -25,7 +25,7 @@ export class ValidationService {
     this.validationStates[id.toString()] = state;
   }
 
-  validate(): { [state: string]: number } {
+  getValidationResult(): { [state: string]: number } {
     const result = {};
     ValidationStates.forEach(_ => {
       result[ValidationStateToString(_)] = 0;
