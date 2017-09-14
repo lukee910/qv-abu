@@ -1,4 +1,6 @@
 import Spy = jasmine.Spy;
+import { QuestionnaireValidationPhase } from './app/models/validation-message';
+import { EventEmitter } from '@angular/core';
 
 class Fake {
   protected createSpies(props: string[]) {
@@ -37,12 +39,31 @@ export class HttpFake extends Fake {
   }
 }
 
-export class EventEmitterFake extends Fake {
+export class EventEmitterFake<T> extends Fake {
   emit: Spy = null;
   subscribe: Spy = null;
+
+  subscribeCallers: ((T) => void)[];
 
   constructor() {
     super();
     this.createSpies(Object.keys(this));
+
+    this.subscribeCallers = [];
+    this.subscribe.and.callFake(_ => this.subscribeCallers.push(<any>_));
+  }
+}
+
+export class QuestionnaireValidationServiceFake extends Fake {
+  questionnaireValidationPhaseChange: EventEmitterFake<QuestionnaireValidationPhase>;
+
+  initQuestionnaire: Spy = null;
+  setQuestionState: Spy = null;
+  validate: Spy = null;
+
+  constructor() {
+    super();
+    this.createSpies(Object.keys(this));
+    this.questionnaireValidationPhaseChange = new EventEmitterFake();
   }
 }

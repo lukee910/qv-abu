@@ -7,8 +7,9 @@ import {
 
 @Injectable()
 export class QuestionnaireValidationService {
-  validationStates: { [id: string]: ValidationState };
   questionnaireValidationPhaseChange: EventEmitter<QuestionnaireValidationPhase> = new EventEmitter();
+
+  private validationStates: { [id: string]: ValidationState };
 
   constructor() { }
 
@@ -25,7 +26,7 @@ export class QuestionnaireValidationService {
     this.validationStates[id.toString()] = state;
   }
 
-  getValidationResult(): { [state: string]: number } {
+  validate(): { [state: string]: number } {
     const result = {};
     ValidationStates.forEach(_ => {
       result[ValidationStateToString(_)] = 0;

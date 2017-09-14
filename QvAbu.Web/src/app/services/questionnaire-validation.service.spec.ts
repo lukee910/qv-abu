@@ -36,7 +36,7 @@ describe('ValidationService', () => {
 
     // Act
     testee.initQuestionnaire([]);
-    testee.getValidationResult();
+    testee.validate();
 
     // Assert
     expect(eventEmitterFake.emit).toHaveBeenCalledWith(QuestionnaireValidationPhase.init);
@@ -63,7 +63,7 @@ describe('ValidationService', () => {
     testee.setQuestionState('id5', ValidationState.invalid);
 
     // Act
-    const result = testee.getValidationResult();
+    const result = testee.validate();
 
     // Assert
     expect(result).toEqual({
