@@ -73,4 +73,20 @@ describe('ValidationService', () => {
       'notValidated': 1
     });
   });
+
+  it('should not set question state if in invalid phase', () => {
+    // Arrange
+
+    // Act
+    testee.setQuestionState('id', ValidationState.valid);
+    const result = testee.validate();
+
+    // Assert
+    expect(result).toEqual({
+      'valid': 0,
+      'invalid': 0,
+      'info': 0,
+      'notValidated': 0
+    });
+  });
 });

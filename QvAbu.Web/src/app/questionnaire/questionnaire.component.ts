@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { QuestionnairesService } from '../services/questionnaires.service';
 import { Question, QuestionType } from '../models/questions/question';
+import { QuestionnaireValidationService } from '../services/questionnaire-validation.service';
 
 @Component({
   selector: 'app-questionnaire',
@@ -20,7 +21,9 @@ export class QuestionnaireComponent implements OnInit {
     textQuestion: QuestionType.textQuestion
   };
 
-  constructor(private route: ActivatedRoute, private service: QuestionnairesService) {
+  constructor(private route: ActivatedRoute,
+              private service: QuestionnairesService,
+              private validationService: QuestionnaireValidationService) {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.revision = parseInt(params['revision'], 10);
@@ -30,7 +33,10 @@ export class QuestionnaireComponent implements OnInit {
   ngOnInit() {
     this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);
     this.service.getQuestionsForQuestionnaire(this.id, this.revision)
-      .subscribe(_ => this.questions = _);
+      .subscribe(_ => {
+        this.questions = _;
+        this.validationService.initQuestionnaire(this.questions.map(x => x.id));
+      });
   }
 
   //noinspection JSUnusedGlobalSymbols

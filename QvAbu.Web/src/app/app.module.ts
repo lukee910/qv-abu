@@ -14,6 +14,7 @@ import { SimpleQuestionComponent } from './questions/simple-question/simple-ques
 import { AssignmentQuestionComponent } from './questions/assignment-question/assignment-question.component';
 import { TextQuestionComponent } from './questions/text-question/text-question.component';
 import { ValidationMessageComponent } from './validation-message/validation-message.component';
+import { QuestionnaireValidationService } from './services/questionnaire-validation.service';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     QuestionnairesService,
-    ApiService
+    ApiService,
+    QuestionnaireValidationService
   ],
   bootstrap: [AppComponent]
 })

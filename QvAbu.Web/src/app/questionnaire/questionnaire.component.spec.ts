@@ -2,25 +2,27 @@ import { QuestionnaireComponent } from './questionnaire.component';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { QuestionnaireServiceFake } from '../../fakes';
+import { QuestionnaireServiceFake, QuestionnaireValidationServiceFake } from '../../fakes';
 import { Question, QuestionType } from '../models/questions/question';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 
 describe('QuestionnaireComponent', () => {
-  let component: QuestionnaireComponent;
+  let testee: QuestionnaireComponent;
   let questionnaireService: QuestionnaireServiceFake;
+  let validationService: QuestionnaireValidationServiceFake;
 
   const id = 'id';
   const revision = 0;
 
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
-    component = new QuestionnaireComponent(<ActivatedRoute><any>{
+    validationService = new QuestionnaireValidationServiceFake();
+    testee = new QuestionnaireComponent(<ActivatedRoute><any>{
       params: Observable.of({
         id: id,
         revision: revision
       })
-    }, <any>questionnaireService);
+    }, <any>questionnaireService, <any>validationService);
   });
 
   it('should load the route params', () => {
@@ -31,8 +33,8 @@ describe('QuestionnaireComponent', () => {
     // Instantiate, in beforeEach
 
     // Assert
-    expect(component.revision).toBe(revision);
-    expect(component.id).toBe(id);
+    expect(testee.revision).toBe(revision);
+    expect(testee.id).toBe(id);
   });
 
   it('should load the questions and preview', () => {
@@ -53,10 +55,11 @@ describe('QuestionnaireComponent', () => {
     questionnaireService.getQuestionsForQuestionnaire.and.returnValue(Observable.of(questions));
 
     // Act
-    component.ngOnInit();
+    testee.ngOnInit();
 
     // Assert
-    expect(component.questions).toEqual(questions);
-    expect(component.name).toBe('name');
+    expect(testee.questions).toEqual(questions);
+    expect(testee.name).toBe('name');
+    expect(validationService.initQuestionnaire).toHaveBeenCalledWith(['id1' ]);
   });
 });
