@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { QuestionnairesService } from '../services/questionnaires.service';
 import { Question, QuestionType } from '../models/questions/question';
 import { QuestionnaireValidationService } from '../services/questionnaire-validation.service';
+import { ValidationState, ValidationStateToString } from '../models/validation-message';
+import { WindowService } from '../services/window.service';
 
 @Component({
   selector: 'app-questionnaire',
@@ -10,6 +12,7 @@ import { QuestionnaireValidationService } from '../services/questionnaire-valida
   styleUrls: ['./questionnaire.component.scss']
 })
 export class QuestionnaireComponent implements OnInit {
+  public validationResult: { [state: string]: number; };
   public id: string;
   public revision: number;
   public name: string;
@@ -23,7 +26,8 @@ export class QuestionnaireComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private service: QuestionnairesService,
-              private validationService: QuestionnaireValidationService) {
+              private validationService: QuestionnaireValidationService,
+              private window: WindowService) {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.revision = parseInt(params['revision'], 10);
@@ -42,5 +46,23 @@ export class QuestionnaireComponent implements OnInit {
   //noinspection JSUnusedGlobalSymbols
   toJson(q: Question): string {
     return JSON.stringify(q);
+  }
+
+  validate(): void {
+    this.validationResult = this.validationService.validate();
+    this.window.scrollTo(0, 0);
+  }
+
+  getAlertClass(): string {
+    let hasErrors = false;
+    if (this.validationResult[ValidationStateToString(ValidationState.invalid)] > 0) {
+      hasErrors = true;
+    }
+
+    if (this.validationResult[ValidationStateToString(ValidationState.notValidated)] > 0) {
+      return hasErrors ? 'warning' : 'dark';
+    }
+
+    return hasErrors ? 'danger' : 'success';
   }
 }

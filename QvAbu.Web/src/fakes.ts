@@ -67,3 +67,12 @@ export class QuestionnaireValidationServiceFake extends Fake {
     this.questionnaireValidationPhaseChange = new EventEmitterFake();
   }
 }
+
+export class WindowFake extends Fake {
+  scrollTo: Spy = null;
+
+  constructor () {
+    super();
+    this.createSpies(Object.keys(this));
+  }
+}

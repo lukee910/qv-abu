@@ -5,9 +5,24 @@
     <h6 class="page-title">{{revision}}. Revision</h6>
   </div>
 
+  <div class="col-12" *ngIf="validationResult">
+    <div class="alert alert-dark">
+      <div>Richtig: {{validationResult['valid']}}</div>
+      <div>Falsch: {{validationResult['invalid']}}</div>
+      <div>Selbstkontrolle: {{validationResult['info']}}</div>
+      <div>Nicht beantwortet: {{validationResult['notValidated']}}</div>
+    </div>
+  </div>
+
   <div *ngFor="let question of questions" class="col-12 question">
     <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
     <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
     <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-outline-primary"
+            [disabled]="validationResult"
+            (click)="validate()">Validieren</button>
   </div>
 </div>

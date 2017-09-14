@@ -15,6 +15,7 @@ import { AssignmentQuestionComponent } from './questions/assignment-question/ass
 import { TextQuestionComponent } from './questions/text-question/text-question.component';
 import { ValidationMessageComponent } from './validation-message/validation-message.component';
 import { QuestionnaireValidationService } from './services/questionnaire-validation.service';
+import { WindowService } from './services/window.service';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
   providers: [
     QuestionnairesService,
     ApiService,
-    QuestionnaireValidationService
+    QuestionnaireValidationService,
+    { provide: WindowService, useValue: window }
   ],
   bootstrap: [AppComponent]
 })

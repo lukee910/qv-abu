@@ -2,7 +2,7 @@ import { QuestionnaireComponent } from './questionnaire.component';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { QuestionnaireServiceFake, QuestionnaireValidationServiceFake } from '../../fakes';
+import { QuestionnaireServiceFake, QuestionnaireValidationServiceFake, WindowFake } from '../../fakes';
 import { Question, QuestionType } from '../models/questions/question';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 
@@ -10,6 +10,7 @@ describe('QuestionnaireComponent', () => {
   let testee: QuestionnaireComponent;
   let questionnaireService: QuestionnaireServiceFake;
   let validationService: QuestionnaireValidationServiceFake;
+  let window: WindowFake;
 
   const id = 'id';
   const revision = 0;
@@ -17,12 +18,13 @@ describe('QuestionnaireComponent', () => {
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
     validationService = new QuestionnaireValidationServiceFake();
+    window = new WindowFake();
     testee = new QuestionnaireComponent(<ActivatedRoute><any>{
       params: Observable.of({
         id: id,
         revision: revision
       })
-    }, <any>questionnaireService, <any>validationService);
+    }, <any>questionnaireService, <any>validationService, <any>window);
   });
 
   it('should load the route params', () => {
@@ -61,5 +63,87 @@ describe('QuestionnaireComponent', () => {
     expect(testee.questions).toEqual(questions);
     expect(testee.name).toBe('name');
     expect(validationService.initQuestionnaire).toHaveBeenCalledWith(['id1' ]);
+  });
+
+  it('should validate the questionnaire on validate', () => {
+    // Arrange
+    const validationResult = {
+      'valid': 1,
+      'invalid': 2,
+      'info': 3,
+      'notValidated': 4
+    };
+    validationService.validate.and.returnValue(validationResult);
+
+    // Act
+    testee.validate();
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+
+    // Assert
+    expect(testee.validationResult).toBe(validationResult);
+  });
+
+  it('should get the alert class for a valid state', () => {
+    // Arrange
+    testee.validationResult = {
+      'valid': 2,
+      'invalid': 0,
+      'info': 1,
+      'notValidated': 0
+    };
+
+    // Act
+    const result = testee.getAlertClass();
+
+    // Assert
+    expect(result).toEqual('success');
+  });
+
+  it('should get the alert class for an invalid state', () => {
+    // Arrange
+    testee.validationResult = {
+      'valid': 2,
+      'invalid': 1,
+      'info': 1,
+      'notValidated': 0
+    };
+
+    // Act
+    const result = testee.getAlertClass();
+
+    // Assert
+    expect(result).toEqual('danger');
+  });
+
+  it('should get the alert class for an incomplete valid state', () => {
+    // Arrange
+    testee.validationResult = {
+      'valid': 2,
+      'invalid': 0,
+      'info': 1,
+      'notValidated': 1
+    };
+
+    // Act
+    const result = testee.getAlertClass();
+
+    // Assert
+    expect(result).toEqual('dark');
+  });
+
+  it('should get the alert class for an incomplete invalid state', () => {
+    // Arrange
+    testee.validationResult = {
+      'valid': 2,
+      'invalid': 1,
+      'info': 1,
+      'notValidated': 1
+    };
+
+    // Act
+    const result = testee.getAlertClass();
+
+    // Assert
+    expect(result).toEqual('warning');
   });
 });
