@@ -5,6 +5,6 @@
     <textarea class="form-control" rows="4" title="Antwort" [(ngModel)]="response.value"></textarea>
   </div>
   <div class="col-12" *ngIf="isValidationLocked()">
-    <app-validation-message [message]="getValidationMessage"></app-validation-message>
+    <app-validation-message [message]="getValidationMessage()"></app-validation-message>
   </div>
 </div>
