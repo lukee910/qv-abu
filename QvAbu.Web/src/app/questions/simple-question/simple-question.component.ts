@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simple-question';
 import { SimpleResponseAnswer } from '../../models/questions/response-answer';
+import { QuestionnaireValidationService } from '../../services/questionnaire-validation.service';
+import { ValidationState } from '../../models/validation-message';
 
 @Component({
   selector: 'app-simple-question',
@@ -15,9 +17,13 @@ export class SimpleQuestionComponent implements OnInit {
 
   subtitle: string;
 
-  constructor() { }
+  constructor(private validationService: QuestionnaireValidationService) { }
 
   ngOnInit() {
+    this.question.answers.forEach(_ => {
+      this.responses.push(new SimpleResponseAnswer(_));
+    });
+
     switch (this.question.simpleQuestionType) {
       case SimpleQuestionType.singleChoice:
         this.subtitle = 'Kreuzen sie die zutreffende Aussage an.';
@@ -30,5 +36,9 @@ export class SimpleQuestionComponent implements OnInit {
         this.subtitle = 'Kreuzen sie die zutreffenden Aussagen an.';
         break;
     }
+  }
+
+  validate(): void {
+    this.validationService.setQuestionState(this.question.id, ValidationState.valid);
   }
 }

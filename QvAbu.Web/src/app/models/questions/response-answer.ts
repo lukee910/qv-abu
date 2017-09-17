@@ -9,6 +9,11 @@ abstract class ResponseAnswer<TAnswer extends Answer, TResponse> {
   public value: TResponse;
 }
 
-export class SimpleResponseAnswer extends ResponseAnswer<SimpleAnswer, boolean> { }
+export class SimpleResponseAnswer extends ResponseAnswer<SimpleAnswer, boolean> {
+  constructor(answer: SimpleAnswer) {
+    super();
+    this.answer = answer;
+  }
+}
 export class TextResponseAnswer extends ResponseAnswer<TextAnswer, string> { }
 export class AssignmentResponseAnswer extends ResponseAnswer<AssignmentAnswer, Guid> { }
