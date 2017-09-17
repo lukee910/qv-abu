@@ -117,4 +117,38 @@ describe('SimpleQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(component.question, ValidationState.valid);
   });
+
+  it('should set question invalid on validate', () => {
+    // Arrange
+    const answers: SimpleAnswer[] = [{
+      id: 'id1',
+      text: 'text1',
+      isCorrect: false
+    }, {
+      id: 'id2',
+      text: 'text2',
+      isCorrect: true
+    }];
+    component.question = {
+      id: 'id',
+      revision: 1,
+      text: 'text',
+      type: QuestionType.simpleQuestion,
+      simpleQuestionType: undefined,
+      answers: answers
+    };
+    component.responses = [{
+      value: true,
+      answer: null
+    }, {
+      value: true,
+      answer: null
+    }];
+
+    // Act
+    component.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(component.question, ValidationState.invalid);
+  });
 });

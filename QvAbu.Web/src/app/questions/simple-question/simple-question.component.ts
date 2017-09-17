@@ -39,6 +39,13 @@ export class SimpleQuestionComponent implements OnInit {
   }
 
   validate(): void {
-    this.validationService.setQuestionState(this.question, ValidationState.valid);
+    let isValid = true;
+    for (let i = 0; i < this.question.answers.length; i++) {
+      if (this.responses[i].value !== this.question.answers[i].isCorrect) {
+        isValid = false;
+      }
+    }
+
+    this.validationService.setQuestionState(this.question, isValid ? ValidationState.valid : ValidationState.invalid);
   }
 }
