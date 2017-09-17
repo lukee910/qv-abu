@@ -115,6 +115,6 @@ describe('SimpleQuestionComponent', () => {
     component.validate();
 
     // Assert
-    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith('id', ValidationState.valid);
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(component.question, ValidationState.valid);
   });
 });

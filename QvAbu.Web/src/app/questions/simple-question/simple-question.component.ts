@@ -39,6 +39,6 @@ export class SimpleQuestionComponent implements OnInit {
   }
 
   validate(): void {
-    this.validationService.setQuestionState(this.question.id, ValidationState.valid);
+    this.validationService.setQuestionState(this.question, ValidationState.valid);
   }
 }

@@ -15,31 +15,35 @@ describe('TextQuestionComponent', () => {
 
   it('should set the state of the question to "info" initially', () => {
     // Arrange
-    testee.question = new TextQuestion('id1');
+    testee.question = new TextQuestion('id1', 1);
 
     // Act
     testee.ngOnInit();
 
     // Assert
-    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith('id1', ValidationState.info);
+    const args = validationServiceFake.setQuestionState.calls.argsFor(0);
+    expect(args[0]).toEqual(testee.question);
+    expect(args[1]).toEqual(ValidationState.info);
   });
 
   it('should set the state of the question to "info" when questionnaire initialized', () => {
     // Arrange
-    testee.question = new TextQuestion('id2');
+    testee.question = new TextQuestion('id2', 2);
     const onEmitFn = validationServiceFake.questionnaireValidationPhaseChange.subscribeCallers[0];
 
     // Act
     onEmitFn(QuestionnaireValidationPhase.init);
 
     // Assert
-    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith('id2', ValidationState.info);
+    const args = validationServiceFake.setQuestionState.calls.argsFor(0);
+    expect(args[0]).toEqual(testee.question);
+    expect(args[1]).toEqual(ValidationState.info);
     expect(testee.isValidationLocked()).toBeFalsy();
   });
 
   it('should validation lock and set message when questionnaire is validated', () => {
     // Arrange
-    testee.question = new TextQuestion('id2');
+    testee.question = new TextQuestion('id2', 2);
     testee.question.answer = new TextAnswer();
     testee.question.answer.text = 'answer';
     const onEmitFn = validationServiceFake.questionnaireValidationPhaseChange.subscribeCallers[0];

@@ -4,6 +4,7 @@ import {
   QuestionnaireValidationPhase, ValidationState, ValidationStates,
   ValidationStateToString
 } from '../models/validation-message';
+import { RevisionEntity } from '../models/revision-entity';
 
 @Injectable()
 export class QuestionnaireValidationService {
@@ -14,21 +15,21 @@ export class QuestionnaireValidationService {
 
   constructor() { }
 
-  initQuestionnaire(ids: Guid[]): void {
+  initQuestionnaire(ids: RevisionEntity[]): void {
     this.validationStates = {};
     ids.forEach(_ => {
-      this.validationStates[_.toString()] = ValidationState.notValidated;
+      this.validationStates[this.getEntityId(_)] = ValidationState.notValidated;
     });
 
     this.setValidationPhase(QuestionnaireValidationPhase.init);
   }
 
-  setQuestionState(id: Guid, state: ValidationState): void {
+  setQuestionState(entity: RevisionEntity, state: ValidationState): void {
     if (this.validationPhase === null) {
       return;
     }
 
-    this.validationStates[id.toString()] = state;
+    this.validationStates[this.getEntityId(entity)] = state;
   }
 
   validate(): { [state: string]: number } {
@@ -54,5 +55,9 @@ export class QuestionnaireValidationService {
   private setValidationPhase(phase: QuestionnaireValidationPhase): void {
     this.validationPhase = phase;
     this.questionnaireValidationPhaseChange.emit(phase);
+  }
+
+  private getEntityId(entity: RevisionEntity): string {
+    return entity.id.toString() + entity.revision;
   }
 }

@@ -5,6 +5,7 @@ import 'rxjs/add/observable/of';
 import { QuestionnaireServiceFake, QuestionnaireValidationServiceFake, WindowFake } from '../../fakes';
 import { Question, QuestionType } from '../models/questions/question';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
+import { TextQuestion } from '../models/questions/text-question';
 
 describe('QuestionnaireComponent', () => {
   let testee: QuestionnaireComponent;
@@ -41,12 +42,7 @@ describe('QuestionnaireComponent', () => {
 
   it('should load the questions and preview', () => {
     // Arrange
-    const questions: Question[] = [{
-      id: 'id1',
-      revision: 1,
-      text: 'text1',
-      type: QuestionType.textQuestion
-    }];
+    const questions: Question[] = [new TextQuestion('id1', 1)];
     const preview: QuestionnairePreview = {
       revision: 0,
       id: 'id',
@@ -62,7 +58,10 @@ describe('QuestionnaireComponent', () => {
     // Assert
     expect(testee.questions).toEqual(questions);
     expect(testee.name).toBe('name');
-    expect(validationService.initQuestionnaire).toHaveBeenCalledWith(['id1' ]);
+
+    const args = validationService.initQuestionnaire.calls.argsFor(0);
+    expect(args.length).toBe(1);
+    expect(args[0][0]).toEqual(questions[0]);
   });
 
   it('should validate the questionnaire on validate', () => {

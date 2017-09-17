@@ -4,6 +4,7 @@ import { QuestionnaireValidationService } from './questionnaire-validation.servi
 import { QuestionnaireValidationPhase, ValidationState } from '../models/validation-message';
 import { Guid } from '../models/guid';
 import { EventEmitterFake } from '../../fakes';
+import { RevisionEntity } from '../models/revision-entity';
 
 describe('ValidationService', () => {
   let testee: QuestionnaireValidationService;
@@ -46,21 +47,30 @@ describe('ValidationService', () => {
 
   it('should keep tally of the different validation states', () => {
     // Arrange
-    const ids: Guid[] = [
-      'id1',
-      'id2',
-      'id3',
-      'id4',
-      'id5'
-    ];
+    const ids: RevisionEntity[] = [{
+      id: 'id1',
+      revision: 1
+    }, {
+      id: 'id1',
+      revision: 2
+    }, {
+      id: 'id2',
+      revision: 1
+    }, {
+      id: 'id3',
+      revision: 1
+    }, {
+      id: 'id4',
+      revision: 1
+    }];
 
     testee.initQuestionnaire(ids);
-    testee.setQuestionState('id1', ValidationState.info);
-    testee.setQuestionState('id2', ValidationState.valid);
-    testee.setQuestionState('id3', ValidationState.invalid);
-    testee.setQuestionState('id3', ValidationState.valid); // Overwrite invalid
+    testee.setQuestionState(ids[0], ValidationState.info);
+    testee.setQuestionState(ids[1], ValidationState.valid);
+    testee.setQuestionState(ids[2], ValidationState.invalid);
+    testee.setQuestionState(ids[2], ValidationState.valid); // Overwrite invalid
     // id4 not set
-    testee.setQuestionState('id5', ValidationState.invalid);
+    testee.setQuestionState(ids[4], ValidationState.invalid);
 
     // Act
     const result = testee.validate();
@@ -78,7 +88,7 @@ describe('ValidationService', () => {
     // Arrange
 
     // Act
-    testee.setQuestionState('id', ValidationState.valid);
+    testee.setQuestionState({id: 'id1', revision: 1}, ValidationState.valid);
     const result = testee.validate();
 
     // Assert

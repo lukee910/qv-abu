@@ -22,7 +22,7 @@ export class TextQuestionComponent implements OnInit {
     this.validationService.questionnaireValidationPhaseChange.subscribe(_ => {
       if (_ === QuestionnaireValidationPhase.init) {
         this._isValidationLocked = false;
-        this.validationService.setQuestionState(this.question.id, ValidationState.info);
+        this.validationService.setQuestionState(this.question, ValidationState.info);
       } else {
         this._isValidationLocked = true;
         this._validationMessage = new ValidationMessage(this.question.answer.text, ValidationState.info);
@@ -31,7 +31,7 @@ export class TextQuestionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.validationService.setQuestionState(this.question.id, ValidationState.info);
+    this.validationService.setQuestionState(this.question, ValidationState.info);
   }
 
   isValidationLocked(): boolean {

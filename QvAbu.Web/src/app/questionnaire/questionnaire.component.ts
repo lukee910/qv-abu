@@ -39,7 +39,7 @@ export class QuestionnaireComponent implements OnInit {
     this.service.getQuestionsForQuestionnaire(this.id, this.revision)
       .subscribe(_ => {
         this.questions = _;
-        this.validationService.initQuestionnaire(this.questions.map(x => x.id));
+        this.validationService.initQuestionnaire(this.questions);
       });
   }
 
