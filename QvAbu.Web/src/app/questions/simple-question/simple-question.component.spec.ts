@@ -17,7 +17,7 @@ describe('SimpleQuestionComponent', () => {
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    testee.question = new SimpleQuestion('questionId');
+    testee.question = new SimpleQuestion('questionId', 1);
     testee.question.answers = [];
     testee.question.simpleQuestionType = SimpleQuestionType.singleChoice;
 
@@ -30,7 +30,7 @@ describe('SimpleQuestionComponent', () => {
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    testee.question = new SimpleQuestion('questionId');
+    testee.question = new SimpleQuestion('questionId', 1);
     testee.question.answers = [<SimpleAnswer>{
       text: 'text',
       id: 'id',
@@ -51,7 +51,7 @@ describe('SimpleQuestionComponent', () => {
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    testee.question = new SimpleQuestion('questionId');
+    testee.question = new SimpleQuestion('questionId', 1);
     testee.question.answers = [];
     testee.question.simpleQuestionType = SimpleQuestionType.trueFalse;
 
@@ -64,7 +64,7 @@ describe('SimpleQuestionComponent', () => {
 
   it('should init the responses', () => {
     // Arrange
-    testee.question = new SimpleQuestion('questionId');
+    testee.question = new SimpleQuestion('questionId', 1);
     const answers = [{
       id: 'id1',
       isCorrect: false,
@@ -82,6 +82,97 @@ describe('SimpleQuestionComponent', () => {
 
     // Assert
     expect(testee.responses).toEqual([new SimpleResponseAnswer(answers[0]), new SimpleResponseAnswer(answers[1])]);
+  });
+
+  it('should change answer status and validate for multiple answers', () => {
+    // Arrange
+    testee.question = new SimpleQuestion('questionId', 1);
+    testee.question.simpleQuestionType = SimpleQuestionType.multipleChoice;
+    const answers = [new SimpleAnswer(), new SimpleAnswer()];
+    answers[0].id = 'id1';
+    answers[1].id = 'id2';
+    testee.responses = [{
+      answer: answers[0],
+      value: false
+    }, {
+      answer: answers[1],
+      value: true
+    }];
+    spyOn(testee, 'validate').and.stub();
+
+    // Act
+    testee.onInputChange(answers[0].id.toString());
+    testee.onInputChange(answers[1].id.toString());
+
+    // Assert
+    expect(testee.responses).toEqual([{
+      answer: answers[0],
+      value: true
+    }, {
+      answer: answers[1],
+      value: false
+    }]);
+    expect(testee.validate).toHaveBeenCalled();
+  });
+
+  it('should change answer status and validate for first single answer', () => {
+    // Arrange
+    testee.question = new SimpleQuestion('questionId', 1);
+    testee.question.simpleQuestionType = SimpleQuestionType.singleChoice;
+    const answers = [new SimpleAnswer(), new SimpleAnswer()];
+    answers[0].id = 'id1';
+    answers[1].id = 'id2';
+    testee.responses = [{
+      answer: answers[0],
+      value: false
+    }, {
+      answer: answers[1],
+      value: false
+    }];
+    spyOn(testee, 'validate').and.stub();
+
+    // Act
+    testee.onInputChange(answers[1].id.toString());
+
+    // Assert
+    expect(testee.responses).toEqual([{
+      answer: answers[0],
+      value: false
+    }, {
+      answer: answers[1],
+      value: true
+    }]);
+    expect(testee.validate).toHaveBeenCalled();
+  });
+
+  it('should change to different answer and validate for single answer', () => {
+    // Arrange
+    testee.question = new SimpleQuestion('questionId', 1);
+    testee.question.simpleQuestionType = SimpleQuestionType.singleChoice;
+    const answers = [new SimpleAnswer(), new SimpleAnswer()];
+    answers[0].id = 'id1';
+    answers[1].id = 'id2';
+    testee.responses = [{
+      answer: answers[0],
+      value: false
+    }, {
+      answer: answers[1],
+      value: true
+    }];
+    spyOn(testee, 'validate').and.stub();
+
+    // Act
+    testee.onInputChange(answers[0].id.toString());
+
+    // Assert
+    expect(testee.responses).toEqual([{
+      answer: answers[0],
+      value: true
+    }, {
+      answer: answers[1],
+      value: false
+    }]);
+    expect(testee.validate).toHaveBeenCalled();
   });
 
   it('should set question valid on validate', () => {

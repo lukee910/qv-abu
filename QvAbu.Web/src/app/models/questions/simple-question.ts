@@ -6,7 +6,7 @@ export class SimpleQuestion extends Question {
   answers: SimpleAnswer[];
   simpleQuestionType: SimpleQuestionType;
 
-  constructor(id: Guid) {
+  constructor(id: Guid, revision: number) {
     super();
     this.id = id;
 

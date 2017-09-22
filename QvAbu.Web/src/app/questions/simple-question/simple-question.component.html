@@ -8,9 +8,9 @@
         <input type="{{question.simpleQuestionType === 0 ? 'radio': 'checkbox'}}"
                class="custom-control-input"
                name="answer-{{question.id}}-{{question.revision}}"
-               [(value)]="responses[i].value"
-               (click)="validate()"
-               [readonly]="isValidationLocked()">
+               [disabled]="isValidationLocked()"
+               (change)="onInputChange(answer.id)"
+               [checked]="responses[i].value === true">
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">{{answer.text}}</span>
       </label>

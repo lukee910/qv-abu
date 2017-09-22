@@ -46,6 +46,19 @@ export class SimpleQuestionComponent implements OnInit {
     }
   }
 
+  onInputChange(answerId: string): void {
+    const response = this.responses.filter(_ => _.answer.id === answerId)[0];
+
+    if (this.question.simpleQuestionType === SimpleQuestionType.singleChoice) {
+      this.responses.forEach(_ => _.value = false);
+      response.value = true;
+    } else {
+      response.value = !response.value;
+    }
+
+    this.validate();
+  }
+
   validate(): void {
     let isValid = true;
     for (let i = 0; i < this.question.answers.length; i++) {
@@ -54,11 +67,11 @@ export class SimpleQuestionComponent implements OnInit {
         if ((this.responses[i].value === true) !== this.question.answers[i].isCorrect) {
         }
       }
-
-      const state = isValid ? ValidationState.valid : ValidationState.invalid;
-      this.validationService.setQuestionState(this.question, state);
-      this.validationMessage = new ValidationMessage(isValid ? 'Richtige Antwort' : 'Falsche Antwort', state);
     }
+
+    const state = isValid ? ValidationState.valid : ValidationState.invalid;
+    this.validationService.setQuestionState(this.question, state);
+    this.validationMessage = new ValidationMessage(isValid ? 'Richtige Antwort' : 'Falsche Antwort', state);
   }
 
   isValidationLocked(): boolean {
