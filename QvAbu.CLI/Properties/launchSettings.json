@@ -2,7 +2,7 @@
   "profiles": {
     "QvAbu.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\src\\qv-abu\\DebugFiles\\SimpleQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\TextQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\AssignmentQuestions.csv\""
+      "commandLineArgs": "\"C:\\src\\qv-abu\\DebugFiles\\SimpleQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\AssignmentQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\TextQuestions.csv\" "
     }
   }
 }

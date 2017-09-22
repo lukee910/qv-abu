@@ -3,6 +3,8 @@ import { AssignmentQuestion } from '../../models/questions/assignment-question';
 import { AssignmentResponseAnswer } from '../../models/questions/response-answer';
 import { AssignmentOption } from '../../models/questions/assignment-option';
 import { AssignmentAnswer } from '../../models/questions/assignment-answer';
+import { QuestionnaireValidationService } from '../../services/questionnaire-validation.service';
+import { ValidationState } from '../../models/validation-message';
 
 @Component({
   selector: 'app-assignment-question',
@@ -15,14 +17,9 @@ export class AssignmentQuestionComponent implements OnInit {
   @Output()
   responses: AssignmentResponseAnswer[] = [];
 
-  constructor() { }
+  constructor(private validationService: QuestionnaireValidationService) { }
 
   ngOnInit() {
-    // this.question.options.forEach(opt => {
-    //   this.question.answers.forEach(answer => {
-    //     this.selectedValues[opt.id + <string>answer.id] = false;
-    //   });
-    // });
   }
 
   toChar(int: number): string {
@@ -38,5 +35,17 @@ export class AssignmentQuestionComponent implements OnInit {
       this.responses.push(response);
     }
     response.value = option.id;
+    this.validate();
+  }
+
+  validate(): void {
+    let isInvalid = false;
+    this.responses.forEach(response => {
+      if (response.value !== response.answer.correctOptionId) {
+        isInvalid = true;
+      }
+    });
+
+    this.validationService.setQuestionState(this.question, isInvalid ? ValidationState.invalid : ValidationState.valid);
   }
 }

@@ -16,8 +16,13 @@
         <input type="radio"
                class="custom-control-input"
                name="answer-{{answer.id}}"
-               (value)="option.id"
+               [value]="option.id"
                (click)="setResponseValue(option, answer)">
+        <!--
+               [(value)]="responses[i].value"
+               (click)="validate()">
+        -->
+
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">{{toChar(iOpt)}})</span>
       </label>

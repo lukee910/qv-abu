@@ -3,12 +3,17 @@ import { AssignmentQuestion } from '../../models/questions/assignment-question';
 import { AssignmentResponseAnswer } from '../../models/questions/response-answer';
 import { QuestionType } from '../../models/questions/question';
 import { AssignmentAnswer } from '../../models/questions/assignment-answer';
+import { AssignmentOption } from '../../models/questions/assignment-option';
+import { ValidationState } from '../../models/validation-message';
+import { QuestionnaireValidationServiceFake } from '../../../fakes';
 
 describe('AssignmentQuestionComponent', () => {
-  let component: AssignmentQuestionComponent;
+  let testee: AssignmentQuestionComponent;
+  let validationServiceFake: QuestionnaireValidationServiceFake;
 
   beforeEach(() => {
-    component = new AssignmentQuestionComponent();
+    validationServiceFake = new QuestionnaireValidationServiceFake();
+    testee = new AssignmentQuestionComponent(<any>validationServiceFake);
   });
 
   it('should convert to char', () => {
@@ -17,7 +22,7 @@ describe('AssignmentQuestionComponent', () => {
     const char = 'b';
 
     // Act
-    const result = component.toChar(int);
+    const result = testee.toChar(int);
 
     // Assert
     expect(result).toBe(char);
@@ -54,19 +59,113 @@ describe('AssignmentQuestionComponent', () => {
     expectedResponse2.value = 'id2';
     const expectedResponses: AssignmentResponseAnswer[] = [expectedResponse1, expectedResponse2];
 
-    component.question = question;
+    testee.question = question;
+    spyOn(testee, 'validate').and.stub();
 
     // Act
-    component.setResponseValue({
+    testee.setResponseValue({
       id: 'id',
       text: 'text'
     }, answer1);
-    component.setResponseValue({
+    testee.setResponseValue({
       id: 'id2',
       text: 'text'
     }, answer2);
 
     // Assert
-    expect(component.responses).toEqual(expectedResponses);
+    expect(testee.responses).toEqual(expectedResponses);
+    expect(testee.validate).toHaveBeenCalled();
+  });
+
+  it('should validate, all options valid', () => {
+    // Arrange
+    testee.question = new AssignmentQuestion('id');
+    const options = [{
+      id: 'optId1',
+      text: 'optText1'
+    }, {
+      id: 'optId2',
+      text: 'optText2'
+    }];
+    const answers = [{
+      id: 'ansId1',
+      text: 'ansText1',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }, {
+      id: 'ansId2',
+      text: 'ansText2',
+      correctOption: options[0],
+      correctOptionId: options[0].id
+    }, {
+      id: 'ansId3',
+      text: 'ansText3',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }];
+    testee.question.options = options;
+    testee.question.answers = answers;
+    testee.responses = [{
+      answer: answers[0],
+      value: options[1].id
+    }, {
+      answer: answers[1],
+      value: options[0].id
+    }, {
+      answer: answers[2],
+      value: options[1].id
+    }];
+
+    // Act
+    testee.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.valid);
+  });
+
+  it('should validate, one option wrong', () => {
+    // Arrange
+    testee.question = new AssignmentQuestion('id');
+    const options = [{
+      id: 'optId1',
+      text: 'optText1'
+    }, {
+      id: 'optId2',
+      text: 'optText2'
+    }];
+    const answers = [{
+      id: 'ansId1',
+      text: 'ansText1',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }, {
+      id: 'ansId2',
+      text: 'ansText2',
+      correctOption: options[0],
+      correctOptionId: options[0].id
+    }, {
+      id: 'ansId3',
+      text: 'ansText3',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }];
+    testee.question.options = options;
+    testee.question.answers = answers;
+    testee.responses = [{
+      answer: answers[0],
+      value: options[1].id
+    }, {
+      answer: answers[1],
+      value: options[0].id
+    }, {
+      answer: answers[2],
+      value: options[0].id
+    }];
+
+    // Act
+    testee.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
   });
 });
