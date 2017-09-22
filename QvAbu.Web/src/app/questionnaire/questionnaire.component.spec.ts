@@ -127,7 +127,7 @@ describe('QuestionnaireComponent', () => {
     const result = testee.getAlertClass();
 
     // Assert
-    expect(result).toEqual('dark');
+    expect(result).toEqual('warning');
   });
 
   it('should get the alert class for an incomplete invalid state', () => {
@@ -143,6 +143,6 @@ describe('QuestionnaireComponent', () => {
     const result = testee.getAlertClass();
 
     // Assert
-    expect(result).toEqual('warning');
+    expect(result).toEqual('danger');
   });
 });

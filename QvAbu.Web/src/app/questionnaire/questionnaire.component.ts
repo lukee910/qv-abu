@@ -54,15 +54,14 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   getAlertClass(): string {
-    let hasErrors = false;
     if (this.validationResult[ValidationStateToString(ValidationState.invalid)] > 0) {
-      hasErrors = true;
+      return 'danger';
     }
 
     if (this.validationResult[ValidationStateToString(ValidationState.notValidated)] > 0) {
-      return hasErrors ? 'warning' : 'dark';
+      return 'warning';
     }
 
-    return hasErrors ? 'danger' : 'success';
+    return 'success';
   }
 }

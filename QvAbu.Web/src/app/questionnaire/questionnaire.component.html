@@ -7,10 +7,10 @@
 
   <div class="col-12" *ngIf="validationResult">
     <div class="alert alert-{{getAlertClass()}}">
-      <div>Richtig: {{validationResult['valid']}}</div>
-      <div>Falsch: {{validationResult['invalid']}}</div>
-      <div>Selbstkontrolle: {{validationResult['info']}}</div>
-      <div>Nicht beantwortet: {{validationResult['notValidated']}}</div>
+      <div *ngIf="validationResult['valid'] > 0">Richtig: {{validationResult['valid']}}</div>
+      <div *ngIf="validationResult['invalid'] > 0">Falsch: {{validationResult['invalid']}}</div>
+      <div *ngIf="validationResult['info'] > 0">Selbstkontrolle: {{validationResult['info']}}</div>
+      <div *ngIf="validationResult['notValidated'] > 0">Nicht beantwortet: {{validationResult['notValidated']}}</div>
     </div>
   </div>
 
