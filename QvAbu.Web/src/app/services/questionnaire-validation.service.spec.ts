@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { QuestionnaireValidationService } from './questionnaire-validation.service';
 import { QuestionnaireValidationPhase, ValidationState } from '../models/validation-message';
-import { Guid } from '../models/guid';
 import { EventEmitterFake } from '../../fakes';
 import { RevisionEntity } from '../models/revision-entity';
 

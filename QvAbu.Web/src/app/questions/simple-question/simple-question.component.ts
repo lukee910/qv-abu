@@ -62,10 +62,8 @@ export class SimpleQuestionComponent implements OnInit {
   validate(): void {
     let isValid = true;
     for (let i = 0; i < this.question.answers.length; i++) {
-      if (this.responses[i].value !== this.question.answers[i].isCorrect) {
+      if ((this.responses[i].value === true) !== this.question.answers[i].isCorrect) {
         isValid = false;
-        if ((this.responses[i].value === true) !== this.question.answers[i].isCorrect) {
-        }
       }
     }
 

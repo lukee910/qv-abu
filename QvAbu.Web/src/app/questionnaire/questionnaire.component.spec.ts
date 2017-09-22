@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { QuestionnaireServiceFake, QuestionnaireValidationServiceFake, WindowFake } from '../../fakes';
-import { Question, QuestionType } from '../models/questions/question';
+import { Question } from '../models/questions/question';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 import { TextQuestion } from '../models/questions/text-question';
 

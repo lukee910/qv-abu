@@ -6,7 +6,7 @@
   </div>
 
   <div class="col-12" *ngIf="validationResult">
-    <div class="alert alert-dark">
+    <div class="alert alert-{{getAlertClass()}}">
       <div>Richtig: {{validationResult['valid']}}</div>
       <div>Falsch: {{validationResult['invalid']}}</div>
       <div>Selbstkontrolle: {{validationResult['info']}}</div>
