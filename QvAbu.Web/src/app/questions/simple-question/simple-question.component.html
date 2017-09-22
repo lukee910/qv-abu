@@ -9,10 +9,15 @@
                class="custom-control-input"
                name="answer-{{question.id}}-{{question.revision}}"
                [(value)]="responses[i].value"
-               (click)="validate()">
+               (click)="validate()"
+               [readonly]="isValidationLocked()">
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">{{answer.text}}</span>
       </label>
+    </div>
+
+    <div class="col-12" *ngIf="isValidationLocked()">
+      <app-validation-message [message]="validationMessage"></app-validation-message>
     </div>
   </div>
 </div>

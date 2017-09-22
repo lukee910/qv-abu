@@ -3,35 +3,35 @@ import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simpl
 import { SimpleAnswer } from '../../models/questions/simple-answer';
 import { SimpleResponseAnswer } from '../../models/questions/response-answer';
 import { QuestionType } from '../../models/questions/question';
-import { ValidationState } from '../../models/validation-message';
+import { QuestionnaireValidationPhase, ValidationMessage, ValidationState } from '../../models/validation-message';
 import { QuestionnaireValidationServiceFake } from '../../../fakes';
 
 describe('SimpleQuestionComponent', () => {
-  let component: SimpleQuestionComponent;
+  let testee: SimpleQuestionComponent;
   let validationServiceFake: QuestionnaireValidationServiceFake;
 
   beforeEach(() => {
     validationServiceFake = new QuestionnaireValidationServiceFake();
-    component = new SimpleQuestionComponent(<any>validationServiceFake);
+    testee = new SimpleQuestionComponent(<any>validationServiceFake);
   });
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion('questionId');
-    component.question.answers = [];
-    component.question.simpleQuestionType = SimpleQuestionType.singleChoice;
+    testee.question = new SimpleQuestion('questionId');
+    testee.question.answers = [];
+    testee.question.simpleQuestionType = SimpleQuestionType.singleChoice;
 
     // Act
-    component.ngOnInit();
+    testee.ngOnInit();
 
     // Assert
-    expect(component.subtitle).toBe('Kreuzen sie die zutreffende Aussage an.');
+    expect(testee.subtitle).toBe('Kreuzen sie die zutreffende Aussage an.');
   });
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion('questionId');
-    component.question.answers = [<SimpleAnswer>{
+    testee.question = new SimpleQuestion('questionId');
+    testee.question.answers = [<SimpleAnswer>{
       text: 'text',
       id: 'id',
       isCorrect: false
@@ -40,31 +40,31 @@ describe('SimpleQuestionComponent', () => {
       id: 'id',
       isCorrect: true
     }];
-    component.question.simpleQuestionType = SimpleQuestionType.multipleChoice;
+    testee.question.simpleQuestionType = SimpleQuestionType.multipleChoice;
 
     // Act
-    component.ngOnInit();
+    testee.ngOnInit();
 
     // Assert
-    expect(component.subtitle).toBe('Kreuzen sie die zutreffenden 1 Aussagen an.');
+    expect(testee.subtitle).toBe('Kreuzen sie die zutreffenden 1 Aussagen an.');
   });
 
   it('should set the correct subtitle for single choice', () => {
     // Arrange
-    component.question = new SimpleQuestion('questionId');
-    component.question.answers = [];
-    component.question.simpleQuestionType = SimpleQuestionType.trueFalse;
+    testee.question = new SimpleQuestion('questionId');
+    testee.question.answers = [];
+    testee.question.simpleQuestionType = SimpleQuestionType.trueFalse;
 
     // Act
-    component.ngOnInit();
+    testee.ngOnInit();
 
     // Assert
-    expect(component.subtitle).toBe('Kreuzen sie die zutreffenden Aussagen an.');
+    expect(testee.subtitle).toBe('Kreuzen sie die zutreffenden Aussagen an.');
   });
 
   it('should init the responses', () => {
     // Arrange
-    component.question = new SimpleQuestion('questionId');
+    testee.question = new SimpleQuestion('questionId');
     const answers = [{
       id: 'id1',
       isCorrect: false,
@@ -74,14 +74,14 @@ describe('SimpleQuestionComponent', () => {
       isCorrect: true,
       text: 'text2'
     }];
-    component.question.answers = answers;
-    component.question.simpleQuestionType = SimpleQuestionType.trueFalse;
+    testee.question.answers = answers;
+    testee.question.simpleQuestionType = SimpleQuestionType.trueFalse;
 
     // Act
-    component.ngOnInit();
+    testee.ngOnInit();
 
     // Assert
-    expect(component.responses).toEqual([new SimpleResponseAnswer(answers[0]), new SimpleResponseAnswer(answers[1])]);
+    expect(testee.responses).toEqual([new SimpleResponseAnswer(answers[0]), new SimpleResponseAnswer(answers[1])]);
   });
 
   it('should set question valid on validate', () => {
@@ -95,7 +95,7 @@ describe('SimpleQuestionComponent', () => {
       text: 'text2',
       isCorrect: true
     }];
-    component.question = {
+    testee.question = {
       id: 'id',
       revision: 1,
       text: 'text',
@@ -103,7 +103,7 @@ describe('SimpleQuestionComponent', () => {
       simpleQuestionType: undefined,
       answers: answers
     };
-    component.responses = [{
+    testee.responses = [{
       value: false,
       answer: null
     }, {
@@ -112,10 +112,11 @@ describe('SimpleQuestionComponent', () => {
     }];
 
     // Act
-    component.validate();
+    testee.validate();
 
     // Assert
-    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(component.question, ValidationState.valid);
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.valid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Richtige Antwort', ValidationState.valid));
   });
 
   it('should set question invalid on validate', () => {
@@ -129,7 +130,7 @@ describe('SimpleQuestionComponent', () => {
       text: 'text2',
       isCorrect: true
     }];
-    component.question = {
+    testee.question = {
       id: 'id',
       revision: 1,
       text: 'text',
@@ -137,7 +138,7 @@ describe('SimpleQuestionComponent', () => {
       simpleQuestionType: undefined,
       answers: answers
     };
-    component.responses = [{
+    testee.responses = [{
       value: true,
       answer: null
     }, {
@@ -146,9 +147,23 @@ describe('SimpleQuestionComponent', () => {
     }];
 
     // Act
-    component.validate();
+    testee.validate();
 
     // Assert
-    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(component.question, ValidationState.invalid);
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Falsche Antwort', ValidationState.invalid));
+  });
+
+  it('should validation lock and set message when questionnaire is validated', () => {
+    // Arrange
+    const onEmitFn = validationServiceFake.questionnaireValidationPhaseChange.subscribeCallers[0];
+    expect(testee.isValidationLocked()).toBeFalsy();
+
+    // Act
+    onEmitFn(QuestionnaireValidationPhase.validationLocked);
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).not.toHaveBeenCalled();
+    expect(testee.isValidationLocked()).toBeTruthy();
   });
 });

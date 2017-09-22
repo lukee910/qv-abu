@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { SimpleQuestion, SimpleQuestionType } from '../../models/questions/simple-question';
 import { SimpleResponseAnswer } from '../../models/questions/response-answer';
 import { QuestionnaireValidationService } from '../../services/questionnaire-validation.service';
-import { ValidationState } from '../../models/validation-message';
+import { QuestionnaireValidationPhase, ValidationMessage, ValidationState } from '../../models/validation-message';
 
 @Component({
   selector: 'app-simple-question',
@@ -16,8 +16,16 @@ export class SimpleQuestionComponent implements OnInit {
   responses: SimpleResponseAnswer[] = [];
 
   subtitle: string;
+  validationMessage: ValidationMessage = new ValidationMessage('Nicht beantwortet', ValidationState.notValidated);
+  private _isValidationLocked = false;
 
-  constructor(private validationService: QuestionnaireValidationService) { }
+  constructor(private validationService: QuestionnaireValidationService) {
+    this.validationService.questionnaireValidationPhaseChange.subscribe(_ => {
+      if (_ === QuestionnaireValidationPhase.validationLocked) {
+        this._isValidationLocked = true;
+      }
+    });
+  }
 
   ngOnInit() {
     this.question.answers.forEach(_ => {
@@ -43,9 +51,17 @@ export class SimpleQuestionComponent implements OnInit {
     for (let i = 0; i < this.question.answers.length; i++) {
       if (this.responses[i].value !== this.question.answers[i].isCorrect) {
         isValid = false;
+        if ((this.responses[i].value === true) !== this.question.answers[i].isCorrect) {
+        }
       }
-    }
 
-    this.validationService.setQuestionState(this.question, isValid ? ValidationState.valid : ValidationState.invalid);
+      const state = isValid ? ValidationState.valid : ValidationState.invalid;
+      this.validationService.setQuestionState(this.question, state);
+      this.validationMessage = new ValidationMessage(isValid ? 'Richtige Antwort' : 'Falsche Antwort', state);
+    }
+  }
+
+  isValidationLocked(): boolean {
+    return this._isValidationLocked;
   }
 }
