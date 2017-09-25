@@ -46,3 +46,12 @@ body {
     background-color: $gray-200;
   }
 }
+
+/* Radio Buttons */
+.question-show-validation .radio-false .custom-control-indicator {
+  background-color: $red !important;
+}
+
+.question-show-validation .radio-true .custom-control-indicator {
+  background-color: $green !important;
+}

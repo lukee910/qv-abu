@@ -82,6 +82,10 @@ describe('SimpleQuestionComponent', () => {
 
     // Assert
     expect(testee.responses).toEqual([new SimpleResponseAnswer(answers[0]), new SimpleResponseAnswer(answers[1])]);
+    expect(testee.validationResult).toEqual([
+      undefined,
+      undefined
+    ]);
   });
 
   it('should change answer status and validate for multiple answers', () => {
@@ -208,9 +212,13 @@ describe('SimpleQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.valid);
     expect(testee.validationMessage).toEqual(new ValidationMessage('Richtige Antwort', ValidationState.valid));
+    expect(testee.validationResult).toEqual([
+      undefined,
+      undefined
+    ]);
   });
 
-  it('should set question invalid on validate', () => {
+  it('should set question invalid on validate, one true instead of false', () => {
     // Arrange
     const answers: SimpleAnswer[] = [{
       id: 'id1',
@@ -243,6 +251,49 @@ describe('SimpleQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
     expect(testee.validationMessage).toEqual(new ValidationMessage('Falsche Antwort', ValidationState.invalid));
+    expect(testee.validationResult).toEqual([
+      'radio-false',
+      undefined
+    ]);
+  });
+
+  it('should set question invalid on validate, one true instead of false, one false instead of true', () => {
+    // Arrange
+    const answers: SimpleAnswer[] = [{
+      id: 'id1',
+      text: 'text1',
+      isCorrect: true
+    }, {
+      id: 'id2',
+      text: 'text2',
+      isCorrect: false
+    }];
+    testee.question = {
+      id: 'id',
+      revision: 1,
+      text: 'text',
+      type: QuestionType.simpleQuestion,
+      simpleQuestionType: undefined,
+      answers: answers
+    };
+    testee.responses = [{
+      value: false,
+      answer: null
+    }, {
+      value: true,
+      answer: null
+    }];
+
+    // Act
+    testee.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Falsche Antwort', ValidationState.invalid));
+    expect(testee.validationResult).toEqual([
+      'radio-true',
+      'radio-false'
+    ]);
   });
 
   it('should validation lock and set message when questionnaire is validated', () => {

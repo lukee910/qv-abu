@@ -17,6 +17,8 @@ export class SimpleQuestionComponent implements OnInit {
 
   subtitle: string;
   validationMessage: ValidationMessage = new ValidationMessage('Nicht beantwortet', ValidationState.notValidated);
+  validationResult: ('radio-false' | 'radio-true' | undefined)[] = [];
+
   private _isValidationLocked = false;
 
   constructor(private validationService: QuestionnaireValidationService) {
@@ -30,6 +32,7 @@ export class SimpleQuestionComponent implements OnInit {
   ngOnInit() {
     this.question.answers.forEach(_ => {
       this.responses.push(new SimpleResponseAnswer(_));
+      this.validationResult.push(undefined);
     });
 
     switch (this.question.simpleQuestionType) {
@@ -60,10 +63,13 @@ export class SimpleQuestionComponent implements OnInit {
   }
 
   validate(): void {
+    this.validationResult = new Array(this.question.answers.length);
     let isValid = true;
     for (let i = 0; i < this.question.answers.length; i++) {
-      if ((this.responses[i].value === true) !== this.question.answers[i].isCorrect) {
+      const expectedAnswer = this.question.answers[i].isCorrect;
+      if ((this.responses[i].value === true) !== expectedAnswer) {
         isValid = false;
+        this.validationResult[i] = expectedAnswer ? 'radio-true' : 'radio-false';
       }
     }
 
