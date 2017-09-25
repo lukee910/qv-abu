@@ -17,6 +17,8 @@ export class AssignmentQuestionComponent implements OnInit {
   @Output()
   responses: AssignmentResponseAnswer[] = [];
   validationMessage: ValidationMessage = new ValidationMessage('Nicht beantwortet', ValidationState.notValidated);
+  responseValues: {[ansId: string]: {[optId: string]: 'radio-true'| 'radio-false' | undefined}} = {};
+
   private _isValidationLocked = false;
 
   constructor(private validationService: QuestionnaireValidationService) {
@@ -26,6 +28,7 @@ export class AssignmentQuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initResponseValues();
   }
 
   toChar(int: number): string {
@@ -45,9 +48,12 @@ export class AssignmentQuestionComponent implements OnInit {
   }
 
   validate(): void {
+    this.initResponseValues();
     let invalidCount = 0;
     this.responses.forEach(response => {
       if (response.value !== response.answer.correctOptionId) {
+        this.responseValues[response.answer.id.toString()][response.value.toString()] = 'radio-false';
+        this.responseValues[response.answer.id.toString()][response.answer.correctOptionId.toString()] = 'radio-true';
         invalidCount++;
       }
     });
@@ -69,5 +75,16 @@ export class AssignmentQuestionComponent implements OnInit {
 
   isValidationLocked(): boolean {
     return this._isValidationLocked;
+  }
+
+  private initResponseValues(): void {
+    this.responseValues = {};
+    this.question.answers.forEach(ans => {
+      const dict: {[optId: string]: 'radio-true'| 'radio-false' | undefined} = {};
+      this.question.options.forEach(opt => {
+        dict[opt.id.toString()] = undefined;
+      });
+      this.responseValues[ans.id.toString()] = dict;
+    });
   }
 }

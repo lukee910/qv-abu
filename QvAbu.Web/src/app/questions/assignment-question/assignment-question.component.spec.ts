@@ -16,13 +16,43 @@ describe('AssignmentQuestionComponent', () => {
     testee = new AssignmentQuestionComponent(<any>validationServiceFake);
   });
 
-  it('should init a validation message', () => {
+  it('should init', () => {
     // Arrange
+    testee.question = new AssignmentQuestion('id1');
+    testee.question.options = [{
+      id: 'optId1',
+      text: ''
+    }, {
+      id: 'optId2',
+      text: ''
+    }];
+    testee.question.answers = [{
+      id: 'answerId1',
+      text: '',
+      correctOption: undefined,
+      correctOptionId: 'optId1'
+    }, {
+      id: 'answerId2',
+      text: '',
+      correctOption: undefined,
+      correctOptionId: 'optId2'
+    }];
 
     // Act
+    testee.ngOnInit();
 
     // Assert
     expect(testee.validationMessage).toEqual(new ValidationMessage('Nicht beantwortet', ValidationState.notValidated));
+    expect(testee.responseValues).toEqual({
+      answerId1: {
+        optId1: undefined,
+        optId2: undefined
+      },
+      answerId2: {
+        optId1: undefined,
+        optId2: undefined
+      }
+    });
   });
 
   it('should convert to char', () => {
@@ -131,6 +161,20 @@ describe('AssignmentQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.valid);
     expect(testee.validationMessage).toEqual(new ValidationMessage('Alle Antworten richtig', ValidationState.valid));
+    expect(testee.responseValues).toEqual({
+      ansId1: {
+        optId1: undefined,
+        optId2: undefined
+      },
+      ansId2: {
+        optId1: undefined,
+        optId2: undefined
+      },
+      ansId3: {
+        optId1: undefined,
+        optId2: undefined
+      }
+    });
   });
 
   it('should validate, one response not given', () => {
@@ -167,6 +211,16 @@ describe('AssignmentQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.notValidated);
     expect(testee.validationMessage).toEqual(new ValidationMessage('Nicht komplett beantwortet', ValidationState.notValidated));
+    expect(testee.responseValues).toEqual({
+      ansId1: {
+        optId1: 'radio-true',
+        optId2: 'radio-false'
+      },
+      ansId2: {
+        optId1: undefined,
+        optId2: undefined
+      }
+    });
   });
 
   it('should validate, one option wrong', () => {
@@ -177,6 +231,9 @@ describe('AssignmentQuestionComponent', () => {
       text: 'optText1'
     }, {
       id: 'optId2',
+      text: 'optText2'
+    }, {
+      id: 'optId3',
       text: 'optText2'
     }];
     const answers = [{
@@ -214,6 +271,23 @@ describe('AssignmentQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
     expect(testee.validationMessage).toEqual(new ValidationMessage('1 Antwort falsch', ValidationState.invalid));
+    expect(testee.responseValues).toEqual({
+      ansId1: {
+        optId1: undefined,
+        optId2: undefined,
+        optId3: undefined
+      },
+      ansId2: {
+        optId1: undefined,
+        optId2: undefined,
+        optId3: undefined
+      },
+      ansId3: {
+        optId1: 'radio-false',
+        optId2: 'radio-true',
+        optId3: undefined
+      }
+    });
   });
 
   it('should validate, three options wrong', () => {
@@ -261,6 +335,20 @@ describe('AssignmentQuestionComponent', () => {
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
     expect(testee.validationMessage).toEqual(new ValidationMessage('3 Antworten falsch', ValidationState.invalid));
+    expect(testee.responseValues).toEqual({
+      ansId1: {
+        optId1: 'radio-true',
+        optId2: 'radio-false'
+      },
+      ansId2: {
+        optId1: 'radio-false',
+        optId2: 'radio-true'
+      },
+      ansId3: {
+        optId1: 'radio-false',
+        optId2: 'radio-true'
+      }
+    });
   });
 
   it('should validation lock and set message when questionnaire is validated', () => {
@@ -275,6 +363,4 @@ describe('AssignmentQuestionComponent', () => {
     expect(validationServiceFake.setQuestionState).not.toHaveBeenCalled();
     expect(testee.isValidationLocked()).toBeTruthy();
   });
-
-  // TODO: ValidationLocked
 });
