@@ -4,7 +4,7 @@ import { AssignmentResponseAnswer } from '../../models/questions/response-answer
 import { QuestionType } from '../../models/questions/question';
 import { AssignmentAnswer } from '../../models/questions/assignment-answer';
 import { AssignmentOption } from '../../models/questions/assignment-option';
-import { ValidationState } from '../../models/validation-message';
+import { QuestionnaireValidationPhase, ValidationMessage, ValidationState } from '../../models/validation-message';
 import { QuestionnaireValidationServiceFake } from '../../../fakes';
 
 describe('AssignmentQuestionComponent', () => {
@@ -14,6 +14,15 @@ describe('AssignmentQuestionComponent', () => {
   beforeEach(() => {
     validationServiceFake = new QuestionnaireValidationServiceFake();
     testee = new AssignmentQuestionComponent(<any>validationServiceFake);
+  });
+
+  it('should init a validation message', () => {
+    // Arrange
+
+    // Act
+
+    // Assert
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Nicht beantwortet', ValidationState.notValidated));
   });
 
   it('should convert to char', () => {
@@ -121,6 +130,43 @@ describe('AssignmentQuestionComponent', () => {
 
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.valid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Alle Antworten richtig', ValidationState.valid));
+  });
+
+  it('should validate, one response not given', () => {
+    // Arrange
+    testee.question = new AssignmentQuestion('id');
+    const options = [{
+      id: 'optId1',
+      text: 'optText1'
+    }, {
+      id: 'optId2',
+      text: 'optText2'
+    }];
+    const answers = [{
+      id: 'ansId1',
+      text: 'ansText1',
+      correctOption: options[0],
+      correctOptionId: options[0].id
+    }, {
+      id: 'ansId2',
+      text: 'ansText2',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }];
+    testee.question.options = options;
+    testee.question.answers = answers;
+    testee.responses = [{
+      answer: answers[0],
+      value: options[1].id
+    }];
+
+    // Act
+    testee.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.notValidated);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('Nicht komplett beantwortet', ValidationState.notValidated));
   });
 
   it('should validate, one option wrong', () => {
@@ -167,5 +213,68 @@ describe('AssignmentQuestionComponent', () => {
 
     // Assert
     expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('1 Antwort falsch', ValidationState.invalid));
   });
+
+  it('should validate, three options wrong', () => {
+    // Arrange
+    testee.question = new AssignmentQuestion('id');
+    const options = [{
+      id: 'optId1',
+      text: 'optText1'
+    }, {
+      id: 'optId2',
+      text: 'optText2'
+    }];
+    const answers = [{
+      id: 'ansId1',
+      text: 'ansText1',
+      correctOption: options[0],
+      correctOptionId: options[0].id
+    }, {
+      id: 'ansId2',
+      text: 'ansText2',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }, {
+      id: 'ansId3',
+      text: 'ansText3',
+      correctOption: options[1],
+      correctOptionId: options[1].id
+    }];
+    testee.question.options = options;
+    testee.question.answers = answers;
+    testee.responses = [{
+      answer: answers[0],
+      value: options[1].id
+    }, {
+      answer: answers[1],
+      value: options[0].id
+    }, {
+      answer: answers[2],
+      value: options[0].id
+    }];
+
+    // Act
+    testee.validate();
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).toHaveBeenCalledWith(testee.question, ValidationState.invalid);
+    expect(testee.validationMessage).toEqual(new ValidationMessage('3 Antworten falsch', ValidationState.invalid));
+  });
+
+  it('should validation lock and set message when questionnaire is validated', () => {
+    // Arrange
+    const onEmitFn = validationServiceFake.questionnaireValidationPhaseChange.subscribeCallers[0];
+    expect(testee.isValidationLocked()).toBeFalsy();
+
+    // Act
+    onEmitFn(QuestionnaireValidationPhase.validationLocked);
+
+    // Assert
+    expect(validationServiceFake.setQuestionState).not.toHaveBeenCalled();
+    expect(testee.isValidationLocked()).toBeTruthy();
+  });
+
+  // TODO: ValidationLocked
 });

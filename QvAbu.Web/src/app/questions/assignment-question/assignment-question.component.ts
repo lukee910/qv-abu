@@ -4,7 +4,7 @@ import { AssignmentResponseAnswer } from '../../models/questions/response-answer
 import { AssignmentOption } from '../../models/questions/assignment-option';
 import { AssignmentAnswer } from '../../models/questions/assignment-answer';
 import { QuestionnaireValidationService } from '../../services/questionnaire-validation.service';
-import { ValidationState } from '../../models/validation-message';
+import { ValidationMessage, ValidationState } from '../../models/validation-message';
 
 @Component({
   selector: 'app-assignment-question',
@@ -16,8 +16,14 @@ export class AssignmentQuestionComponent implements OnInit {
   question: AssignmentQuestion;
   @Output()
   responses: AssignmentResponseAnswer[] = [];
+  validationMessage: ValidationMessage = new ValidationMessage('Nicht beantwortet', ValidationState.notValidated);
+  private _isValidationLocked = false;
 
-  constructor(private validationService: QuestionnaireValidationService) { }
+  constructor(private validationService: QuestionnaireValidationService) {
+    this.validationService.questionnaireValidationPhaseChange.subscribe(_ => {
+      this._isValidationLocked = true;
+    });
+  }
 
   ngOnInit() {
   }
@@ -39,13 +45,29 @@ export class AssignmentQuestionComponent implements OnInit {
   }
 
   validate(): void {
-    let isInvalid = false;
+    let invalidCount = 0;
     this.responses.forEach(response => {
       if (response.value !== response.answer.correctOptionId) {
-        isInvalid = true;
+        invalidCount++;
       }
     });
 
-    this.validationService.setQuestionState(this.question, isInvalid ? ValidationState.invalid : ValidationState.valid);
+    let state = ValidationState.valid;
+    let message = 'Alle Antworten richtig';
+    if (invalidCount > 0) {
+      state = ValidationState.invalid;
+      message = invalidCount + ' Antwort' + (invalidCount > 1 ? 'en' : '') + ' falsch';
+    }
+    if (this.responses.length < this.question.answers.length) {
+      message = 'Nicht komplett beantwortet';
+      state = ValidationState.notValidated;
+    }
+
+    this.validationService.setQuestionState(this.question, state);
+    this.validationMessage = new ValidationMessage(message, state);
+  }
+
+  isValidationLocked(): boolean {
+    return this._isValidationLocked;
   }
 }

@@ -17,7 +17,8 @@
                class="custom-control-input"
                name="answer-{{answer.id}}"
                [value]="option.id"
-               (click)="setResponseValue(option, answer)">
+               (click)="setResponseValue(option, answer)"
+               [disabled]="isValidationLocked()">
         <!--
                [(value)]="responses[i].value"
                (click)="validate()">
@@ -28,6 +29,12 @@
       </label>
 
       <span>{{answer.text}}</span>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isValidationLocked()">
+    <div class="col">
+      <app-validation-message [message]="validationMessage"></app-validation-message>
     </div>
   </div>
 </div>
