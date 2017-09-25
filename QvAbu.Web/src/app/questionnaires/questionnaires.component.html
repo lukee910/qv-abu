@@ -5,6 +5,8 @@
 </div>
 
 <div class="row">
+  <app-loading-spinner class="col-12" [waitFor]="questionnaires"></app-loading-spinner>
+
   <div class="col-4 questionnaire-preview" *ngFor="let questionnaire of questionnaires">
     <div class="questionnaire-preview-content"
          routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}/{{questionnaire.name}}">

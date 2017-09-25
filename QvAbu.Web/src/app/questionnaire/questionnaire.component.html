@@ -14,6 +14,8 @@
     </div>
   </div>
 
+  <app-loading-spinner class="col-12" [waitFor]="questions"></app-loading-spinner>
+
   <div *ngFor="let question of questions" class="col-12 question">
     <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
     <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>

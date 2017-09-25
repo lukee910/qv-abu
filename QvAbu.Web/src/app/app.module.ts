@@ -16,6 +16,7 @@ import { TextQuestionComponent } from './questions/text-question/text-question.c
 import { ValidationMessageComponent } from './validation-message/validation-message.component';
 import { QuestionnaireValidationService } from './services/questionnaire-validation.service';
 import { WindowService } from './services/window.service';
+import { LoadingSpinnerComponent } from './utils/loading-spinner/loading-spinner.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     SimpleQuestionComponent,
     AssignmentQuestionComponent,
     TextQuestionComponent,
-    ValidationMessageComponent
+    ValidationMessageComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
