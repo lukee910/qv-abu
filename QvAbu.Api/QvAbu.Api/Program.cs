@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace QvAbu.Api
             var config = builder.Build();
 
             var port = config["SERVER_PORT"] ?? "55555";
+            var protocol = (config["SERVER_PORT_SECURE"] != null && Convert.ToBoolean(config["SERVER_PORT_SECURE"])) ? "https" : "http";
 
             var host = new WebHostBuilder()
                 .UseKestrel()
@@ -31,7 +33,7 @@ namespace QvAbu.Api
                 )
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
-                .UseUrls("http://0.0.0.0:" + port)
+                .UseUrls(protocol + "://0.0.0.0:" + port)
                 .Build();
 
             host.Run();
