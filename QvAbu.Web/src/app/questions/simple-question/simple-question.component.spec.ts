@@ -214,7 +214,7 @@ describe('SimpleQuestionComponent', () => {
     expect(testee.validationMessage).toEqual(new ValidationMessage('Richtige Antwort', ValidationState.valid));
     expect(testee.validationResult).toEqual([
       undefined,
-      undefined
+      'radio-true'
     ]);
   });
 
@@ -253,7 +253,7 @@ describe('SimpleQuestionComponent', () => {
     expect(testee.validationMessage).toEqual(new ValidationMessage('Falsche Antwort', ValidationState.invalid));
     expect(testee.validationResult).toEqual([
       'radio-false',
-      undefined
+      'radio-true'
     ]);
   });
 
