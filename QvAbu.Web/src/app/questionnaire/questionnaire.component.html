@@ -1,8 +1,24 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn btn-link top-left-absolute" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>
+    <button class="btn btn-link top-left-absolute hide-print" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>
     <h2 class="page-title">{{name}}</h2>
     <h6 class="page-title">{{revision}}. Revision</h6>
+  </div>
+
+  <div class="col-12 mb-3 hide-print">
+    <button class="btn btn-primary"
+            [disabled]="validationResult || !questions"
+            (click)="validate()">Validieren</button>
+    <button class="btn btn-outline-dark"
+            [disabled]="!validationResult"
+            (click)="reset()">Zur&uuml;cksetzen</button>
+    <button class="btn btn-outline-dark"
+            [disabled]="!validationResult"
+            (click)="window.print()">
+      <span>Resultat drucken</span>
+      <i class="fa fa-print" aria-hidden="true"></i>
+      <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+    </button>
   </div>
 
   <div class="col-12" *ngIf="validationResult">
@@ -14,21 +30,19 @@
     </div>
   </div>
 
-  <div class="col-12 mb-3">
-    <button class="btn btn-outline-primary"
-            [disabled]="validationResult"
-            (click)="validate()">Validieren</button>
-  </div>
-
   <app-loading-spinner class="col-12" [waitFor]="questions"></app-loading-spinner>
 
-  <div *ngFor="let question of questions" class="col-12 question mb-3">
-    <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
-    <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
-    <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+  <div class="col-12" *ngIf="!refreshInProgress">
+    <div class="row">
+      <div *ngFor="let question of questions" class="col-12 question mb-3">
+        <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
+        <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
+        <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+      </div>
+    </div>
   </div>
 
-  <div class="col-12">
+  <div class="col-12 hide-print">
     <button class="btn btn-outline-primary"
             [disabled]="validationResult"
             (click)="validate()">Validieren</button>

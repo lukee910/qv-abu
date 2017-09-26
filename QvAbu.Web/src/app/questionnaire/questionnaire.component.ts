@@ -17,6 +17,8 @@ export class QuestionnaireComponent implements OnInit {
   public revision: number;
   public name: string;
   public questions: Question[];
+  public refreshInProgress = false;
+
   //noinspection JSUnusedLocalSymbols
   private questionTypes = {
     simpleQuestion: QuestionType.simpleQuestion,
@@ -63,5 +65,15 @@ export class QuestionnaireComponent implements OnInit {
     }
 
     return 'success';
+  }
+
+  // TODO: Unit Test this
+  reset(): void {
+    this.refreshInProgress = true;
+    this.validationService.initQuestionnaire(this.questions);
+    this.validationResult = undefined;
+    setTimeout(() => {
+      this.refreshInProgress = false;
+    });
   }
 }
