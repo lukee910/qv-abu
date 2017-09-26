@@ -1,22 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import "variables";
+@import "styles/variables";
+@import "styles/loading-spinner.scss";
 
 body {
   padding: ($general-spacing * 2) 0 ($general-spacing * 2) 0;
   font-family: 'Titillium Web', sans-serif;
-}
-
-/* Loading Spinner */
-.loading-container {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* General */
@@ -54,4 +42,17 @@ body {
 
 .question-show-validation .radio-true .custom-control-indicator {
   background-color: $green !important;
+}
+
+/* Loading Spinner */
+.loading-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
