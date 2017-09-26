@@ -164,15 +164,15 @@ describe('AssignmentQuestionComponent', () => {
     expect(testee.responseValues).toEqual({
       ansId1: {
         optId1: undefined,
-        optId2: undefined
+        optId2: 'radio-true'
       },
       ansId2: {
-        optId1: undefined,
+        optId1: 'radio-true',
         optId2: undefined
       },
       ansId3: {
         optId1: undefined,
-        optId2: undefined
+        optId2: 'radio-true'
       }
     });
   });
@@ -274,11 +274,11 @@ describe('AssignmentQuestionComponent', () => {
     expect(testee.responseValues).toEqual({
       ansId1: {
         optId1: undefined,
-        optId2: undefined,
+        optId2: 'radio-true',
         optId3: undefined
       },
       ansId2: {
-        optId1: undefined,
+        optId1: 'radio-true',
         optId2: undefined,
         optId3: undefined
       },

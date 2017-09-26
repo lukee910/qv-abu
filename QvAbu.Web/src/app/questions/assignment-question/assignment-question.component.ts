@@ -51,9 +51,10 @@ export class AssignmentQuestionComponent implements OnInit {
     this.initResponseValues();
     let invalidCount = 0;
     this.responses.forEach(response => {
+      this.responseValues[response.answer.id.toString()][response.answer.correctOptionId.toString()] = 'radio-true';
+
       if (response.value !== response.answer.correctOptionId) {
         this.responseValues[response.answer.id.toString()][response.value.toString()] = 'radio-false';
-        this.responseValues[response.answer.id.toString()][response.answer.correctOptionId.toString()] = 'radio-true';
         invalidCount++;
       }
     });

@@ -67,9 +67,11 @@ export class SimpleQuestionComponent implements OnInit {
     let isValid = true;
     for (let i = 0; i < this.question.answers.length; i++) {
       const expectedAnswer = this.question.answers[i].isCorrect;
-      if ((this.responses[i].value === true) !== expectedAnswer) {
+      if (expectedAnswer) {
+        this.validationResult[i] = 'radio-true';
+      } else if (this.responses[i].value === true) {
         isValid = false;
-        this.validationResult[i] = expectedAnswer ? 'radio-true' : 'radio-false';
+        this.validationResult[i] = 'radio-false';
       }
     }
 
