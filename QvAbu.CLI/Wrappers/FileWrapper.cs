@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace QvAbu.CLI.Wrappers
@@ -85,7 +86,7 @@ namespace QvAbu.CLI.Wrappers
             => await Task.Run(() => File.Exists(path));
 
         public async Task<string> ReadAllText(string fileName)
-            => await Task.Run(() => File.ReadAllText(fileName));
+            => await Task.Run(() => File.ReadAllText(fileName, Encoding.GetEncoding(1252)));
 
         public async Task WriteAllText(string fileName, string text)
             => await Task.Run(() => File.WriteAllText(fileName, text));

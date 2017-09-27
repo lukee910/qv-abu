@@ -1,2 +1,3 @@
-﻿@echo off
+﻿cd %~dp0
+cls
 dotnet ./QvAbu.CLI.dll %*
