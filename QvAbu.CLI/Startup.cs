@@ -25,7 +25,7 @@ namespace QvAbu.CLI
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var connection = this.Configuration["QvAbuConnection"] ?? "Data Source=.;Initial Catalog=QvAbu;Integrated Security=True;";
+            var connection = this.Configuration.GetConnectionString();
             services.AddDbContext<QuestionsContext>(options =>
                 options.UseSqlServer(connection)
             );

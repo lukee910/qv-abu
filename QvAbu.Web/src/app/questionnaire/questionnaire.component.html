@@ -1,13 +1,52 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn btn-link top-left-absolute" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>
+    <!--<button class="btn btn-link top-left-absolute hide-print" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>-->
     <h2 class="page-title">{{name}}</h2>
     <h6 class="page-title">{{revision}}. Revision</h6>
   </div>
 
-  <div *ngFor="let question of questions" class="col-12 question">
-    <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
-    <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
-    <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+  <div class="col-12 mb-3 hide-print">
+    <button class="btn btn-primary mb-1"
+            [disabled]="validationResult || !questions"
+            (click)="validate()">Validieren</button>
+    <button class="btn btn-outline-dark mb-1"
+            [disabled]="!validationResult"
+            (click)="reset()">Zur&uuml;cksetzen</button>
+    <button class="btn btn-outline-dark mb-1"
+            [disabled]="!validationResult"
+            (click)="window.print()">
+      <span>Resultat drucken</span>
+      <i class="fa fa-print" aria-hidden="true"></i>
+      <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="col-12" *ngIf="validationResult">
+    <div class="alert alert-{{getAlertClass()}}">
+      <div *ngIf="validationResult['invalid'] > 0">Falsch: {{validationResult['invalid']}}</div>
+      <div *ngIf="validationResult['notValidated'] > 0">Nicht beantwortet: {{validationResult['notValidated']}}</div>
+      <div *ngIf="validationResult['valid'] > 0">Richtig: {{validationResult['valid']}}</div>
+      <div *ngIf="validationResult['info'] > 0">Selbstkontrolle: {{validationResult['info']}}</div>
+    </div>
+  </div>
+
+  <app-loading-spinner class="col-12" [waitFor]="questions"></app-loading-spinner>
+
+  <div class="col-12" *ngIf="!refreshInProgress">
+    <div class="row">
+      <div *ngFor="let question of questions" class="col-12 question qv-abu-container mb-3">
+        <div class="qv-abu-container-content">
+          <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
+          <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
+          <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 hide-print">
+    <button class="btn btn-outline-primary"
+            [disabled]="validationResult"
+            (click)="validate()">Validieren</button>
   </div>
 </div>

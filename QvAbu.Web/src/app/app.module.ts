@@ -13,6 +13,10 @@ import { ApiService } from './services/api.service';
 import { SimpleQuestionComponent } from './questions/simple-question/simple-question.component';
 import { AssignmentQuestionComponent } from './questions/assignment-question/assignment-question.component';
 import { TextQuestionComponent } from './questions/text-question/text-question.component';
+import { ValidationMessageComponent } from './validation-message/validation-message.component';
+import { QuestionnaireValidationService } from './services/questionnaire-validation.service';
+import { WindowService } from './services/window.service';
+import { LoadingSpinnerComponent } from './utils/loading-spinner/loading-spinner.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
@@ -36,7 +40,9 @@ const appRoutes: Routes = [
     QuestionnaireComponent,
     SimpleQuestionComponent,
     AssignmentQuestionComponent,
-    TextQuestionComponent
+    TextQuestionComponent,
+    ValidationMessageComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     QuestionnairesService,
-    ApiService
+    ApiService,
+    QuestionnaireValidationService,
+    { provide: WindowService, useValue: window }
   ],
   bootstrap: [AppComponent]
 })

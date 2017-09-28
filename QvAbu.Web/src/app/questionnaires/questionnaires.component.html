@@ -5,9 +5,11 @@
 </div>
 
 <div class="row">
-  <div class="col-4 questionnaire-preview" *ngFor="let questionnaire of questionnaires">
-    <div class="questionnaire-preview-content"
-         routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}/{{questionnaire.name}}">
+  <app-loading-spinner class="col-12" [waitFor]="questionnaires"></app-loading-spinner>
+
+  <div class="col-lg-4 qv-abu-container" *ngFor="let questionnaire of questionnaires">
+    <div class="questionnaire-preview-content qv-abu-container-content"
+         routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}/{{questionnaire.name.split(nameRegex).join('_')}}">
       <h3>{{questionnaire.name}}</h3>
       <span>{{questionnaire.questionsCount}} Fragen</span>
     </div>

@@ -82,8 +82,8 @@ namespace QvAbu.Api.Tests.CLI
             var answers2 = question2.Answers.ToList();
             var fileText = "1;;;;;;;\n" +
                 "Text;Typ;Text Antwort 1;Anwort korrekt?;Text Antwort 2;;;\n" +
-                $"{question1.Text};{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect};;\r\n" +
-                $"{question2.Text};{(int)question2.SimpleQuestionType};{answers2[0].Text};{answers2[0].IsCorrect};{answers2[1].Text};{answers2[1].IsCorrect};{answers2[2].Text};{answers2[2].IsCorrect}\n";
+                $"\"{question1.Text}\";{(int)question1.SimpleQuestionType};{answers1[0].Text};{answers1[0].IsCorrect};{answers1[1].Text};{answers1[1].IsCorrect};;\r\n" +
+                $"{question2.Text};{(int)question2.SimpleQuestionType};\"{answers2[0].Text}\";{answers2[0].IsCorrect};{answers2[1].Text};{answers2[1].IsCorrect};{answers2[2].Text};{answers2[2].IsCorrect}\n";
 
             var expectedImportedQuestions = new Dictionary<string, List<string>>
             {
@@ -164,9 +164,9 @@ namespace QvAbu.Api.Tests.CLI
             };
             var fileText1 = "2;\n" +
                            "Text;Antwort\n" +
-                           $"{question1.Text};{question1.Answer.Text}\n" +
+                           $"\"{question1.Text}\";{question1.Answer.Text}\n" +
                            $"{question2.Text};{question2.Answer.Text}\n" +
-                           $"{question3.Text};{question3.Answer.Text}";
+                           $"{question3.Text};\"{question3.Answer.Text}\"";
             var question4 = new TextQuestion
             {
                 Revision = 1,
@@ -346,9 +346,8 @@ namespace QvAbu.Api.Tests.CLI
             }).ToList();
             var fileText1 = "0;\n" +
                             "Text;Opt1;Opt2;Opt3;;Assign1Text;Assign1Opt;Assign2Text;Assign2Opt;Assign3Text;Assign3Opt\n" +
-                            $"{question1.Text};{q1Opts[0].Text};{q1Opts[1].Text};{q1Opts[2].Text};;{q1Answers[0].Text};1;{q1Answers[1].Text};2;{q1Answers[2].Text};3\n" +
-                            $"{question2.Text};{q2Opts[0].Text};{q2Opts[1].Text};;;{q2Answers[0].Text};2;{q2Answers[1].Text};1;;\n" +
-                            $"";
+                            $"\"{question1.Text}\";{q1Opts[0].Text};{q1Opts[1].Text};{q1Opts[2].Text};;{q1Answers[0].Text};1;{q1Answers[1].Text};2;{q1Answers[2].Text};3\n" +
+                            $"\"{question2.Text}\";{q2Opts[0].Text};{q2Opts[1].Text};;;{q1Answers[0].Text};2;{q1Answers[1].Text};1;;";
             var fileText2 = "0;\n" +
                             "Text;Opt1;Opt2;Opt3;;Assign1Text;Assign1Opt;Assign2Text;Assign2Opt;Assign3Text;Assign3Opt\n" +
                             $"{question3.Text};{q3Opts[0].Text};{q3Opts[1].Text};{q3Opts[2].Text};;{q3Answers[0].Text};3;{q3Answers[1].Text};1;;;\n" +

@@ -107,7 +107,7 @@ namespace QvAbu.CLI
 
                     if (await parsingTask)
                     {
-                        importedQuestions[fileName].Add(line[0]);
+                        importedQuestions[fileName].Add(GetCsvString(line[0]));
                         questionsCount++;
                     }
                 }
@@ -122,7 +122,7 @@ namespace QvAbu.CLI
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
-                Text = line[0],
+                Text = GetCsvString(line[0]),
                 SimpleQuestionType = (SimpleQuestionType)Convert.ToInt32(line[1]),
                 Answers = new List<SimpleAnswer>()
             };
@@ -137,7 +137,7 @@ namespace QvAbu.CLI
                 question.Answers.Add(new SimpleAnswer
                 {
                     ID = Guid.NewGuid(),
-                    Text = line[i],
+                    Text = GetCsvString(line[i]),
                     IsCorrect = isCorrect
                 });
             }
@@ -155,11 +155,11 @@ namespace QvAbu.CLI
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
-                Text = line[0],
+                Text = GetCsvString(line[0]),
                 Answer = new TextAnswer
                 {
                     ID = Guid.NewGuid(),
-                    Text = line[1]
+                    Text = GetCsvString(line[1])
                 }
             };
 
@@ -175,7 +175,7 @@ namespace QvAbu.CLI
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
-                Text = line[0],
+                Text = GetCsvString(line[0]),
                 Options = new List<AssignmentOption>(),
                 Answers = new List<AssignmentAnswer>()
             };
@@ -186,7 +186,7 @@ namespace QvAbu.CLI
                 question.Options.Add(new AssignmentOption
                 {
                     ID = Guid.NewGuid(),
-                    Text = optionText
+                    Text = GetCsvString(optionText)
                 });
             }
 
@@ -201,7 +201,7 @@ namespace QvAbu.CLI
                 question.Answers.Add(new AssignmentAnswer
                 {
                     ID = Guid.NewGuid(),
-                    Text = answerFields[i],
+                    Text = GetCsvString(answerFields[i]),
                     CorrectOption = question.Options[optionIndex]
                 });
             }
@@ -227,6 +227,11 @@ namespace QvAbu.CLI
 
             // TODO: Export
             return Task.CompletedTask;
+        }
+
+        private static string GetCsvString(string input)
+        {
+            return input.Trim('\"').Replace("\"\"", "\"");
         }
 
         #endregion

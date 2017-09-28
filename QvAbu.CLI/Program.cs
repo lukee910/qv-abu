@@ -5,15 +5,20 @@ using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using QvAbu.Data.Data;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace QvAbu.CLI
 {
     class Program
     {
-        const int ShownQuestionsCountPerFile = 10;
+        const int ShownQuestionsCountPerFile = 4;
 
         static void Main(string[] args)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Console.OutputEncoding = Encoding.GetEncoding(1252);
+
             Console.WriteLine(string.Join(";", args));
             Console.WriteLine("============");
 

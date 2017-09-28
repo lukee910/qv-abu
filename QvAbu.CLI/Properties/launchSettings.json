@@ -2,7 +2,7 @@
   "profiles": {
     "QvAbu.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\src\\qv-abu\\DebugFiles\\SimpleQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\TextQuestions.csv\" \"C:\\src\\qv-abu\\DebugFiles\\AssignmentQuestions.csv\""
+      "commandLineArgs": "\"C:\\Users\\Bob\\Downloads\\Aufgaben Heimat und Staat (Zuweisung).csv\" \"C:\\Users\\Bob\\Downloads\\Aufgaben Heimat und Staat (Multiple Choice).csv\" \"C:\\Users\\Bob\\Downloads\\Aufgaben Heimat und Staat (Textantwort).csv\""
     }
   }
 }

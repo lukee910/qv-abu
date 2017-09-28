@@ -15,15 +15,9 @@ namespace QvAbu.Api
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IConfigurationRoot configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", false, true)
-                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-                .AddEnvironmentVariables();
-
-            this.Configuration = builder.Build();
+            this.Configuration = configuration;
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -40,13 +34,13 @@ namespace QvAbu.Api
                 .AddJsonFormatters()
                 .AddFormatterMappings();
 
-            var connection = this.Configuration["QvAbuConnection"] ?? "Data Source=.;Initial Catalog=QvAbu;Integrated Security=True;";
+            var connection = this.Configuration.GetConnectionString();
             services.AddDbContext<QuestionsContext>(options =>
                 options.UseSqlServer(connection)
             );
 
             services.AddCors();
-            
+
             // Autofac
             var containerBuilder = new ContainerBuilder();
 
