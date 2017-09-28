@@ -9,6 +9,7 @@ import { QuestionnairesService } from '../services/questionnaires.service';
 })
 export class QuestionnairesComponent implements OnInit {
   questionnaires: QuestionnairePreview[];
+  nameRegex = /[^a-zA-Z0-9]/;
 
   constructor(private questionnairesService: QuestionnairesService) { }
 

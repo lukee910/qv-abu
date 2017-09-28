@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn btn-link top-left-absolute hide-print" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>
+    <!--<button class="btn btn-link top-left-absolute hide-print" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>-->
     <h2 class="page-title">{{name}}</h2>
     <h6 class="page-title">{{revision}}. Revision</h6>
   </div>
 
   <div class="col-12 mb-3 hide-print">
-    <button class="btn btn-primary"
+    <button class="btn btn-primary mb-1"
             [disabled]="validationResult || !questions"
             (click)="validate()">Validieren</button>
-    <button class="btn btn-outline-dark"
+    <button class="btn btn-outline-dark mb-1"
             [disabled]="!validationResult"
             (click)="reset()">Zur&uuml;cksetzen</button>
-    <button class="btn btn-outline-dark"
+    <button class="btn btn-outline-dark mb-1"
             [disabled]="!validationResult"
             (click)="window.print()">
       <span>Resultat drucken</span>
@@ -34,10 +34,12 @@
 
   <div class="col-12" *ngIf="!refreshInProgress">
     <div class="row">
-      <div *ngFor="let question of questions" class="col-12 question mb-3">
-        <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
-        <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
-        <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+      <div *ngFor="let question of questions" class="col-12 question qv-abu-container mb-3">
+        <div class="qv-abu-container-content">
+          <app-simple-question [question]="question" *ngIf="question.type === questionTypes.simpleQuestion"></app-simple-question>
+          <app-assignment-question [question]="question" *ngIf="question.type === questionTypes.assignmentQuestion"></app-assignment-question>
+          <app-text-question [question]="question" *ngIf="question.type === questionTypes.textQuestion"></app-text-question>
+        </div>
       </div>
     </div>
   </div>

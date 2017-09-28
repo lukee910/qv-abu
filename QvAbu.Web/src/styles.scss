@@ -17,17 +17,19 @@ body {
   margin-bottom: $general-spacing;
 }
 
+.qv-abu-container {
+  padding: $general-spacing;
+}
+
+.qv-abu-container-content {
+  padding: $general-spacing;
+  border: $border-fat;
+}
+
 @media print {
   .hide-print {
     display: none !important;
   }
-}
-
-/* Positioning */
-.top-left-absolute {
-  position: absolute;
-  left: 0;
-  top: 0;
 }
 
 /* Buttons */
