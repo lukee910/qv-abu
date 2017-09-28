@@ -24,7 +24,7 @@ export class QuestionnairesService {
     if (!this.previews) {
       return Observable.create((o: Observer<QuestionnairePreview>) => {
         this.getPreviews().subscribe(previews => {
-          this.getPreview(id, revision).subscribe(preview => o.next(preview));
+          this.getPreview(id, revision).subscribe(p => o.next(p));
         });
       });
     }

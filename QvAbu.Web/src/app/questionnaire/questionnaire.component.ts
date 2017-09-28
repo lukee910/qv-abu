@@ -20,7 +20,7 @@ export class QuestionnaireComponent implements OnInit {
   public refreshInProgress = false;
 
   //noinspection JSUnusedLocalSymbols
-  private questionTypes = {
+  public questionTypes = {
     simpleQuestion: QuestionType.simpleQuestion,
     assignmentQuestion: QuestionType.assignmentQuestion,
     textQuestion: QuestionType.textQuestion
@@ -29,7 +29,7 @@ export class QuestionnaireComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private service: QuestionnairesService,
               private validationService: QuestionnaireValidationService,
-              private window: WindowService) {
+              public window: WindowService) {
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.revision = parseInt(params['revision'], 10);
