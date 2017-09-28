@@ -18,9 +18,6 @@ namespace QvAbu.Api
                 .AddEnvironmentVariables();
             var config = builder.Build();
 
-            var port = config["SERVER_PORT"] ?? "55555";
-            var protocol = (config["SERVER_PORT_SECURE"] != null && Convert.ToBoolean(config["SERVER_PORT_SECURE"])) ? "https" : "http";
-
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseIISIntegration()
@@ -33,7 +30,7 @@ namespace QvAbu.Api
                 )
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
-                .UseUrls(protocol + "://0.0.0.0:" + port)
+                .UseUrls(config["APPSETTING_QvAbuUrl"] ?? "http://0.0.0.0:55555")
                 .Build();
 
             host.Run();
