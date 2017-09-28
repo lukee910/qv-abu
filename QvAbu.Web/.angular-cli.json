@@ -28,6 +28,7 @@
       "environments": {
         "dev": "environments/environment.ts",
         "dev-vm": "environments/environment.dev-vm.ts",
+        "dev-deployment": "environments/environment.dev-deployment.ts",
         "prod": "environments/environment.prod.ts"
       }
     }
