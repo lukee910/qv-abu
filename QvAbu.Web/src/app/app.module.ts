@@ -55,7 +55,7 @@ const appRoutes: Routes = [
     QuestionnairesService,
     ApiService,
     QuestionnaireValidationService,
-    { provide: WindowService, useValue: window }
+    WindowService
   ],
   bootstrap: [AppComponent]
 })
