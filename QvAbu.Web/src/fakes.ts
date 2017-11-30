@@ -1,6 +1,5 @@
 import Spy = jasmine.Spy;
 import { QuestionnaireValidationPhase } from './app/models/validation-message';
-import { EventEmitter } from '@angular/core';
 
 class Fake {
   protected createSpies(props: string[]) {
@@ -13,7 +12,7 @@ class Fake {
 export class QuestionnaireServiceFake extends Fake {
   getPreviews: Spy = null;
   getPreview: Spy = null;
-  getQuestionsForQuestionnaire: Spy = null;
+  getQuestionsForQuestionnaires: Spy = null;
 
   constructor () {
     super();
@@ -23,6 +22,7 @@ export class QuestionnaireServiceFake extends Fake {
 
 export class ApiServiceFake extends Fake {
   get: Spy = null;
+  post: Spy = null;
 
   constructor () {
     super();
@@ -32,6 +32,7 @@ export class ApiServiceFake extends Fake {
 
 export class HttpFake extends Fake {
   get: Spy = null;
+  post: Spy = null;
 
   constructor () {
     super();

@@ -5,6 +5,7 @@ import { Question, QuestionType } from '../models/questions/question';
 import { QuestionnaireValidationService } from '../services/questionnaire-validation.service';
 import { ValidationState, ValidationStateToString } from '../models/validation-message';
 import { WindowService } from '../services/window.service';
+import { RevisionEntity } from '../models/revision-entity';
 
 @Component({
   selector: 'app-questionnaire',
@@ -13,9 +14,8 @@ import { WindowService } from '../services/window.service';
 })
 export class QuestionnaireComponent implements OnInit {
   public validationResult: { [state: string]: number; };
-  public id: string;
-  public revision: number;
-  public name: string;
+  public questionnaires: RevisionEntity[];
+  public names: string[] = [];
   public questions: Question[];
   public refreshInProgress = false;
 
@@ -31,18 +31,26 @@ export class QuestionnaireComponent implements OnInit {
               private validationService: QuestionnaireValidationService,
               public window: WindowService) {
     this.route.params.subscribe((params: Params) => {
-      this.id = params['id'];
-      this.revision = parseInt(params['revision'], 10);
+      this.questionnaires = JSON.parse(localStorage.getItem('questionnaire.' + params['presetId']));
     });
   }
 
   ngOnInit() {
-    this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);
-    this.service.getQuestionsForQuestionnaire(this.id, this.revision)
+    this.questionnaires.forEach(_ => {
+      this.service.getPreview(_.id, _.revision)
+        .subscribe(_ => this.names.push(_.name));
+    });
+    this.service.getQuestionsForQuestionnaires(this.questionnaires)
       .subscribe(_ => {
         this.questions = _;
         this.validationService.initQuestionnaire(this.questions);
-      });
+      })
+    // this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);
+    // this.service.getQuestionsForQuestionnaires(null/*this.id, this.revision*/)
+    //   .subscribe(_ => {
+    //     this.questions = _;
+    //     this.validationService.initQuestionnaire(this.questions);
+    //   });
   }
 
   //noinspection JSUnusedGlobalSymbols

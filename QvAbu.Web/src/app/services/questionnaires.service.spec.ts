@@ -35,9 +35,7 @@ describe('QuestionnairesService', () => {
       new QuestionnairePreview('id1', 1, 'preview1', 1),
       new QuestionnairePreview('id2', 2, 'preview2', 2)
     ];
-    apiServiceFake.get.and.returnValue(Observable.of({
-      json: jasmine.createSpy('json').and.returnValue(data)
-    }));
+    apiServiceFake.get.and.returnValue(Observable.of(data));
     let allResult: QuestionnairePreview[] = undefined;
     let singleResult: QuestionnairePreview = undefined;
 
@@ -58,9 +56,7 @@ describe('QuestionnairesService', () => {
       new QuestionnairePreview('id1', 1, 'preview1', 1),
       new QuestionnairePreview('id2', 2, 'preview2', 2)
     ];
-    apiServiceFake.get.and.returnValue(Observable.of({
-      json: jasmine.createSpy('json').and.returnValue(data)
-    }));
+    apiServiceFake.get.and.returnValue(Observable.of(data));
     let result: QuestionnairePreview = undefined;
 
     // Act
@@ -117,19 +113,19 @@ describe('QuestionnairesService', () => {
     }];
     const dataAsBaseClass: Question[] = [];
     data.forEach(_ => dataAsBaseClass.push(<Question>_));
-    apiServiceFake.get.and.returnValue(Observable.of({
-      json: jasmine.createSpy('json').and.returnValue(dataAsBaseClass)
-    }));
+    apiServiceFake.post.and.returnValue(Observable.of(dataAsBaseClass));
     let result: Question[] = undefined;
 
-    const questionnaireID = 'questionnaireID';
-    const revision = 1;
+    const questionnaires = [{
+      revision: 1,
+      id: 'id'
+    }];
 
     // Act
-    testee.getQuestionsForQuestionnaire(questionnaireID, revision).subscribe(_ => result = _);
+    testee.getQuestionsForQuestionnaires(questionnaires).subscribe(_ => result = _);
 
     // Assert
-    expect(apiServiceFake.get).toHaveBeenCalledWith('questionnaires/' + questionnaireID + '/' + revision + '/questions');
+    expect(apiServiceFake.post).toHaveBeenCalledWith('questionnaires/questions', questionnaires);
     expect(result).toEqual(data);
   }));
 });

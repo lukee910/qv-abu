@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using QvAbu.Api.Services.Questions;
 using QvAbu.Data.Models.Questions.ReadModel;
 using QvAbu.Data.Models.Questions;
+using QvAbu.Data.Models;
 
 namespace QvAbu.Api.Controllers
 {
@@ -34,10 +35,10 @@ namespace QvAbu.Api.Controllers
             return await this.service.GetQuestionnairePreviewsAsync();
         }
 
-        [HttpGet("{id}/{revision}/questions")]
-        public async Task<IEnumerable<Question>> GetQuestions(Guid id, int revision)
+        [HttpPost("/questions")]
+        public async Task<IEnumerable<Question>> GetQuestions(List<RevisionEntity> questionnaires)
         {
-            return await this.service.GetQuestionsForQuestionnaireAsync(id, revision);
+            return await this.service.GetQuestionsForQuestionnairesAsync(questionnaires);
         }
 
         #endregion

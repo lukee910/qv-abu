@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -20,17 +20,7 @@ import { LoadingSpinnerComponent } from './utils/loading-spinner/loading-spinner
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
-  {path: 'questionnaire/:id/:revision/:name', component: QuestionnaireComponent}
-  // {
-  //   path: 'heroes',
-  //   component: HeroListComponent,
-  //   data: { title: 'Heroes List' }
-  // },
-  // { path: '',
-  //   redirectTo: '/heroes',
-  //   pathMatch: 'full'
-  // },
-  // { path: '**', component: PageNotFoundComponent }
+  {path: 'questionnaire/:presetId/:name', component: QuestionnaireComponent}
 ];
 
 @NgModule({
@@ -47,7 +37,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot()
   ],
