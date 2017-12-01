@@ -66,7 +66,7 @@ describe('QuestionnaireComponent', () => {
 
     // Assert
     expect(testee.questions).toEqual(questions);
-    expect(testee.names).toEqual([previews[0].name, previews[1].name]);
+    expect(testee.previews).toEqual(previews);
 
     const args = validationService.initQuestionnaire.calls.argsFor(0);
     expect(args.length).toBe(1);

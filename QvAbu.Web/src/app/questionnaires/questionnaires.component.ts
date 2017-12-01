@@ -52,12 +52,19 @@ export class QuestionnairesComponent implements OnInit {
     try {
       creationTimes = JSON.parse(localStorage.getItem('questionnaire.creationTimes'));
     } catch {
+    }
+    if (!creationTimes) {
       creationTimes = {};
     }
     creationTimes[id] = new Date().toISOString();
     localStorage.setItem('questionnaire.creationTimes', JSON.stringify(creationTimes));
 
-    localStorage.setItem('questionnaire.' + id, JSON.stringify(selectedQuestionnaires));
+    localStorage.setItem('questionnaire.' + id, JSON.stringify(selectedQuestionnaires.map(_ => {
+      return {
+        id: _.id,
+        revision: _.revision
+      };
+    })));
     const title = selectedQuestionnaires.map(_ => _.name)
       .join(', ')
       .replace(this.nameRegex, '_')

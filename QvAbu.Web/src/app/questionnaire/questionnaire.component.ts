@@ -6,6 +6,7 @@ import { QuestionnaireValidationService } from '../services/questionnaire-valida
 import { ValidationState, ValidationStateToString } from '../models/validation-message';
 import { WindowService } from '../services/window.service';
 import { RevisionEntity } from '../models/revision-entity';
+import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 
 @Component({
   selector: 'app-questionnaire',
@@ -15,7 +16,7 @@ import { RevisionEntity } from '../models/revision-entity';
 export class QuestionnaireComponent implements OnInit {
   public validationResult: { [state: string]: number; };
   public questionnaires: RevisionEntity[];
-  public names: string[] = [];
+  public previews: QuestionnairePreview[] = [];
   public questions: Question[];
   public refreshInProgress = false;
 
@@ -38,7 +39,7 @@ export class QuestionnaireComponent implements OnInit {
   ngOnInit() {
     this.questionnaires.forEach(re => {
       this.service.getPreview(re.id, re.revision)
-        .subscribe(qp => this.names.push(qp.name));
+        .subscribe(qp => this.previews.push(qp));
     });
     this.service.getQuestionsForQuestionnaires(this.questionnaires)
       .subscribe(_ => {

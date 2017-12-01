@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using QvAbu.Api.Services.Questions;
 using QvAbu.Data.Models.Questions.ReadModel;
@@ -35,8 +36,8 @@ namespace QvAbu.Api.Controllers
             return await this.service.GetQuestionnairePreviewsAsync();
         }
 
-        [HttpPost("/questions")]
-        public async Task<IEnumerable<Question>> GetQuestions(List<RevisionEntity> questionnaires)
+        [HttpPost("questions")]
+        public async Task<IEnumerable<Question>> GetQuestions([FromBody] List<RevisionEntity> questionnaires)
         {
             return await this.service.GetQuestionsForQuestionnairesAsync(questionnaires);
         }

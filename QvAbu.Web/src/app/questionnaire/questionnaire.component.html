@@ -1,8 +1,7 @@
 <div class="row">
-  <div class="col-12">
-    <!--<button class="btn btn-link top-left-absolute hide-print" routerLink="/">< Zur&uuml;ck zur &Uuml;bersicht</button>-->
-    <h2 class="page-title">{{name}}</h2>
-    <h6 class="page-title">{{revision}}. Revision</h6>
+  <div class="col-12" *ngFor="let preview of previews">
+    <h2 class="page-title">{{preview.name}}</h2>
+    <h6 class="page-title">{{preview.revision}}. Revision</h6>
   </div>
 
   <div class="col-12 mb-3 hide-print">
@@ -30,7 +29,7 @@
     </div>
   </div>
 
-  <app-loading-spinner class="col-12" [waitFor]="questions"></app-loading-spinner>
+  <app-loading-spinner class="col-12" [waitFor]="questions && previews && questionnaires.length === previews.length"></app-loading-spinner>
 
   <div class="col-12" *ngIf="!refreshInProgress">
     <div class="row">
