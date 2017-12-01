@@ -9,10 +9,10 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   public get(url: string): Observable<any> {
-    return <Observable<HttpResponse<any>>>this.http.get(environment.urlBase + 'api/' + url);
+    return <Observable<any>>this.http.get(environment.urlBase + 'api/' + url);
   }
 
   public post(url: string, body: any): Observable<any> {
-    return <Observable<HttpResponse<any>>>this.http.post(environment.urlBase + 'api/' + url, body);
+    return <Observable<any>>this.http.post(environment.urlBase + 'api/' + url, body);
   }
 }
