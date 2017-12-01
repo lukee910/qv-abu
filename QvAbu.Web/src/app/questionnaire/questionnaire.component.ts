@@ -36,15 +36,15 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.questionnaires.forEach(_ => {
-      this.service.getPreview(_.id, _.revision)
-        .subscribe(_ => this.names.push(_.name));
+    this.questionnaires.forEach(re => {
+      this.service.getPreview(re.id, re.revision)
+        .subscribe(qp => this.names.push(qp.name));
     });
     this.service.getQuestionsForQuestionnaires(this.questionnaires)
       .subscribe(_ => {
         this.questions = _;
         this.validationService.initQuestionnaire(this.questions);
-      })
+      });
     // this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);
     // this.service.getQuestionsForQuestionnaires(null/*this.id, this.revision*/)
     //   .subscribe(_ => {
