@@ -57,6 +57,13 @@ export class QuestionnairesComponent implements OnInit {
       creationTimes = {};
     }
     creationTimes[id] = new Date().toISOString();
+    Object.keys(creationTimes).forEach(_ => {
+      const expireDays = 7;
+      if (new Date().getTime() - new Date(creationTimes[_]).getTime() > expireDays * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem('questionnaire.' + _);
+        delete creationTimes[_];
+      }
+    });
     localStorage.setItem('questionnaire.creationTimes', JSON.stringify(creationTimes));
 
     localStorage.setItem('questionnaire.' + id, JSON.stringify(selectedQuestionnaires.map(_ => {
