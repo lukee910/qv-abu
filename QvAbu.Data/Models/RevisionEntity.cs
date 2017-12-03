@@ -1,4 +1,6 @@
-﻿namespace QvAbu.Data.Models
+﻿using System;
+
+namespace QvAbu.Data.Models
 {
     public class RevisionEntity : Entity
     {

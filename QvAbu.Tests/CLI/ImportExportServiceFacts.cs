@@ -19,7 +19,7 @@ namespace QvAbu.Api.Tests.CLI
     {
         private Func<RevisionEntity, RevisionEntity, bool> matchEntity = (left, right) =>
         {
-            left.ShouldBeEquivalentTo(right, options => options.Excluding(_ => _.ID));
+            left.Should().BeEquivalentTo(right);
             return true;
         };
 
@@ -107,7 +107,7 @@ namespace QvAbu.Api.Tests.CLI
             (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
+            importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeNullOrEmpty();
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
@@ -209,7 +209,7 @@ namespace QvAbu.Api.Tests.CLI
             (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
+            importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeNullOrEmpty();
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
@@ -381,7 +381,7 @@ namespace QvAbu.Api.Tests.CLI
             (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
+            importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeNullOrEmpty();
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
@@ -448,7 +448,7 @@ namespace QvAbu.Api.Tests.CLI
             (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
 
             // Assert
-            importedQuestions.ShouldBeEquivalentTo(expectedImportedQuestions);
+            importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
             erroredFiles.Should().BeEquivalentTo(fileNames[1]);
 
             A.CallTo(() => questionnairesUow.QuestionnairesRepo.Add(A<Questionnaire>.That.Matches(_ => this.matchEntity(_, questionnaire))))
