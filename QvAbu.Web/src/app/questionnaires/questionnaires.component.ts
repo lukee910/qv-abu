@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 import { QuestionnairesService } from '../services/questionnaires.service';
 import { Router } from '@angular/router';
+import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
 
 @Component({
   selector: 'app-questionnaires',
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class QuestionnairesComponent implements OnInit {
   questionnaires: QuestionnairePreview[];
+  questionsCountOptions: number[] = [0];
+  questionsCountSelection = 0;
+  selectedQuestionsCount = 0;
   private nameRegex = /[^a-zA-Z0-9,]/;
   private selectedQuestionnaires: {[id: string]: {[revision: number]: boolean}} = {};
 
@@ -30,6 +34,27 @@ export class QuestionnairesComponent implements OnInit {
   selectQuestionnaire(questionnaire: QuestionnairePreview): void {
     this.selectedQuestionnaires[questionnaire.id][questionnaire.revision]
       = !this.selectedQuestionnaires[questionnaire.id][questionnaire.revision];
+
+    this.selectedQuestionsCount = 0;
+    this.getSelectedQuestionnaires().forEach(_ => {
+      this.selectedQuestionsCount += _.questionsCount;
+    }, this);
+    this.questionsCountOptions = [];
+    if (this.selectedQuestionsCount >= 10) {
+      this.questionsCountOptions.push(10);
+
+      if (this.selectedQuestionsCount >= 25) {
+        this.questionsCountOptions.push(25);
+
+        if (this.selectedQuestionsCount >= 50) {
+          this.questionsCountOptions.push(50);
+        }
+      }
+    }
+    this.questionsCountOptions.push(this.selectedQuestionsCount);
+    if (this.questionsCountOptions.indexOf(this.questionsCountSelection) === -1) {
+      this.questionsCountSelection = this.selectedQuestionsCount;
+    }
   }
 
   getSelectedQuestionnaires(): QuestionnairePreview[] {
@@ -66,12 +91,16 @@ export class QuestionnairesComponent implements OnInit {
     });
     localStorage.setItem('questionnaire.creationTimes', JSON.stringify(creationTimes));
 
-    localStorage.setItem('questionnaire.' + id, JSON.stringify(selectedQuestionnaires.map(_ => {
+    const questionnaireConfig = new QuestionnaireConfig();
+    questionnaireConfig.questionnaires = selectedQuestionnaires.map(_ => {
       return {
         id: _.id,
         revision: _.revision
       };
-    })));
+    });
+    questionnaireConfig.randomizeSeed = Math.floor(Math.random() * 2147483647);
+    questionnaireConfig.questionsCount = this.questionsCountSelection;
+    localStorage.setItem('questionnaire.' + id, JSON.stringify(questionnaireConfig));
     const title = selectedQuestionnaires.map(_ => _.name)
       .join(', ')
       .replace(this.nameRegex, '_')

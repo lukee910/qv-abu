@@ -116,16 +116,20 @@ describe('QuestionnairesService', () => {
     apiServiceFake.post.and.returnValue(Observable.of(dataAsBaseClass));
     let result: Question[] = undefined;
 
-    const questionnaires = [{
-      revision: 1,
-      id: 'id'
-    }];
+    const config = {
+      questionnaires: [{
+        revision: 1,
+        id: 'id'
+      }],
+      randomizeSeed: 1235,
+      questionsCount: 653124
+    };
 
     // Act
-    testee.getQuestionsForQuestionnaires(questionnaires).subscribe(_ => result = _);
+    testee.getQuestionsForQuestionnaires(config).subscribe(_ => result = _);
 
     // Assert
-    expect(apiServiceFake.post).toHaveBeenCalledWith('questionnaires/questions', questionnaires);
+    expect(apiServiceFake.post).toHaveBeenCalledWith('questionnaires/questions', config);
     expect(result).toEqual(data);
   }));
 });

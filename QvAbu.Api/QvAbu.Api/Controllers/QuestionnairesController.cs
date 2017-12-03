@@ -37,11 +37,18 @@ namespace QvAbu.Api.Controllers
         }
 
         [HttpPost("questions")]
-        public async Task<IEnumerable<Question>> GetQuestions([FromBody] List<RevisionEntity> questionnaires)
+        public async Task<IEnumerable<Question>> GetQuestions([FromBody] GetQuestionsPayload payload)
         {
-            return await this.service.GetQuestionsForQuestionnairesAsync(questionnaires);
+            return await this.service.GetQuestionsForQuestionnairesAsync(payload.Questionnaires, payload.RandomizeSeed, payload.QuestionsCount);
         }
 
         #endregion
+
+        public class GetQuestionsPayload
+        {
+            public List<RevisionEntity> Questionnaires { get; set; }
+            public int RandomizeSeed { get; set; }
+            public int QuestionsCount { get; set; }
+        }
     }
 }

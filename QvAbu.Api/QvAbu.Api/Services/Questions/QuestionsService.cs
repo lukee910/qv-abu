@@ -13,7 +13,9 @@ namespace QvAbu.Api.Services.Questions
     public interface IQuestionsService
     {
         Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync();
-        Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires);
+        Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires, 
+            int randomizeSeed = 0, 
+            int questionsCount = 0);
     }
 
     public class QuestionsService : IQuestionsService
@@ -42,7 +44,9 @@ namespace QvAbu.Api.Services.Questions
             return await this.questionnairesUow.QuestionnairesRepo.GetPreviewsAsync();
         }
 
-        public async Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires)
+        public async Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires,
+            int randomizeSeed = 0,
+            int questionsCount = 0)
         {
             var ret = new List<Question>();
             foreach(var questionnaire in questionnaires)
@@ -58,6 +62,19 @@ namespace QvAbu.Api.Services.Questions
                 {
                     ret.AddRange((IEnumerable<Question>)await repo.GetListAsync(keys));
                 }
+            }
+
+            if (randomizeSeed != 0)
+            {
+                var rand = new Random(randomizeSeed);
+                ret = ret.OrderBy(_ => rand.Next())
+                    .ToList();
+            }
+
+            if (questionsCount > 0)
+            {
+                ret = ret.Take(questionsCount)
+                    .ToList();
             }
 
             return ret;

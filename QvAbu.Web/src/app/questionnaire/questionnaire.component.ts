@@ -7,6 +7,7 @@ import { ValidationState, ValidationStateToString } from '../models/validation-m
 import { WindowService } from '../services/window.service';
 import { RevisionEntity } from '../models/revision-entity';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
+import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
 
 @Component({
   selector: 'app-questionnaire',
@@ -15,10 +16,11 @@ import { QuestionnairePreview } from '../models/questions/questionnaire-preview'
 })
 export class QuestionnaireComponent implements OnInit {
   public validationResult: { [state: string]: number; };
-  public questionnaires: RevisionEntity[];
+  public config: QuestionnaireConfig;
   public previews: QuestionnairePreview[] = [];
   public questions: Question[];
   public refreshInProgress = false;
+  public questionsCount: number | undefined = undefined;
 
   //noinspection JSUnusedLocalSymbols
   public questionTypes = {
@@ -32,18 +34,21 @@ export class QuestionnaireComponent implements OnInit {
               private validationService: QuestionnaireValidationService,
               public window: WindowService) {
     this.route.params.subscribe((params: Params) => {
-      this.questionnaires = JSON.parse(localStorage.getItem('questionnaire.' + params['presetId']));
+      this.config = JSON.parse(localStorage.getItem('questionnaire.' + params['presetId']));
     });
   }
 
   ngOnInit() {
-    this.questionnaires.forEach(re => {
+    this.config.questionnaires.forEach(re => {
       this.service.getPreview(re.id, re.revision)
-        .subscribe(qp => this.previews.push(qp));
+        .subscribe(qp => {
+          this.previews.push(qp);
+        });
     });
-    this.service.getQuestionsForQuestionnaires(this.questionnaires)
+    this.service.getQuestionsForQuestionnaires(this.config)
       .subscribe(_ => {
         this.questions = _;
+        this.questionsCount = _.length;
         this.validationService.initQuestionnaire(this.questions);
       });
     // this.service.getPreview(this.id, this.revision).subscribe(_ => this.name = _.name);

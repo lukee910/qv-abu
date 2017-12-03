@@ -14,17 +14,21 @@ describe('QuestionnaireComponent', () => {
   let window: WindowFake;
 
   const presetId = 'presetId';
-  const questionnaires = [
-    {id: 'questionnaire1', revision: 1},
-    {id: 'questionnaire2', revision: 2}
-  ];
+  const config = {
+    questionnaires: [
+      {id: 'questionnaire1', revision: 1},
+      {id: 'questionnaire2', revision: 2}
+    ],
+    randomizeSeed: 1234,
+    questionsCount: 4321
+  };
 
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
     validationService = new QuestionnaireValidationServiceFake();
     window = new WindowFake();
     spyOn(localStorage, 'getItem');
-    (<any>localStorage.getItem).and.returnValue(JSON.stringify(questionnaires));
+    (<any>localStorage.getItem).and.returnValue(JSON.stringify(config));
 
     testee = new QuestionnaireComponent(<ActivatedRoute><any>{
       params: Observable.of({
@@ -41,7 +45,7 @@ describe('QuestionnaireComponent', () => {
 
     // Assert
     expect(localStorage.getItem).toHaveBeenCalledWith('questionnaire.' + presetId);
-    expect(testee.questionnaires).toEqual(questionnaires);
+    expect(testee.config).toEqual(config);
   });
 
   it('should load the questions and preview', () => {

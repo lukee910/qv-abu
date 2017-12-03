@@ -9,6 +9,7 @@ import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { Guid } from '../models/guid';
 import { RevisionEntity } from '../models/revision-entity';
+import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
 
 @Injectable()
 export class QuestionnairesService {
@@ -40,7 +41,7 @@ export class QuestionnairesService {
     return Observable.of(preview);
   }
 
-  getQuestionsForQuestionnaires(questionnaires: RevisionEntity[]): Observable<Question[]> {
+  getQuestionsForQuestionnaires(questionnaires: QuestionnaireConfig): Observable<Question[]> {
     return this.apiService.post('questionnaires/questions', questionnaires);
   }
 }
