@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import { QuestionnairePreview } from '../models/questions/questionnaire-preview';
 import { ApiService } from './api.service';
 import 'rxjs/add/operator/map';
@@ -8,6 +8,8 @@ import { Question } from '../models/questions/question';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { Guid } from '../models/guid';
+import { RevisionEntity } from '../models/revision-entity';
+import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
 
 @Injectable()
 export class QuestionnairesService {
@@ -16,8 +18,9 @@ export class QuestionnairesService {
   constructor(private apiService: ApiService) { }
 
   public getPreviews(): Observable<QuestionnairePreview[]> {
-    return this.apiService.get('questionnaires/previews')
-                          .map((_: Response) => this.previews = _.json());
+    const observable = this.apiService.get('questionnaires/previews');
+    observable.subscribe(_ => this.previews = _);
+    return observable;
   }
 
   public getPreview(id: Guid, revision: number): Observable<QuestionnairePreview> {
@@ -38,8 +41,7 @@ export class QuestionnairesService {
     return Observable.of(preview);
   }
 
-  getQuestionsForQuestionnaire(id: Guid, revision: number): Observable<Question[]> {
-    return this.apiService.get('questionnaires/' + id + '/' + revision + '/questions')
-                          .map((_: Response) => _.json());
+  getQuestionsForQuestionnaires(questionnaires: QuestionnaireConfig): Observable<Question[]> {
+    return this.apiService.post('questionnaires/questions', questionnaires);
   }
 }

@@ -7,10 +7,32 @@
 <div class="row">
   <app-loading-spinner class="col-12" [waitFor]="questionnaires"></app-loading-spinner>
 
+  <div class="col-12 mb-2" *ngIf="questionnaires">
+    <span>Anzahl Fragen:</span>
+    <select class="form-control inline-form-100" [(ngModel)]="questionsCountSelection">
+      <option *ngFor="let o of questionsCountOptions" [ngValue]="o">{{o === selectedQuestionsCount ? 'Alle' : o}}</option>
+    </select>
+  </div>
+  <div class="col-12" *ngIf="questionnaires">
+    <button class="btn btn-primary mb-1"
+            [disabled]="getSelectedQuestionnaires().length === 0"
+            (click)="navigate()">
+      <span>Frageb&ouml;gen ausf&uuml;llen</span>
+      <i class="fa fa-chevron-circle-right"></i>
+    </button>
+  </div>
+
   <div class="col-lg-4 qv-abu-container" *ngFor="let questionnaire of questionnaires">
-    <div class="questionnaire-preview-content qv-abu-container-content"
-         routerLink="/questionnaire/{{questionnaire.id}}/{{questionnaire.revision}}/{{questionnaire.name.split(nameRegex).join('_')}}">
-      <h3>{{questionnaire.name}}</h3>
+    <div class="questionnaire-preview-content qv-abu-container-content" (click)="selectQuestionnaire(questionnaire)">
+      <div>
+        <h3>{{questionnaire.name}}</h3>
+        <span class="float-right">
+          <span class="fa-stack {{selectedQuestionnaires[questionnaire.id][questionnaire.revision] ? 'text-success' : 'text-gray-light'}}">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-check fa-stack-1x questionnaire-check" *ngIf="selectedQuestionnaires[questionnaire.id][questionnaire.revision]"></i>
+          </span>
+        </span>
+      </div>
       <span>{{questionnaire.questionsCount}} Fragen</span>
     </div>
   </div>

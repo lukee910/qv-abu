@@ -1,9 +1,12 @@
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 
+// Colours
+$app-gray-light:          $gray-300;
+
 // Spacing
 $general-spacing:         20px;
 
 // Border
-$border-normal:           1px solid $gray-300;
-$border-fat:              3px solid $gray-300;
+$border-normal:           1px solid $app-gray-light;
+$border-fat:              3px solid $app-gray-light;

@@ -13,51 +13,64 @@ describe('QuestionnaireComponent', () => {
   let validationService: QuestionnaireValidationServiceFake;
   let window: WindowFake;
 
-  const id = 'id';
-  const revision = 0;
+  const presetId = 'presetId';
+  const config = {
+    questionnaires: [
+      {id: 'questionnaire1', revision: 1},
+      {id: 'questionnaire2', revision: 2}
+    ],
+    randomizeSeed: 1234,
+    questionsCount: 4321
+  };
 
   beforeEach(() => {
     questionnaireService = new QuestionnaireServiceFake();
     validationService = new QuestionnaireValidationServiceFake();
     window = new WindowFake();
+    spyOn(localStorage, 'getItem');
+    (<any>localStorage.getItem).and.returnValue(JSON.stringify(config));
+
     testee = new QuestionnaireComponent(<ActivatedRoute><any>{
       params: Observable.of({
-        id: id,
-        revision: revision
+        presetId: presetId
       })
     }, <any>questionnaireService, <any>validationService, <any>window);
   });
 
-  it('should load the route params', () => {
+  it('should load the questionnaires from localStorage and route params', () => {
     // Arrange
-    // In beforeEach
 
     // Act
     // Instantiate, in beforeEach
 
     // Assert
-    expect(testee.revision).toBe(revision);
-    expect(testee.id).toBe(id);
+    expect(localStorage.getItem).toHaveBeenCalledWith('questionnaire.' + presetId);
+    expect(testee.config).toEqual(config);
   });
 
   it('should load the questions and preview', () => {
     // Arrange
     const questions: Question[] = [new TextQuestion('id1', 1)];
-    const preview: QuestionnairePreview = {
+    const previews: QuestionnairePreview[] = [{
       revision: 0,
       id: 'id',
-      name: 'name',
+      name: 'name1',
       questionsCount: 2
-    };
-    questionnaireService.getPreview.and.returnValue(Observable.of(preview));
-    questionnaireService.getQuestionsForQuestionnaire.and.returnValue(Observable.of(questions));
+    }, {
+      revision: 0,
+      id: 'id2',
+      name: 'name2',
+      questionsCount: 1
+    }];
+    questionnaireService.getPreview.and.returnValues(Observable.of(previews[0]), Observable.of(previews[1]));
+    questionnaireService.getQuestionsForQuestionnaires.and.returnValue(Observable.of(questions));
 
     // Act
     testee.ngOnInit();
 
     // Assert
     expect(testee.questions).toEqual(questions);
-    expect(testee.name).toBe('name');
+    expect(testee.previews).toEqual(previews);
 
     const args = validationService.initQuestionnaire.calls.argsFor(0);
     expect(args.length).toBe(1);

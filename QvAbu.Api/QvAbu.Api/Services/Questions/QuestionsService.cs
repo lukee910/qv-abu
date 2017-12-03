@@ -6,13 +6,16 @@ using QvAbu.Data.Data.UnitOfWork;
 using QvAbu.Data.Models.Questions;
 using QvAbu.Data.Models.Questions.ReadModel;
 using QvAbu.Data.Data.Repository;
+using QvAbu.Data.Models;
 
 namespace QvAbu.Api.Services.Questions
 {
     public interface IQuestionsService
     {
         Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync();
-        Task<IEnumerable<Question>> GetQuestionsForQuestionnaireAsync(Guid id, int revision);
+        Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires, 
+            int randomizeSeed = 0, 
+            int questionsCount = 0);
     }
 
     public class QuestionsService : IQuestionsService
@@ -41,19 +44,37 @@ namespace QvAbu.Api.Services.Questions
             return await this.questionnairesUow.QuestionnairesRepo.GetPreviewsAsync();
         }
 
-        public async Task<IEnumerable<Question>> GetQuestionsForQuestionnaireAsync(Guid id, int revision)
+        public async Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires,
+            int randomizeSeed = 0,
+            int questionsCount = 0)
         {
-            var keys = (await this.questionnairesUow.QuestionnairesRepo.GetQuestionKeysAsync(id, revision)).ToList();
             var ret = new List<Question>();
+            foreach(var questionnaire in questionnaires)
+            {
+                var keys = (await this.questionnairesUow.QuestionnairesRepo.GetQuestionKeysAsync(questionnaire.ID, questionnaire.Revision)).ToList();
 
-            foreach (var repo in new IRevisionEntitesRepo[]
+                foreach (var repo in new IRevisionEntitesRepo[]
+                {
+                    this.questionsUow.AssignmentQuestionsRepo,
+                    this.questionsUow.SimpleQuestionsRepo,
+                    this.questionsUow.TextQuestionsRepo
+                })
+                {
+                    ret.AddRange((IEnumerable<Question>)await repo.GetListAsync(keys));
+                }
+            }
+
+            if (randomizeSeed != 0)
             {
-                this.questionsUow.AssignmentQuestionsRepo,
-                this.questionsUow.SimpleQuestionsRepo,
-                this.questionsUow.TextQuestionsRepo
-            })
+                var rand = new Random(randomizeSeed);
+                ret = ret.OrderBy(_ => rand.Next())
+                    .ToList();
+            }
+
+            if (questionsCount > 0)
             {
-                ret.AddRange((IEnumerable<Question>) await repo.GetListAsync(keys));
+                ret = ret.Take(questionsCount)
+                    .ToList();
             }
 
             return ret;

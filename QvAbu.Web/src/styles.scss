@@ -32,6 +32,10 @@ body {
   }
 }
 
+.text-gray-light {
+  color: $app-gray-light;
+}
+
 /* Buttons */
 .btn.btn-link {
   cursor: pointer;

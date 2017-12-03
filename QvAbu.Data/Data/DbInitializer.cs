@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using QvAbu.Data.Models.Questions;
-
-namespace QvAbu.Data.Data
+﻿namespace QvAbu.Data.Data
 {
     public class DbInitializer
     {

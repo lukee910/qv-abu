@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using QvAbu.Api.Services.Questions;
 using QvAbu.Data.Models.Questions.ReadModel;
 using QvAbu.Data.Models.Questions;
+using QvAbu.Data.Models;
 
 namespace QvAbu.Api.Controllers
 {
@@ -34,12 +36,19 @@ namespace QvAbu.Api.Controllers
             return await this.service.GetQuestionnairePreviewsAsync();
         }
 
-        [HttpGet("{id}/{revision}/questions")]
-        public async Task<IEnumerable<Question>> GetQuestions(Guid id, int revision)
+        [HttpPost("questions")]
+        public async Task<IEnumerable<Question>> GetQuestions([FromBody] GetQuestionsPayload payload)
         {
-            return await this.service.GetQuestionsForQuestionnaireAsync(id, revision);
+            return await this.service.GetQuestionsForQuestionnairesAsync(payload.Questionnaires, payload.RandomizeSeed, payload.QuestionsCount);
         }
 
         #endregion
+
+        public class GetQuestionsPayload
+        {
+            public List<RevisionEntity> Questionnaires { get; set; }
+            public int RandomizeSeed { get; set; }
+            public int QuestionsCount { get; set; }
+        }
     }
 }

@@ -39,7 +39,11 @@ namespace QvAbu.Api
                 options.UseSqlServer(connection)
             );
 
-            services.AddCors();
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+                builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()));
 
             // Autofac
             var containerBuilder = new ContainerBuilder();
@@ -62,7 +66,7 @@ namespace QvAbu.Api
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors("AllowAll");
 
             app.UseMvc();
 
