@@ -17,9 +17,9 @@ namespace QvAbu.Api.Tests.CLI
 {
     public class ImportExportServiceFacts
     {
-        private Func<RevisionEntity, RevisionEntity, bool> matchEntity = (left, right) =>
+        private readonly Func<RevisionEntity, RevisionEntity, bool> matchEntity = (left, right) =>
         {
-            left.Should().BeEquivalentTo(right);
+            left.Should().BeEquivalentTo(right, options => options.Excluding(_ => _.ID));
             return true;
         };
 
