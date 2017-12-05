@@ -103,7 +103,8 @@ export class QuestionnairesComponent implements OnInit {
     localStorage.setItem('questionnaire.' + id, JSON.stringify(questionnaireConfig));
     const title = selectedQuestionnaires.map(_ => _.name)
       .join(', ')
-      .replace(this.nameRegex, '_')
+      .split(this.nameRegex)
+      .join('_')
       .substr(0, 30);
     this.router.navigate(['questionnaire', id, title]);
   }
