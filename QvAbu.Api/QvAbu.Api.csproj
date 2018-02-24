@@ -34,7 +34,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\QvAbu.Data\QvAbu.Data.csproj" />
+    <ProjectReference Include="..\QvAbu.Data\QvAbu.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />

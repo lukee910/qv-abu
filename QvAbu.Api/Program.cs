@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,10 +12,9 @@ namespace QvAbu.Api
     {
         public static void Main(string[] args)
         {
-            var basePath = Directory.GetCurrentDirectory();
+            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
             var builder = new ConfigurationBuilder()
                 .SetBasePath(basePath)
-                .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables();
             var config = builder.Build();
 
