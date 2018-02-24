@@ -99,10 +99,12 @@ namespace QvAbu.CLI
 
             Console.WriteLine("How should the questionnaire be called?");
             var name = Console.ReadLine();
+            Console.WriteLine("What tags should it have? (Enter any number of tags, separated by ',')");
+            var tags = Console.ReadLine();
             Console.WriteLine("Importing...\n");
             try
             {
-                var task = importExportService.Import(name, args);
+                var task = importExportService.Import(name, tags, args);
 
                 (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = task.GetAwaiter().GetResult();
 

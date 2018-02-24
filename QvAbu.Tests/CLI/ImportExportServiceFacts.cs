@@ -28,12 +28,14 @@ namespace QvAbu.Api.Tests.CLI
         {
             // Arrange
             const string name = "name";
+            const string tags = "tags,tags";
             var fileNames = new[] {"file1"};
 
             var questionnaire = new Questionnaire
             {
                 Revision = 1,
-                Name = name
+                Name = name,
+                Tags = tags
             };
             var question1 = new SimpleQuestion
             {
@@ -104,7 +106,7 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, tags, fileNames);
 
             // Assert
             importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
@@ -206,7 +208,7 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, "", fileNames);
 
             // Assert
             importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
@@ -378,7 +380,7 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, "", fileNames);
 
             // Assert
             importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
@@ -445,7 +447,7 @@ namespace QvAbu.Api.Tests.CLI
             var testee = new ImportExportService(questionnairesUow, questionsUow, file);
 
             // Act
-            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, fileNames);
+            (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = await testee.Import(name, "", fileNames);
 
             // Assert
             importedQuestions.Should().BeEquivalentTo(expectedImportedQuestions);
