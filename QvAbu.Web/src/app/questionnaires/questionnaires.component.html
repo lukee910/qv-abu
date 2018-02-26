@@ -26,6 +26,11 @@
     <div class="questionnaire-preview-content qv-abu-container-content" (click)="selectQuestionnaire(questionnaire)">
       <div>
         <h3>{{questionnaire.name}}</h3>
+        <div>
+          <span *ngFor="let tag of questionnaire.tags">
+            <span class="badge badge-primary" [ngStyle]="{'background': tagColours[tag]}">{{tag}}</span>
+          </span>
+        </div>
         <span class="float-right">
           <span class="fa-stack {{selectedQuestionnaires[questionnaire.id][questionnaire.revision] ? 'text-success' : 'text-gray-light'}}">
             <i class="fa fa-square-o fa-stack-2x"></i>

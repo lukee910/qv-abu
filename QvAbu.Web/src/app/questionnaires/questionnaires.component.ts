@@ -10,12 +10,15 @@ import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
   styleUrls: ['./questionnaires.component.scss']
 })
 export class QuestionnairesComponent implements OnInit {
+  readonly colors: string[] = ["#69d2e7", "#f38630", "#fe4365", "#fc9d9a", "#c8c8a9", "#83af9b"];
+
   questionnaires: QuestionnairePreview[];
   questionsCountOptions: number[] = [0];
   questionsCountSelection = 0;
   selectedQuestionsCount = 0;
-  private nameRegex = /[^a-zA-Z0-9,]/;
-  private selectedQuestionnaires: {[id: string]: {[revision: number]: boolean}} = {};
+  nameRegex = /[^a-zA-Z0-9,]/;
+  selectedQuestionnaires: {[id: string]: {[revision: number]: boolean}} = {};
+  tagColours: {[id: string]: string} = {};
 
   constructor(private questionnairesService: QuestionnairesService, private router: Router) { }
 
@@ -27,6 +30,12 @@ export class QuestionnairesComponent implements OnInit {
           this.selectedQuestionnaires[qp.id] = {
             [qp.revision]: false
           };
+          qp.tags.forEach(tag => {
+            let keys = Object.keys(this.tagColours);
+            if (keys.indexOf(tag) === -1) {
+              this.tagColours[tag] = this.colors[keys.length % this.colors.length];
+            }
+          });
         });
       });
   }

@@ -21,12 +21,14 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/QvAbu.CLI/bin/Debug/netcoreapp2.0/QvAbu.CLI.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "program": "${workspaceRoot}/QvAbu.CLI/bin/Debug/netcoreapp2.0/QvAbu.CLI.dll",
+            "args": [
+                "/home/bob/Dropbox/-- INF/QV-ABU/ExampleDB/csv/Aufgaben Geld und Unternehmen (Multiple Choice).csv",
+                "/home/bob/Dropbox/-- INF/QV-ABU/ExampleDB/csv/Aufgaben Geld und Unternehmen (Zuweisung).csv"
+            ],
+            "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
+            "console": "integratedTerminal"
         },
         {
             "name": ".NET Core Launch (web)",
