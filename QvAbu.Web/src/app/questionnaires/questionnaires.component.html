@@ -9,8 +9,10 @@
 
   <div class="col-12 mb-2" *ngIf="questionnaires">
     <span>Anzahl Fragen:</span>
-    <select class="form-control inline-form-100" [(ngModel)]="questionsCountSelection">
-      <option *ngFor="let o of questionsCountOptions" [ngValue]="o">{{o === selectedQuestionsCount ? 'Alle' : o}}</option>
+    <select class="form-control inline-form-150" [(ngModel)]="questionsCountSelection" [disabled]="selectedQuestionsCount === 0">
+      <option *ngFor="let o of questionsCountOptions" [ngValue]="o">
+        {{selectedQuestionsCount == 0 ? '---' : (o === selectedQuestionsCount ? 'Alle (' + selectedQuestionsCount + ')'  : o)}}
+      </option>
     </select>
   </div>
   <div class="col-12" *ngIf="questionnaires">
