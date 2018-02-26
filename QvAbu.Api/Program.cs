@@ -29,8 +29,8 @@ namespace QvAbu.Api
                     }
                 )
                 .UseStartup<Startup>()
-                //.UseApplicationInsights()
-                .UseUrls(config["APPSETTING_QvAbuUrl"] ?? "http://0.0.0.0:55555")
+                .CaptureStartupErrors(true)
+                .UseUrls(config["QvAbuUrl"] ?? "http://0.0.0.0:55555")
                 .Build();
 
             host.Run();

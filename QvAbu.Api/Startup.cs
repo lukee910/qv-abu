@@ -66,6 +66,8 @@ namespace QvAbu.Api
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseDeveloperExceptionPage();
+
             app.UseCors("AllowAll");
 
             app.UseMvc();

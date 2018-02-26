@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  qvabu.api:
+    image: qvabu.api
+    build:
+      context: .
+      dockerfile: QvAbu.Api/Dockerfile
+    ports:
+        - "55555:55555"
+    environment:
+        QvAbuConnection: "Server=db;Database=master;User=sa;Password=YOUR_PASS"
+        ASPNETCORE_ENVIRONMENT: "Development"
+        QvAbuUrl: "http://*:55555"
+    depends_on:
+        - db
+  db:
+      image: "microsoft/mssql-server-linux"
+      environment:
+          SA_PASSWORD: "YOUR_PASS"
+          ACCEPT_EULA: "Y"
