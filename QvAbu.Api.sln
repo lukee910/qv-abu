@@ -5,18 +5,16 @@ VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Api", "QvAbu.Api\QvAbu.Api.csproj", "{D65A59A1-E9E8-4CCD-B8DB-6652BD2ECEDE}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FF7F77DB-52AF-43AD-B256-868D102E4605}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E830EED2-2959-4FE4-8A43-55BCD96BFB85}"
 	ProjectSection(SolutionItems) = preProject
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Data", "..\QvAbu.Data\QvAbu.Data.csproj", "{2006C458-7982-446F-B393-B499034A9D24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Data", "QvAbu.Data\QvAbu.Data.csproj", "{2006C458-7982-446F-B393-B499034A9D24}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.CLI", "..\QvAbu.CLI\QvAbu.CLI.csproj", "{E6F63212-8D4A-4EFB-A852-1A937F06703B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.CLI", "QvAbu.CLI\QvAbu.CLI.csproj", "{E6F63212-8D4A-4EFB-A852-1A937F06703B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Tests", "..\QvAbu.Tests\QvAbu.Tests.csproj", "{712A19AD-3B40-4032-A715-4C12256116EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Tests", "QvAbu.Tests\QvAbu.Tests.csproj", "{712A19AD-3B40-4032-A715-4C12256116EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

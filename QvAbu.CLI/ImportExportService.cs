@@ -11,7 +11,10 @@ namespace QvAbu.CLI
 {
     public interface IImportExportService
     {
-        Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport);
+        Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(
+            string name,
+            string tags,
+            string[] filesToImport);
         Task Export();
     }
 
@@ -44,13 +47,17 @@ namespace QvAbu.CLI
 
         #region Methods
 
-        public async Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(string name, string[] filesToImport)
+        public async Task<(Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles)> Import(
+            string name,
+            string tags,
+            string[] filesToImport)
         {
             var questionnaire = new Questionnaire
             {
                 ID = Guid.NewGuid(),
                 Revision = 1,
-                Name = name
+                Name = name,
+                Tags = tags
             };
             this.questionnairesUow.QuestionnairesRepo.Add(questionnaire);
             await this.questionnairesUow.Complete();

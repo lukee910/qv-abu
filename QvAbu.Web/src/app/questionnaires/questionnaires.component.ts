@@ -40,13 +40,13 @@ export class QuestionnairesComponent implements OnInit {
       this.selectedQuestionsCount += _.questionsCount;
     }, this);
     this.questionsCountOptions = [];
-    if (this.selectedQuestionsCount >= 10) {
+    if (this.selectedQuestionsCount > 10) {
       this.questionsCountOptions.push(10);
 
-      if (this.selectedQuestionsCount >= 25) {
+      if (this.selectedQuestionsCount > 25) {
         this.questionsCountOptions.push(25);
 
-        if (this.selectedQuestionsCount >= 50) {
+        if (this.selectedQuestionsCount > 50) {
           this.questionsCountOptions.push(50);
         }
       }

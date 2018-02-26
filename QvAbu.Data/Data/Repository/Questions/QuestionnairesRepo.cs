@@ -43,7 +43,8 @@ namespace QvAbu.Data.Data.Repository.Questions
                 ID = _.ID,
                 Revision = _.Revision,
                 Name = _.Name,
-                QuestionsCount = _.QuestionnaireQuestions.Count()
+                QuestionsCount = _.QuestionnaireQuestions.Count(),
+                Tags = _.Tags.Split(",", StringSplitOptions.None).ToList()
             }).ToListAsync();
         }
 
