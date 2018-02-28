@@ -11,7 +11,10 @@
             "presentation": {
                 "reveal": "silent"
             },
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "args": [
+                "${cwd}/QvAbu.Api.sln"
+            ]
         }
     ]
 }

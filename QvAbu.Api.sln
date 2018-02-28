@@ -16,8 +16,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.CLI", "QvAbu.CLI\QvAb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QvAbu.Tests", "QvAbu.Tests\QvAbu.Tests.csproj", "{712A19AD-3B40-4032-A715-4C12256116EE}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{54ACBD35-6EFA-406D-991E-6828670BD365}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

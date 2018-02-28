@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,15 +13,20 @@ namespace QvAbu.Api
     {
         public static void Main(string[] args)
         {
+            BuildWebHost(args).Run();
+        }
+        
+        public static IWebHost BuildWebHost(string[] args)
+        {
             var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
             var builder = new ConfigurationBuilder()
                 .SetBasePath(basePath)
                 .AddEnvironmentVariables();
             var config = builder.Build();
 
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseIISIntegration()
+            return WebHost.CreateDefaultBuilder(args)
+                // .UseKestrel()
+                // .UseIISIntegration()
                 .UseContentRoot(basePath)
                 .UseConfiguration(config)
                 .ConfigureServices(x =>
@@ -29,11 +35,8 @@ namespace QvAbu.Api
                     }
                 )
                 .UseStartup<Startup>()
-                .CaptureStartupErrors(true)
                 .UseUrls(config["QvAbuUrl"] ?? "http://0.0.0.0:55555")
                 .Build();
-
-            host.Run();
         }
     }
 }
