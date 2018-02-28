@@ -4,11 +4,12 @@ import { ApiService } from './api.service';
 import { HttpFake } from '../../fakes';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
 
 describe('ApiService', () => {
   let testee: ApiService;
   let httpFake: HttpFake;
+  const urlBase = 'urlBase/';
+  let getReturnValue: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,7 +23,9 @@ describe('ApiService', () => {
   beforeEach(inject([ApiService, HttpClient], (t: ApiService, http: HttpClient) => {
     testee = t;
     httpFake = <any>http;
-    environment.urlBase = 'urlBase/';
+    httpFake.get.and.callFake(url => url === '/assets/api-url-base.json'
+      ? Observable.create(o => { o.next(urlBase); })
+      : getReturnValue);
   }));
 
   it('should make an API GET call', async(() => {
@@ -30,7 +33,7 @@ describe('ApiService', () => {
     const response = new HttpResponse({
       body: 'body'
     });
-    httpFake.get.and.returnValue(Observable.of(response));
+    getReturnValue = Observable.of(response);
     let result: any = undefined;
 
     // Act
@@ -38,7 +41,7 @@ describe('ApiService', () => {
 
     // Assert
     expect(result).toBe(response);
-    expect(httpFake.get).toHaveBeenCalledWith('urlBase/api/route');
+    expect(httpFake.get).toHaveBeenCalledWith(urlBase + 'api/route');
   }));
 
   it('should make an API POST call', async(() => {
@@ -55,6 +58,6 @@ describe('ApiService', () => {
 
     // Assert
     expect(result).toBe(response);
-    expect(httpFake.post).toHaveBeenCalledWith('urlBase/api/route', requestBody);
+    expect(httpFake.post).toHaveBeenCalledWith(urlBase + 'api/route', requestBody);
   }));
 });

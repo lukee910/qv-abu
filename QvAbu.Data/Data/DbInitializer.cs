@@ -1,11 +1,13 @@
-﻿namespace QvAbu.Data.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace QvAbu.Data.Data
 {
     public class DbInitializer
     {
         public static void Initialize(bool isDevelopment,
                                       QuestionsContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             //// Has been seeded?
             //if (!isDevelopment || context.SimpleQuestions.Any())

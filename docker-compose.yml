@@ -9,13 +9,13 @@ services:
     ports:
         - "55555:55554"
     environment:
-        QvAbuConnection: "Server=db;Database=master;User=sa;Password=YOUR_PASS.6210"
+        QvAbuConnection: "data source=.;database=QvAbu;User ID=sa;Password=Test.6210"
         ASPNETCORE_ENVIRONMENT: "Development"
         QvAbuUrl: "http://*:55554"
-    depends_on:
-        - db
-  db:
-      image: "microsoft/mssql-server-linux"
-      environment:
-          SA_PASSWORD: "YOUR_PASS.6210"
-          ACCEPT_EULA: "Y"
+  qvabu.web:
+    image: qvabu.web
+    build:
+      context: .
+      dockerfile: QvAbu.Web/Dockerfile
+    ports:
+        - "80:80"
