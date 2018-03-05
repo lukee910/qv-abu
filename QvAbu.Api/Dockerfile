@@ -1,6 +1,21 @@
-FROM microsoft/aspnetcore:1.1
-ARG source
+FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
 EXPOSE 80
-COPY ${source:-obj/Docker/publish} .
+
+FROM microsoft/aspnetcore-build:2.0 AS build
+WORKDIR /src
+COPY *.sln ./
+COPY QvAbu.Api/QvAbu.Api.csproj QvAbu.Api/
+COPY QvAbu.Data/QvAbu.Data.csproj QvAbu.Data/
+RUN dotnet restore
+COPY . .
+WORKDIR /src/QvAbu.Api
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "QvAbu.Api.dll"]

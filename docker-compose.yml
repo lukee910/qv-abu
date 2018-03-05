@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  qvabu.api:
+    image: qvabu.api
+    build:
+      context: .
+      dockerfile: QvAbu.Api/Dockerfile
+    ports:
+        - "55555:55554"
+    environment:
+        QvAbuConnection: "${QvAbuConnection}"
+        QvAbuUrl: "http://*:55554"
+  qvabu.web:
+    image: qvabu.web
+    build:
+      context: .
+      dockerfile: QvAbu.Web/Dockerfile
+    ports:
+        - "80:80"

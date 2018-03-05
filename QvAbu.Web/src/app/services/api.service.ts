@@ -1,18 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { Observer } from 'rxjs/Observer';
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class ApiService {
+  urlBase: string;
 
   constructor(private http: HttpClient) { }
 
   public get(url: string): Observable<any> {
-    return <Observable<any>>this.http.get(environment.urlBase + 'api/' + url);
+    return this.getBaseUrl()
+      .flatMap(baseUrl => <Observable<any>>this.http.get(this.urlBase + 'api/' + url));
   }
 
   public post(url: string, body: any): Observable<any> {
-    return <Observable<any>>this.http.post(environment.urlBase + 'api/' + url, body);
+    return this.getBaseUrl()
+      .flatMap(baseUrl => this.http.post(this.urlBase + 'api/' + url, body));
+  }
+
+  private getBaseUrl(): Observable<any> {
+    if (this.urlBase) {
+      return Observable.create(o => o.next(this.urlBase));
+    } else {
+      return this.http.get<string>('/assets/api-url-base.json').map(value => {
+        this.urlBase = value;
+        return this.urlBase;
+      });
+    }
   }
 }

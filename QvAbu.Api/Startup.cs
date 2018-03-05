@@ -60,17 +60,16 @@ namespace QvAbu.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, 
                               IHostingEnvironment env,
-                              ILoggerFactory loggerFactory, 
-                              QuestionsContext questionsContext)
+                              ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseDeveloperExceptionPage();
+
             app.UseCors("AllowAll");
 
             app.UseMvc();
-
-            DbInitializer.Initialize(env.IsDevelopment(), questionsContext);
         }
     }
 }
