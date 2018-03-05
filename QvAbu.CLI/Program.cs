@@ -92,10 +92,9 @@ namespace QvAbu.CLI
             var startup = Setup();
             var scope = startup.ApplicationContainer.BeginLifetimeScope();
 
-            var dbContext = scope.Resolve<IQuestionsContext>();
             var importExportService = scope.Resolve<IImportExportService>();
 
-            startup.Configure((QuestionsContext)dbContext);
+            startup.Configure();
 
             Console.WriteLine("How should the questionnaire be called?");
             var name = Console.ReadLine();
@@ -104,7 +103,7 @@ namespace QvAbu.CLI
             Console.WriteLine("Importing...\n");
             try
             {
-                var task = importExportService.Import(name, tags, args);
+                var task = importExportService.Import(name, string.Join(",", tags.Split(",").Select(_ => _.Trim())), args);
 
                 (Dictionary<string, List<string>> importedQuestions, List<string> erroredFiles) = task.GetAwaiter().GetResult();
 

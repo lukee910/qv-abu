@@ -43,9 +43,8 @@ namespace QvAbu.CLI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(QuestionsContext questionsContext)
+        public void Configure()
         {
-            DbInitializer.Initialize(false, questionsContext);
         }
     }
 }
