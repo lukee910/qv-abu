@@ -12,21 +12,18 @@
 
   <div class="row">
     <div class="col-12" *ngFor="let answer of question.answers; index as iAns;">
-      <label class="custom-control custom-radio {{responseValues[answer.id][option.id]}}" *ngFor="let option of question.options; index as iOpt">
+      <div class="custom-control custom-radio custom-control-inline {{responseValues[answer.id][option.id]}}"
+        *ngFor="let option of question.options; index as iOpt">
         <input type="radio"
                class="custom-control-input"
                name="answer-{{answer.id}}"
+               id="answer-id-{{answer.id}}-{{option.id}}"
+               (change)="setResponseValue(option, answer)"
                [value]="option.id"
-               (click)="setResponseValue(option, answer)"
                [disabled]="isValidationLocked()">
-        <!--
-               [(value)]="responses[i].value"
-               (click)="validate()">
-        -->
 
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">{{toChar(iOpt)}})</span>
-      </label>
+        <label class="custom-control-label" for="answer-id-{{answer.id}}-{{option.id}}">{{toChar(iOpt)}})</label>
+      </div>
 
       <span>{{answer.text}}</span>
     </div>

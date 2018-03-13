@@ -52,12 +52,18 @@ body {
 }
 
 /* Radio Buttons */
-.question-show-validation .radio-false .custom-control-indicator {
+.question-show-validation .radio-false .custom-control-label::before {
   background-color: $red !important;
 }
 
-.question-show-validation .radio-true .custom-control-indicator {
+.question-show-validation .radio-true .custom-control-label::before {
   background-color: $green !important;
+}
+
+/* Hitbox Workaround */
+.custom-control-label {
+  margin-left: -10px;
+  padding-left: 10px;
 }
 
 /* Loading Spinner */
