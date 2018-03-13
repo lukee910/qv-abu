@@ -55,12 +55,14 @@ describe('QuestionnaireComponent', () => {
       revision: 0,
       id: 'id',
       name: 'name1',
-      questionsCount: 2
+      questionsCount: 2,
+      tags: ['tag1', 'tag2']
     }, {
       revision: 0,
       id: 'id2',
       name: 'name2',
-      questionsCount: 1
+      questionsCount: 1,
+      tags: ['tag1']
     }];
     questionnaireService.getPreview.and.returnValues(Observable.of(previews[0]), Observable.of(previews[1]));
     questionnaireService.getQuestionsForQuestionnaires.and.returnValue(Observable.of(questions));

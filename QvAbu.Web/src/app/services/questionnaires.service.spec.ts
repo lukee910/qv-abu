@@ -32,8 +32,8 @@ describe('QuestionnairesService', () => {
   it('should request, return and cache the previews', async(() => {
     // Arrange
     const data = [
-      new QuestionnairePreview('id1', 1, 'preview1', 1),
-      new QuestionnairePreview('id2', 2, 'preview2', 2)
+      new QuestionnairePreview('id1', 1, 'preview1', 1, ['']),
+      new QuestionnairePreview('id2', 2, 'preview2', 2, [''])
     ];
     apiServiceFake.get.and.returnValue(Observable.of(data));
     let allResult: QuestionnairePreview[] = undefined;
@@ -53,8 +53,8 @@ describe('QuestionnairesService', () => {
   it('should request the previews if a single preview is requested and no cache exists', async(() => {
     // Arrange
     const data = [
-      new QuestionnairePreview('id1', 1, 'preview1', 1),
-      new QuestionnairePreview('id2', 2, 'preview2', 2)
+      new QuestionnairePreview('id1', 1, 'preview1', 1, ['']),
+      new QuestionnairePreview('id2', 2, 'preview2', 2, [''])
     ];
     apiServiceFake.get.and.returnValue(Observable.of(data));
     let result: QuestionnairePreview = undefined;

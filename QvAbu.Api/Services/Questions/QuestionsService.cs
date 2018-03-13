@@ -38,10 +38,21 @@ namespace QvAbu.Api.Services.Questions
         #endregion
 
         #region Public Methods
-        
+
         public async Task<IEnumerable<QuestionnairePreview>> GetQuestionnairePreviewsAsync()
         {
-            return await this.questionnairesUow.QuestionnairesRepo.GetPreviewsAsync();
+            var previews = (await this.questionnairesUow.QuestionnairesRepo.GetPreviewsAsync()).ToList();
+
+            foreach (var preview in previews)
+            {
+                preview.Tags.Sort();
+            }
+
+            previews = previews
+                .OrderBy(_ => _.Name)
+                    .ThenBy(_ => _.Tags.FirstOrDefault())
+                .ToList();
+            return previews;
         }
 
         public async Task<IEnumerable<Question>> GetQuestionsForQuestionnairesAsync(List<RevisionEntity> questionnaires,

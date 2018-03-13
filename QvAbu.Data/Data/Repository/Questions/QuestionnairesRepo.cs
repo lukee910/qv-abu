@@ -39,13 +39,14 @@ namespace QvAbu.Data.Data.Repository.Questions
         public async Task<IEnumerable<QuestionnairePreview>> GetPreviewsAsync()
         {
             return await this.Context.Questionnaires.Select(_ => new QuestionnairePreview
-            {
-                ID = _.ID,
-                Revision = _.Revision,
-                Name = _.Name,
-                QuestionsCount = _.QuestionnaireQuestions.Count(),
-                Tags = _.Tags.Split(",", StringSplitOptions.None).ToList()
-            }).ToListAsync();
+                {
+                    ID = _.ID,
+                    Revision = _.Revision,
+                    Name = _.Name,
+                    QuestionsCount = _.QuestionnaireQuestions.Count(),
+                    Tags = _.Tags.Split(",", StringSplitOptions.None).ToList()
+                })
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<(Guid id, int revision)>> GetQuestionKeysAsync(Guid id, int revision)
