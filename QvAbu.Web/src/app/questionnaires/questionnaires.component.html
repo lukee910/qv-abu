@@ -8,13 +8,28 @@
   <app-loading-spinner class="col-12" [waitFor]="questionnaires"></app-loading-spinner>
 
   <div class="col-12 mb-2" *ngIf="questionnaires">
-    <span>Anzahl Fragen:</span>
-    <select class="form-control inline-form-150" [(ngModel)]="questionsCountSelection" [disabled]="selectedQuestionsCount === 0">
+    <h4>Angezeigte Tags:</h4>
+    <div *ngFor="let tag of tags">
+      <div class="custom-control custom-checkbox">
+        <input class="custom-control-input" id="tag-{{tag.id}}" [(ngModel)]="tag.isSelected" type="checkbox"
+          (change)="cleanupNotShownQuestionnairesSelection()">
+        <label class="custom-control-label" for="tag-{{tag.id}}">
+            <span class="badge badge-primary" [ngStyle]="{'background': tagColours[tag.id]}">{{tag.id}}</span>
+          </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mb-2" *ngIf="questionnaires">
+    <h4>Auswahl:</h4>
+    <label for="questionsCount">Anzahl Fragen:</label>
+    <select class="form-control inline-form-150" [(ngModel)]="questionsCountSelection" [disabled]="selectedQuestionsCount === 0" id="questionsCount">
       <option *ngFor="let o of questionsCountOptions" [ngValue]="o">
         {{selectedQuestionsCount == 0 ? '---' : (o === selectedQuestionsCount ? 'Alle (' + selectedQuestionsCount + ')'  : o)}}
       </option>
     </select>
   </div>
+
   <div class="col-12" *ngIf="questionnaires">
     <button class="btn btn-primary mb-1"
             [disabled]="getSelectedQuestionnaires().length === 0"
@@ -24,7 +39,7 @@
     </button>
   </div>
 
-  <div class="col-lg-4 qv-abu-container" *ngFor="let questionnaire of questionnaires">
+  <div class="col-lg-4 qv-abu-container" *ngFor="let questionnaire of getQuestionnairesToShow()">
     <div class="questionnaire-preview-content qv-abu-container-content" (click)="selectQuestionnaire(questionnaire)">
       <div>
         <h3>{{questionnaire.name}}</h3>

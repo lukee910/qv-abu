@@ -10,7 +10,7 @@ import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
   styleUrls: ['./questionnaires.component.scss']
 })
 export class QuestionnairesComponent implements OnInit {
-  readonly colors: string[] = ["#69d2e7", "#f38630", "#fe4365", "#fc9d9a", "#c8c8a9", "#83af9b"];
+  readonly colors: string[] = ['#69d2e7', '#f38630', '#fe4365', '#fc9d9a', '#c8c8a9', '#83af9b'];
 
   questionnaires: QuestionnairePreview[];
   questionsCountOptions: number[] = [0];
@@ -18,6 +18,8 @@ export class QuestionnairesComponent implements OnInit {
   selectedQuestionsCount = 0;
   nameRegex = /[^a-zA-Z0-9,]/;
   selectedQuestionnaires: {[id: string]: {[revision: number]: boolean}} = {};
+
+  tags: {id: string, isSelected: boolean}[] = [];
   tagColours: {[id: string]: string} = {};
 
   constructor(private questionnairesService: QuestionnairesService, private router: Router) { }
@@ -31,7 +33,14 @@ export class QuestionnairesComponent implements OnInit {
             [qp.revision]: false
           };
           qp.tags.forEach(tag => {
-            let keys = Object.keys(this.tagColours);
+            if (this.tags.filter(t => t.id === tag).length === 0) {
+              this.tags.push({
+                id: tag,
+                isSelected: false
+              });
+            }
+
+            const keys = Object.keys(this.tagColours);
             if (keys.indexOf(tag) === -1) {
               this.tagColours[tag] = this.colors[keys.length % this.colors.length];
             }
@@ -116,6 +125,29 @@ export class QuestionnairesComponent implements OnInit {
       .join('_')
       .substr(0, 30);
     this.router.navigate(['questionnaire', id, title]);
+  }
+
+  getQuestionnairesToShow(): QuestionnairePreview[] {
+    if (!this.questionnaires) {
+      return;
+    }
+
+    return this.questionnaires.filter(q => {
+      return q.tags.filter(qt => {
+        return this.tags.filter(t => t.id === qt && t.isSelected).length > 0;
+      }).length > 0;
+    });
+  }
+
+  cleanupNotShownQuestionnairesSelection(): void {
+    const selected = this.getSelectedQuestionnaires();
+    const shown = this.getQuestionnairesToShow();
+
+    selected.forEach(sq => {
+      if (shown.indexOf(sq) === -1) {
+        this.selectQuestionnaire(sq);
+      }
+    });
   }
 
   /* tslint:disable */

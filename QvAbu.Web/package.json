@@ -21,7 +21,6 @@
     "@angular/platform-browser-dynamic": "^5.2.8",
     "@angular/router": "^5.2.8",
     "@ng-bootstrap/ng-bootstrap": "^1.0.1",
-    "angular2-multiselect-dropdown": "^2.5.0",
     "bootstrap": "^4.0.0",
     "core-js": "^2.5.3",
     "font-awesome": "^4.7.0",
