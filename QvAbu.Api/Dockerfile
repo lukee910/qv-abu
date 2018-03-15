@@ -7,7 +7,8 @@ WORKDIR /src
 COPY *.sln ./
 COPY QvAbu.Api/QvAbu.Api.csproj QvAbu.Api/
 COPY QvAbu.Data/QvAbu.Data.csproj QvAbu.Data/
-RUN dotnet restore
+RUN dotnet restore QvAbu.Api/
+RUN dotnet restore QvAbu.Data/
 COPY . .
 WORKDIR /src/QvAbu.Api
 RUN dotnet build -c Release -o /app
