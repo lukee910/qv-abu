@@ -13,6 +13,7 @@ namespace QvAbu.CLI
     class Program
     {
         const int ShownQuestionsCountPerFile = 4;
+        const string Version = "1.1.1";
 
         static void Main(string[] args)
         {
@@ -83,6 +84,8 @@ namespace QvAbu.CLI
                 Console.WriteLine("    0;;;;;;;;;");
                 Console.WriteLine("    ;;;;;;;;;");
                 Console.WriteLine("    AssignmentQuestionText;Option1;Option2;;AnswerWithOption1;1;AnswerWithOption2;2;Answer2WithOption1;1");
+                Console.WriteLine();
+                Console.WriteLine("Application Version: " + Version);
                 Console.WriteLine();
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadLine();

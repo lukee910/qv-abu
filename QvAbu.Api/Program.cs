@@ -11,8 +11,12 @@ namespace QvAbu.Api
 {
     public class Program
     {
+        const string Version = "1.1.1";
+        
         public static void Main(string[] args)
         {
+            Console.WriteLine("Application Version: " + Version);
+
             BuildWebHost(args).Run();
         }
         
