@@ -11,7 +11,7 @@
   <div class="col-12 mb-3 hide-print">
     <button class="btn btn-primary mb-1"
             [disabled]="validationResult || !questions"
-            (click)="validate()">Validieren</button>
+            (click)="validate()">Auswerten</button>
     <button class="btn btn-outline-dark mb-1"
             [disabled]="!validationResult"
             (click)="reset()">Zur&uuml;cksetzen</button>
@@ -50,6 +50,6 @@
   <div class="col-12 hide-print">
     <button class="btn btn-outline-primary"
             [disabled]="validationResult"
-            (click)="validate()">Validieren</button>
+            (click)="validate()">Auswerten</button>
   </div>
 </div>

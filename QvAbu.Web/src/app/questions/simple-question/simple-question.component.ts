@@ -37,14 +37,14 @@ export class SimpleQuestionComponent implements OnInit {
 
     switch (this.question.simpleQuestionType) {
       case SimpleQuestionType.singleChoice:
-        this.subtitle = 'Kreuzen sie die zutreffende Aussage an.';
+        this.subtitle = 'Kreuzen Sie die zutreffende Aussage an.';
         break;
       case SimpleQuestionType.multipleChoice:
         const correctAnswersCount = this.question.answers.filter(_ => _.isCorrect).length;
-        this.subtitle = `Kreuzen sie die zutreffenden ${correctAnswersCount} Aussagen an.`;
+        this.subtitle = `Kreuzen Sie die zutreffenden ${correctAnswersCount} Aussagen an.`;
         break;
       case SimpleQuestionType.trueFalse:
-        this.subtitle = 'Kreuzen sie die zutreffenden Aussagen an.';
+        this.subtitle = 'Kreuzen Sie die zutreffenden Aussagen an.';
         break;
     }
   }

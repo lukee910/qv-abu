@@ -25,7 +25,7 @@ describe('SimpleQuestionComponent', () => {
     testee.ngOnInit();
 
     // Assert
-    expect(testee.subtitle).toBe('Kreuzen sie die zutreffende Aussage an.');
+    expect(testee.subtitle).toBe('Kreuzen Sie die zutreffende Aussage an.');
   });
 
   it('should set the correct subtitle for single choice', () => {
@@ -46,7 +46,7 @@ describe('SimpleQuestionComponent', () => {
     testee.ngOnInit();
 
     // Assert
-    expect(testee.subtitle).toBe('Kreuzen sie die zutreffenden 1 Aussagen an.');
+    expect(testee.subtitle).toBe('Kreuzen Sie die zutreffenden 1 Aussagen an.');
   });
 
   it('should set the correct subtitle for single choice', () => {
@@ -59,7 +59,7 @@ describe('SimpleQuestionComponent', () => {
     testee.ngOnInit();
 
     // Assert
-    expect(testee.subtitle).toBe('Kreuzen sie die zutreffenden Aussagen an.');
+    expect(testee.subtitle).toBe('Kreuzen Sie die zutreffenden Aussagen an.');
   });
 
   it('should init the responses', () => {
