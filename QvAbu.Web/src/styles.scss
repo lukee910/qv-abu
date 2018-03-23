@@ -3,7 +3,7 @@
 @import "styles/loading-spinner.scss";
 
 body {
-  padding: ($general-spacing * 2) 0 ($general-spacing * 2) 0;
+  padding: ($general-spacing * 2) 0 0 0;
   font-family: 'Titillium Web', sans-serif;
 
   * {
@@ -34,6 +34,12 @@ body {
 
 .text-gray-light {
   color: $app-gray-light;
+}
+
+/* Footer */
+.footer {
+  height: 100px;
+  border-top: $border-normal;
 }
 
 /* Buttons */

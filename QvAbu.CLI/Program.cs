@@ -25,7 +25,7 @@ namespace QvAbu.CLI
             if (args.Length == 0)
             {
                 Console.WriteLine("Please pass the names of the .csv-files to import as arguments.");
-                Console.WriteLine();
+                Console.ReadLine();
                 return;
             }
 
@@ -143,7 +143,7 @@ namespace QvAbu.CLI
             }
 
             Console.WriteLine("\nTask completed.\nPress any key to exit...");
-            Console.ReadKey();
+            Console.ReadLine();
         }
 
         private static Startup Setup()

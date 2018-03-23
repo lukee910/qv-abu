@@ -1,1 +1,0 @@
-dotnet ./QvAbu.CLI.dll "$@"

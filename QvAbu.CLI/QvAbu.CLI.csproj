@@ -5,20 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <StartupObject></StartupObject>
     <ApplicationIcon />
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="run.cmd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="run.cmd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="run.sh">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />

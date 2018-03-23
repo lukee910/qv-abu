@@ -17,9 +17,11 @@ import { ValidationMessageComponent } from './validation-message/validation-mess
 import { QuestionnaireValidationService } from './services/questionnaire-validation.service';
 import { WindowService } from './services/window.service';
 import { LoadingSpinnerComponent } from './utils/loading-spinner/loading-spinner.component';
+import { AboutComponent } from './about/about.component';
 
 const appRoutes: Routes = [
   {path: '', component: QuestionnairesComponent},
+  {path: 'about', component: AboutComponent},
   {path: 'questionnaire/:presetId/:name', component: QuestionnaireComponent}
 ];
 
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     AssignmentQuestionComponent,
     TextQuestionComponent,
     ValidationMessageComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
