@@ -1,0 +1,8 @@
+@import '../styles/variables';
+
+.scroll-top {
+    position: fixed;
+    right: $general-spacing;
+    bottom: $general-spacing;
+    cursor: pointer;
+}

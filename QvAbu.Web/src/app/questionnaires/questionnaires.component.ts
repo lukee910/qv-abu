@@ -10,7 +10,7 @@ import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
   styleUrls: ['./questionnaires.component.scss']
 })
 export class QuestionnairesComponent implements OnInit {
-  readonly colors: string[] = ['#69d2e7', '#f38630', '#fe4365', '#fc9d9a', '#c8c8a9', '#83af9b'];
+  readonly colors: string[] = ['#4678B4', '#B48D46', '#142334', '#674A14', '#325681'];
 
   questionnaires: QuestionnairePreview[];
   questionsCountOptions: number[] = [0];

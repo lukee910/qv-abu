@@ -1,14 +1,18 @@
-<div class="container">
-  <nav class="navbar fixed-top navbar navbar-light bg-white">
-    <a class="navbar-brand" [routerLink]="['']">
-      <img width="32" height="32" src="/assets/favicon-1024.png" alt="Icon">
-      ABU QV-Lernapp
-    </a>
+<div class="container" id="top">
+  <nav class="navbar fixed-top navbar navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['']">
+        <img src="/assets/favicon-1024.png" alt="Icon">
+        ABU QV-Lernapp
+      </a>
+    </div>
   </nav>
 
   <router-outlet></router-outlet>
 
+  <i class="scroll-top fa fa-arrow-circle-o-up fa-2x" (click)="scrollToTop()"></i>
+
   <div class="hide-print footer d-flex justify-content-center align-items-center">
-    <a [routerLink]="['/about']" class="text-muted">&Uuml;ber die ABU-QV Lernapp</a>
+    <a [routerLink]="['/about']" class="text-muted">&Uuml;ber die ABU QV-Lernapp</a>
   </div>
 </div>

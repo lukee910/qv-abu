@@ -1,4 +1,10 @@
 @import "../../node_modules/bootstrap/scss/functions";
+
+// Bootstrap Overrides
+$theme-colors: (
+  primary: #4678b4
+);
+
 @import "../../node_modules/bootstrap/scss/variables";
 
 // Colours
@@ -10,3 +16,4 @@ $general-spacing:         20px;
 // Border
 $border-normal:           1px solid $app-gray-light;
 $border-fat:              3px solid $app-gray-light;
+$navbar-border-width:     2px;

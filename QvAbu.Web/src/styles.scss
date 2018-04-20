@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/scss/functions";
 @import "styles/variables";
+@import "~bootstrap/scss/bootstrap";
 @import "styles/loading-spinner.scss";
 
 body {
@@ -34,6 +36,13 @@ body {
 
 .text-gray-light {
   color: $app-gray-light;
+}
+
+.navbar-brand img {
+  border: $navbar-border-width solid white;
+  border-radius: 5px;
+  width: 32px + ($navbar-border-width * 2);
+  height: 32px + ($navbar-border-width * 2);
 }
 
 /* Footer */
