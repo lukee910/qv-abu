@@ -11,7 +11,7 @@ namespace QvAbu.Api
 {
     public class Program
     {
-        const string Version = "1.1.2";
+        const string Version = "1.1.3";
         
         public static void Main(string[] args)
         {

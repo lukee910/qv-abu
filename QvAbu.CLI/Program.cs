@@ -13,7 +13,7 @@ namespace QvAbu.CLI
     class Program
     {
         const int ShownQuestionsCountPerFile = 4;
-        const string Version = "1.1.2";
+        const string Version = "1.1.3";
 
         static void Main(string[] args)
         {
