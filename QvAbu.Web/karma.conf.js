@@ -4,13 +4,13 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma'),
+      require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-mocha-reporter'),
       require('karma-junit-reporter')
     ],
@@ -19,21 +19,19 @@ module.exports = function (config) {
       captureConsole: false
     },
     files: [
-      { pattern: './src/test.ts', watched: false }
+      
     ],
     preprocessors: {
-      './src/test.ts': ['@angular/cli']
+      
     },
     mime: {
       'text/x-typescript': ['ts','tsx']
     },
     coverageIstanbulReporter: {
-      reports: [ 'html', 'cobertura'],
+      dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'cobertura'],
       fixWebpackSourcePaths: true
     },
-    angularCli: {
-      environment: 'prod'
-    },
+    
     reporters: config.angularCli && config.angularCli.codeCoverage
               ? ['mocha', 'coverage-istanbul']
               : ['mocha', 'kjhtml'],
