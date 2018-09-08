@@ -7,8 +7,8 @@ import 'rxjs/add/observable/of';
 import { Question } from '../models/questions/question';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { Guid } from '../models/guid';
-import { RevisionEntity } from '../models/revision-entity';
 import { QuestionnaireConfig } from '../models/questions/questionnaire-config';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class QuestionnairesService {
         preview = _;
       }
     });
-    return Observable.of(preview);
+    return of(preview);
   }
 
   getQuestionsForQuestionnaires(questionnaires: QuestionnaireConfig): Observable<Question[]> {

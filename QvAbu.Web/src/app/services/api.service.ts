@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observer } from 'rxjs/Observer';
+import { flatMap } from 'rxjs/operators';
 import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
@@ -11,13 +11,15 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   public get(url: string): Observable<any> {
-    return this.getBaseUrl()
-      .flatMap(baseUrl => <Observable<any>>this.http.get(this.urlBase + 'api/' + url));
+    return this.getBaseUrl().pipe(
+      flatMap(baseUrl => <Observable<any>>this.http.get(this.urlBase + 'api/' + url))
+    );
   }
 
   public post(url: string, body: any): Observable<any> {
-    return this.getBaseUrl()
-      .flatMap(baseUrl => this.http.post(this.urlBase + 'api/' + url, body));
+    return this.getBaseUrl().pipe(
+      flatMap(baseUrl => this.http.post(this.urlBase + 'api/' + url, body))
+    );
   }
 
   private getBaseUrl(): Observable<any> {

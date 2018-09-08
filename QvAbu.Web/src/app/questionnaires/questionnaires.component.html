@@ -9,13 +9,13 @@
 
   <div class="col-12 mb-2" *ngIf="questionnaires">
     <h4>Angezeigte Tags:</h4>
-    <div *ngFor="let tag of tags">
+    <div *ngFor="let tag of tags" class="ml-3">
       <div class="custom-control custom-checkbox">
         <input class="custom-control-input" id="tag-{{tag.id}}" [(ngModel)]="tag.isSelected" type="checkbox"
           (change)="cleanupNotShownQuestionnairesSelection()">
         <label class="custom-control-label" for="tag-{{tag.id}}">
-            <span class="badge badge-primary" [ngStyle]="{'background': tagColours[tag.id]}">{{tag.id}}</span>
-          </label>
+          <span class="badge badge-primary" [ngStyle]="{'background': tagColours[tag.id]}">{{tag.id}}</span>
+        </label>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@
   <div class="col-12 mb-2" *ngIf="questionnaires">
     <h4>Auswahl:</h4>
     <label for="questionsCount">Anzahl Fragen:</label>
-    <select class="form-control inline-form-150" [(ngModel)]="questionsCountSelection" [disabled]="selectedQuestionsCount === 0" id="questionsCount">
+    <select class="form-control inline-form-150 ml-1" [(ngModel)]="questionsCountSelection" [disabled]="selectedQuestionsCount === 0" id="questionsCount">
       <option *ngFor="let o of questionsCountOptions" [ngValue]="o">
         {{selectedQuestionsCount == 0 ? '---' : (o === selectedQuestionsCount ? 'Alle (' + selectedQuestionsCount + ')'  : o)}}
       </option>
@@ -35,7 +35,7 @@
             [disabled]="getSelectedQuestionnaires().length === 0"
             (click)="navigate()">
       <span>Fragebogen ausf&uuml;llen</span>
-      <i class="fa fa-chevron-circle-right"></i>
+      <i class="ml-1 fa fa-chevron-circle-right"></i>
     </button>
   </div>
 
@@ -45,7 +45,7 @@
         <h3>{{questionnaire.name}}</h3>
         <div>
           <span *ngFor="let tag of questionnaire.tags">
-            <span class="badge badge-primary" [ngStyle]="{'background': tagColours[tag]}">{{tag}}</span>
+            <span class="badge badge-primary mr-1" [ngStyle]="{'background': tagColours[tag]}">{{tag}}</span>
           </span>
         </div>
         <span class="float-right">
